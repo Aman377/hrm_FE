@@ -6,9 +6,12 @@ import { Link, useParams } from "react-router-dom";
 import Loader from "../loader/loader";
 import PageTitle from "../page-header/PageHeader";
 
-import { useGetRoleQuery } from "../../redux/rtk/features/role/roleApi";
+import { useGetRoleQuery, roleApi  } from "../../redux/rtk/features/role/roleApi";
 import UserPrivateComponent from "../PrivateRoutes/UserPrivateComponent";
 import CustomTable from "./CustomTable";
+import BtnEditSvg from "../UI/Button/btnEditSvg";
+import CommonDelete from "../CommonUi/CommonDelete";
+
 
 //PopUp
 
@@ -50,6 +53,26 @@ const DetailRole = () => {
                         </Button>
                       </Link>
                     </UserPrivateComponent>
+                    <div className=" flex justify-end items-center text-end w-50">
+                      <UserPrivateComponent permission={"update-role"}>
+                        <Link
+                          className="mr-3"
+                          to={`/admin/role/${role?.id}/update`}
+                          state={{ data: role }}
+                        >
+                          <BtnEditSvg size={36} />
+                        </Link>
+                      </UserPrivateComponent>
+
+                      <CommonDelete
+                        navigatePath={"/admin/role"}
+                        permission={"delete-rolePermission"}
+                        deleteThunk={
+                          roleApi.endpoints.deleteRole.initiate
+                        }
+                        id={id}
+                      />
+                    </div>
                   </div>
                 </div>
                 <CustomTable role={role?.rolePermission} />

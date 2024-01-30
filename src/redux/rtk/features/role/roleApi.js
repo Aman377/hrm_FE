@@ -20,6 +20,48 @@ export const roleApi = apiSlice.injectEndpoints({
       providesTags: ["Role"],
     }),
 
+    deleteRole: builder.mutation({
+      query: (id) => ({
+        url: `role/${id}`,
+        method: "PATCH",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json;charset=UTF-8",
+        }
+      }),
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          await queryFulfilled;
+          toastHandler("Deleted Role successful", "warning");
+        } catch (err) {
+          toastHandler("Something went wrong, Please try again", "warning");
+        }
+      },
+      invalidatesTags: ["Role"],
+    }),
+
+    updateRole: builder.mutation({
+      query: ({ id, values }) => ({
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json;charset=UTF-8",
+        },
+        url: `role/${id}`,
+        body: values,
+      }),
+
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          await queryFulfilled;
+          toastHandler("Role updated successfully", "success")
+        } catch (err) {
+          toastHandler("Something went wrong, Please try again", "warning")
+        }
+      },
+      invalidatesTags: ["Role"],
+    }),
+
     addRole: builder.mutation({
       query: (values) => ({
         method: "POST",
@@ -34,7 +76,7 @@ export const roleApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
-          toastHandler("role added successfully","success");
+          toastHandler("role added successfully", "success");
         } catch (err) {
           toastHandler("Something went wrong, Please try again", "warning");
         }
@@ -63,7 +105,7 @@ export const roleApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
-          toastHandler("role Permission successfully","success");
+          toastHandler("role Permission successfully", "success");
         } catch (err) {
           toastHandler("Something went wrong, Please try again", "warning");
         }
@@ -84,7 +126,7 @@ export const roleApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
-          toastHandler("Deleted Permissions successful","warning");
+          toastHandler("Deleted Permissions successful", "warning");
         } catch (err) {
           toastHandler("Something went wrong, Please try again", "warning");
         }
@@ -96,6 +138,8 @@ export const roleApi = apiSlice.injectEndpoints({
 
 export const {
   useGetRoleQuery,
+  useDeleteRoleQuery,
+  useUpdateRoleMutation,
   useGetRolesQuery,
   useAddRoleMutation,
   useGetPermissionQuery,

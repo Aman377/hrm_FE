@@ -103,7 +103,7 @@ export const userApi = apiSlice.injectEndpoints({
           const { data } = await queryFulfilled;
 
           localStorage.setItem("access-token", data?.token);
-          localStorage.setItem("role", data?.role);
+          localStorage.setItem("role", data?.roleId);
           localStorage.setItem("user", data?.username);
           localStorage.setItem("id", data?.id);
           localStorage.setItem("isLogged", true);
