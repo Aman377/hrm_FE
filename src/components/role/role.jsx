@@ -74,6 +74,7 @@ const RoleList = () => {
           setPageConfig={setPageConfig}
           csvFileName={"Roles"}
           loading={loading}
+          searchBy={"Name"}
         />
       </CardCustom>
     </div>

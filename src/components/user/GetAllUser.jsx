@@ -114,6 +114,7 @@ const GetAllUser = () => {
         columns={columns}
         searchText={searchText} 
         setSearchText={setSearchText} 
+        searchBy={"Name"}
       />
     </CardCustom>
   );

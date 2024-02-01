@@ -33,8 +33,14 @@ export const shiftApi = apiSlice.injectEndpoints({
 
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
-          await queryFulfilled;
-          toastHandler("shift added successfully","success");
+          const response = await queryFulfilled;
+          // console.log(response.data);
+          if (response.data.status === 422) {
+            toastHandler(response.data.message, "warning");
+            return;
+          }
+          toastHandler("Shift created successfully", "success");
+
         } catch (err) {
           toastHandler("Something went wrong, Please try again", "warning");
         }
@@ -56,7 +62,7 @@ export const shiftApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
-          toastHandler("shift updated successfully","success");
+          toastHandler("shift updated successfully", "success");
         } catch (err) {
           toastHandler("Something went wrong, Please try again", "warning");
         }
@@ -76,7 +82,7 @@ export const shiftApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
-          toastHandler("Deleted shift successful","warning");
+          toastHandler("Deleted shift successful", "warning");
         } catch (err) {
           toastHandler("Something went wrong, Please try again", "warning");
         }

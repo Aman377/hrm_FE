@@ -217,6 +217,7 @@ const PayslipList = () => {
           columns={columns}
           permission={"readAll-payroll"}
           csvFileName={"Payslip List"}
+          searchBy={"Name"}
         />
       </CardCustom>
     </div>

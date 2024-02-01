@@ -63,6 +63,7 @@ const Department = () => {
           permission={"readAll-department"}
           loading={isLoading}
           csvFileName={"departments"}
+          searchBy={"Name"}
         />
       </CardCustom>
     </>

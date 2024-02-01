@@ -77,6 +77,7 @@ const Shift = (props) => {
           loading={isLoading}
           setPageConfig={setPageConfig}
           permission={"readAll-shift"}
+          searchBy={"Name"}
         />
       </CardCustom>
     </div>
