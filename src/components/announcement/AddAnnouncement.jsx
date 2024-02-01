@@ -6,7 +6,8 @@ import { toast } from "react-toastify";
 
 import { useAddAnnouncementMutation } from "../../redux/rtk/features/announcement/announcementApi";
 
-const AddAnnouncement = () => {
+const AddAnnouncement = ({ title, description }) => {
+  console.log("title: ", title);
   const [addAnnouncement, { isLoading }] = useAddAnnouncementMutation();
 
   const [form] = Form.useForm();
@@ -47,7 +48,11 @@ const AddAnnouncement = () => {
             },
           ]}
         >
-          <Input placeholder='Meeting at 00:00' />
+          {title ? (
+            <Input defaultValue={title} />
+          ) : (
+            <Input placeholder='Meeting at 00:00' />
+          )}
         </Form.Item>
 
         <Form.Item
@@ -55,7 +60,8 @@ const AddAnnouncement = () => {
           label='Description'
           name={"description"}
         >
-          <Input.TextArea placeholder='Description' />
+          {description ? <Input.TextArea defaultValue={description} /> :
+            <Input.TextArea placeholder='Description' />}
         </Form.Item>
 
         <Form.Item
@@ -65,6 +71,15 @@ const AddAnnouncement = () => {
             span: 12,
           }}
         >
+          {title ? <Button
+            type='primary'
+            size='large'
+            block
+            htmlType='submit'
+            loading={isLoading}
+          >
+            Updata Announcement
+          </Button> :
           <Button
             type='primary'
             size='large'
@@ -74,6 +89,7 @@ const AddAnnouncement = () => {
           >
             Add Announcement
           </Button>
+          }
         </Form.Item>
       </div>
     </Form>

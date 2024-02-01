@@ -51,9 +51,9 @@ const RoleList = () => {
 
   return (
     <div>
-      <PageTitle title='Back' />
+      <PageTitle title='Back'/>
       <CardCustom
-        title={"Role list"}
+        title={"Role List"}
         extra={
           <>
             <CreateDrawer

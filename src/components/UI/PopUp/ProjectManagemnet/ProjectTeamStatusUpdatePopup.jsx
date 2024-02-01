@@ -1,4 +1,5 @@
-import { Button, Col, Form, Modal, Row, Select, Typography } from "antd";
+import { Button, Col, Form, Modal, Row, Select, Typography,Tooltip } from "antd";
+
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 
@@ -43,9 +44,11 @@ const ProjectTeamStatusUpdatePopup = ({ projectId, teamName, status }) => {
   return (
     <>
       <div>
+      <Tooltip title='Edit'>
         <div onClick={showModal} className="text-center mr-2 cursor-pointer">
           <BtnEditSvg size={36} />
         </div>
+        </Tooltip>
         <Modal
           title={`Update Satus`}
           okButtonProps={{ style: { display: "none" } }}

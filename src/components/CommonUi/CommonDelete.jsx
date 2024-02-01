@@ -1,4 +1,5 @@
 import { DeleteOutlined } from "@ant-design/icons";
+import { Tooltip } from "antd";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router";
@@ -30,6 +31,7 @@ export default function CommonDelete({
 	return (
 		<>
 			<UserPrivateComponent permission={permission}>
+			<Tooltip title='Delete'>
 				<span
 					onClick={() => onDelete(id)}
 					className={`bg-red-600 h-8 w-8 flex justify-center items-center cursor-pointer ${
@@ -37,6 +39,7 @@ export default function CommonDelete({
 					} text-white rounded-md`}>
 					<DeleteOutlined className={spin && loading ? "animate-spin" : ""} />
 				</span>
+				</Tooltip>
 			</UserPrivateComponent>
 		</>
 	);

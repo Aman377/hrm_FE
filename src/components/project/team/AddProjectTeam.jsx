@@ -1,4 +1,4 @@
-import { Button, Col, Form, Input, Row, Select, Typography } from "antd";
+import { Button, Col, Form, Input, Row, Select, Typography,Space  } from "antd";
 
 import React from "react";
 
@@ -12,6 +12,7 @@ const AddProjectTeam = ({ projectId }) => {
     query: "all",
   });
 
+  
   const { data: projectList, isLoading: projectListLoading } =
     useGetProjectsQuery();
 
@@ -20,6 +21,8 @@ const AddProjectTeam = ({ projectId }) => {
 
   const { Title } = Typography;
   const [form] = Form.useForm();
+  const Option = Select.Option;
+
 
   const onFinish = async (values) => {
     const singleProjectTeam = {
@@ -37,6 +40,7 @@ const AddProjectTeam = ({ projectId }) => {
   const onFinishFailed = () => {
     toast.warning("Failed at adding Project Team");
   };
+  
   return (
     <>
       <Row className="mt-[25px]" justify={"center"}>
@@ -111,7 +115,7 @@ const AddProjectTeam = ({ projectId }) => {
                 <Input placeholder="Team Name" />
               </Form.Item>
               <Form.Item
-                style={{ marginBottom: "20px" }}
+                style={{ marginBottom: "40px"}}
                 label="Team Member/s"
                 name="projectTeamMember"
                 rules={[
@@ -126,11 +130,16 @@ const AddProjectTeam = ({ projectId }) => {
                   loading={userListLoading}
                   placeholder="Select Team Member/s"
                   optionFilterProp="children"
+                  tokenSeparators={[',']}
+                  style={{
+                    width: '100%', 
+                  }}
+                  maxTagCount={1}
                 >
                   {usersList?.map((item) => (
-                    <Select.Option key={item.id} value={item.id}>
+                    <Option key={item.id} value={item.id}>
                       {item.firstName + " " + item.lastName}
-                    </Select.Option>
+                    </Option>
                   ))}
                 </Select>
               </Form.Item>

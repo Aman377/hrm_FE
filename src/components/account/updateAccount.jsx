@@ -16,7 +16,7 @@ const UpdateAccount = ({ data, id }) => {
   const [initValues, setInitValues] = useState({
     name: data?.name,
     accountId: data?.accountId,
-  });
+  }); 
 
   const onFinish = async (values) => {
     try {

@@ -1,16 +1,20 @@
 import { List } from "antd";
 import { useGetAnnouncementsQuery } from "../../../redux/rtk/features/announcement/announcementApi";
 import AnnounceIconSVG from "../../Icons/announceIconSVG";
+import VirtualList from 'rc-virtual-list';
 
 const AnnouncementBar = () => {
   const { data: list, isLoading: loading } = useGetAnnouncementsQuery();
-
+  const ContainerHeight = 47;
   return (
     <div>
       <List
         loading={loading}
         itemLayout='horizontal'
         dataSource={list}
+        
+        height={ContainerHeight}
+        // onScroll={onScroll}
         renderItem={(item, index) => (
           <List.Item>
             <List.Item.Meta
