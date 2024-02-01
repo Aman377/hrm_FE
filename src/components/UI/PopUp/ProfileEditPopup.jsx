@@ -11,6 +11,7 @@ import {
   useGetUserQuery,
   useUpdateUserMutation,
 } from "../../../redux/rtk/features/user/userApi";
+import { useDeleteRoleQuery } from "../../../redux/rtk/features/role/roleApi";
 import { useGetWeeklyHolidaysQuery } from "../../../redux/rtk/features/weeklyHoliday/weeklyHolidayApi";
 import BtnEditSvg from "../Button/btnEditSvg";
 

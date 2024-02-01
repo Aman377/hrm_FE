@@ -75,7 +75,7 @@ const Sidenav = ({ color, sideNavOpenKeys }) => {
         },
         hasPermission("readAll-role") && {
           label: (
-            <NavLink to="/admin/role">
+            <NavLink to="/admin/role/">
               <span>Role & Permissions</span>
             </NavLink>
           ),
