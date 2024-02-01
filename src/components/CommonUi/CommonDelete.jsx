@@ -32,9 +32,8 @@ export default function CommonDelete({
 			<UserPrivateComponent permission={permission}>
 				<span
 					onClick={() => onDelete(id)}
-					className={`bg-red-600 h-8 w-8 flex justify-center items-center cursor-pointer ${
-						className ? className : "p-2"
-					} text-white rounded-md`}>
+					className={`bg-red-600 h-8 w-8 flex justify-center items-center cursor-pointer ${className ? className : "p-2"
+						} text-white rounded-md`}>
 					<DeleteOutlined className={spin && loading ? "animate-spin" : ""} />
 				</span>
 			</UserPrivateComponent>

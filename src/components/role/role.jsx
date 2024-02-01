@@ -10,8 +10,8 @@ import PageTitle from "../page-header/PageHeader";
 import AddRole from "./AddRole";
 
 const RoleList = () => {
-  const [pageConfig, setPageConfig] = useState({status: 'true', page:1, count: 10});
-  const { data, isLoading } = useGetRolesQuery(pageConfig);
+  const [pageConfig, setPageConfig] = useState({ status: 'true', page: 1, count: 10 });
+  const { data, isLoading: loading } = useGetRolesQuery(pageConfig);
 
   const columns = [
     {
@@ -49,7 +49,7 @@ const RoleList = () => {
     },
   ];
 
-  return (
+  return ( 
     <div>
       <PageTitle title='Back' />
       <CardCustom
@@ -73,7 +73,7 @@ const RoleList = () => {
           total={data?.totalRole}
           setPageConfig={setPageConfig}
           csvFileName={"Roles"}
-          loading={isLoading}
+          loading={loading}
         />
       </CardCustom>
     </div>

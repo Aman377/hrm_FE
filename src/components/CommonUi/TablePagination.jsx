@@ -100,12 +100,7 @@ const TablePagination = ({
             </div>
           </div>
           <div className="m-4 w-[50%]">
-            {/* <ReactSearchBox
-            placeholder="Find Employee"
-            value="sai"
-            data={list}
-            callback={(list) => console.log(list)}
-          /> */}
+          
           </div>
 
           <div className="m-2">

@@ -17,6 +17,7 @@ import DetailStaff from "./components/user/detailsStaff";
 import Designation from "./components/designation/designation";
 import DetailDesignation from "./components/designation/detailDesignation";
 import UpdateDesignation from "./components/designation/updateDesignation";
+import UpdateRole from "./components/role/updateRole";
 
 import Main from "./components/layouts/Main";
 
@@ -185,6 +186,14 @@ function App() {
               <Route
                 path="/admin/designation/:id/update"
                 element={<UpdateDesignation />}
+              />
+            </Route>
+            <Route 
+              element={<UserPrivateRoute permission={"update-role"} />}
+            >
+              <Route
+                path="/admin/role/:id/update"
+                element={<UpdateRole />}
               />
             </Route>
             <Route

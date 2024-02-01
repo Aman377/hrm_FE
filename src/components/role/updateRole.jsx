@@ -1,8 +1,9 @@
 import { Button, Card, Col, Form, Input, Row, Typography } from "antd";
 import React, { useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { useUpdateRoleMutation } from "../../redux/rtk/features/role/roleApi";
+import { useUpdateRoleMutation, roleApi } from "../../redux/rtk/features/role/roleApi";
 import PageTitle from "../page-header/PageHeader";
+import { useNavigate } from "react-router";
 
 function UpdateRole() {
   const { Title } = Typography;
@@ -12,17 +13,23 @@ function UpdateRole() {
   const location = useLocation();
   const { data } = location.state;
   const { id } = useParams();
+  const navigate = useNavigate();
   const [updateRole, { isLoading }] = useUpdateRoleMutation();
 
   const cust = data;
   // eslint-disable-next-line no-unused-vars
   const [initValues, setInitValues] = useState({
-    name: cust.designationName,
+    name: cust.name,
   });
 
   const onFinish = (values) => {
     try {
-      updateRole({ id, values });
+      const data = updateRole({ id, values });
+      // if (data) {
+      //   setTimeout(() => {
+      //     navigate("/admin/role");
+      //   }, 1000);
+      // }
     } catch (error) {
       console.log(error.message);
     }
