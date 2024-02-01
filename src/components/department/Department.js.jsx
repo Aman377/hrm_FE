@@ -41,10 +41,10 @@ const Department = () => {
     },
   ];
   return (
-    <>
-      <PageTitle title='Back' />
+    <div>
+      <PageTitle title='Back'/>
       <CardCustom
-        title={"Department list"}
+        title={"Department List"}
         extra={
           <CreateDrawer
             permission={"create-department"}
@@ -66,7 +66,7 @@ const Department = () => {
           searchBy={"Name"}
         />
       </CardCustom>
-    </>
+    </div>
   );
 };
 

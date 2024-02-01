@@ -98,6 +98,7 @@ const Project = () => {
   };
   const onAllClick = () => {
     setPageConfig({ value: "all", page: 1, count: 10 });
+    
   };
   return (
     <CardCustom

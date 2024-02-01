@@ -11,6 +11,7 @@ import {
   PieChartFilled,
   RocketOutlined,
   SettingOutlined,
+  FundProjectionScreenOutlined,
   SubnodeOutlined,
   TrophyFilled,
   UnorderedListOutlined,
@@ -370,7 +371,7 @@ const Sidenav = ({ color, sideNavOpenKeys }) => {
       hasPermission("create-task-Status")) && {
       label: "PROJECT",
       key: "PROJECT",
-      icon: <SettingOutlined />,
+      icon: <FundProjectionScreenOutlined />,
       children: [
         hasPermission("create-project") && {
           label: (
@@ -379,7 +380,7 @@ const Sidenav = ({ color, sideNavOpenKeys }) => {
             </NavLink>
           ),
           key: "project",
-          icon: <SettingOutlined />,
+          icon: <FundProjectionScreenOutlined />,
         },
         hasPermission("readAll-project") && {
           label: (
@@ -388,7 +389,7 @@ const Sidenav = ({ color, sideNavOpenKeys }) => {
             </NavLink>
           ),
           key: "allProject",
-          icon: <SettingOutlined />,
+          icon: <FundProjectionScreenOutlined />,
         },
         hasPermission("create-projectTeam") && {
           label: (
@@ -397,7 +398,7 @@ const Sidenav = ({ color, sideNavOpenKeys }) => {
             </NavLink>
           ),
           key: "team",
-          icon: <SettingOutlined />,
+          icon:<FundProjectionScreenOutlined />,
         },
         (hasPermission("create-priority") ||
           hasPermission("readAll-priority")) && {
@@ -407,7 +408,7 @@ const Sidenav = ({ color, sideNavOpenKeys }) => {
             </NavLink>
           ),
           key: "taskPriority",
-          icon: <SettingOutlined />,
+          icon: <FundProjectionScreenOutlined />,
         },
         hasPermission("create-milestone") && {
           label: (
@@ -416,7 +417,7 @@ const Sidenav = ({ color, sideNavOpenKeys }) => {
             </NavLink>
           ),
           key: "milestone",
-          icon: <SettingOutlined />,
+          icon: <FundProjectionScreenOutlined />,
         },
 
         hasPermission("create-taskStatus") && {
@@ -426,7 +427,7 @@ const Sidenav = ({ color, sideNavOpenKeys }) => {
             </NavLink>
           ),
           key: "taskStatus",
-          icon: <SettingOutlined />,
+          icon: <FundProjectionScreenOutlined />,
         },
       ],
     },

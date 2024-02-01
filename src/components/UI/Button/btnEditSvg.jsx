@@ -1,7 +1,9 @@
 import React from "react";
+import { Tooltip } from "antd";
 
 const BtnEditSvg = ({ size }) => {
   return (
+    <Tooltip title='Edit'>
     <svg
       width={`${size}px`}
       height={`${size}px`}
@@ -24,6 +26,7 @@ const BtnEditSvg = ({ size }) => {
         ></path>{" "}
       </g>
     </svg>
+    </Tooltip>
   );
 };
 

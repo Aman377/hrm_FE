@@ -24,7 +24,7 @@ import PageTitle from "../page-header/PageHeader";
 
 const UpdateProject = ({ drawer }) => {
   const projectId = useParams("id").projectId;
-  const { data: userList, isLoading } = useGetUsersQuery({ status: "true" });
+  const { data: userList, isLoading } = useGetUsersQuery("");
   const { data: project } = useGetProjectQuery(projectId);
   const [updateSingleProject, { isLoading: addLoading }] =
     useUpdateProjectMutation();
@@ -52,20 +52,29 @@ const UpdateProject = ({ drawer }) => {
       startDate: dayjs(values.startDate).format(),
       endDate: dayjs(values.endDate).format(),
     };
+    console.log('Form resetting...');
+    try {
+      console.log('Starting async operation...');
+      const resp = await (
+        updateSingleProject({ id: projectId, values: projectData })
+      );
 
-    const resp = await dispatch(
-      updateSingleProject({ id: projectId, values: projectData })
-    );
-
-    if (resp) {
-      form.resetFields();
-      navigate(-1);
+      if (resp) {
+        console.log('Form resetting...');
+        form.resetFields();
+        console.log('Form reset.');
+        navigate(-1);
+      }
+    } catch (error) {
+      // Log any errors that occur during the asynchronous operation
+      console.error('Error updating project:', error);
     }
   };
 
   const onFinishFailed = (errorInfo) => {
     toastHandler("Failed at adding Project", "warning");
   };
+  console.log("userList>>",userList)
   return (
     <>
       {/* <UserPrivateComponent permission={"create-leaveApplication"}> */}
@@ -103,7 +112,7 @@ const UpdateProject = ({ drawer }) => {
                 <Form.Item
                   style={{ marginBottom: "10px" }}
                   label="Project Manager"
-                  name="projectManagerId"
+                  name="firstName"
                   rules={[
                     {
                       required: true,
@@ -117,11 +126,12 @@ const UpdateProject = ({ drawer }) => {
                     showSearch
                     placeholder="Select Project Manager"
                     optionFilterProp="children"
+                    
                   >
-                    {userList?.map((item) => (
-                      <Select.Option key={item.id} value={item.id}>
-                        {item.firstName} {item.lastName}
-                      </Select.Option>
+                    {userList?.getAllUser?.map((item) => (
+                    <Select.Option key={item.id} value={item.id}>
+                      {item.firstName} {item.lastName}
+                    </Select.Option>
                     ))}
                   </Select>
                 </Form.Item>

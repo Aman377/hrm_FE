@@ -10,6 +10,7 @@ import StatusSelection from "../CommonUi/StatusSelection";
 import TablePagination from "../CommonUi/TablePagination";
 import UserPrivateComponent from "../PrivateRoutes/UserPrivateComponent";
 import AddUser from "./addUser";
+import PageTitle from "../page-header/PageHeader";
 
 const GetAllUser = () => {
   const [pageConfig, setPageConfig] = useState({ status: "true", page: 1, count: 10 });
@@ -88,8 +89,10 @@ const GetAllUser = () => {
   ];
 
   return (
+    <>
+    <PageTitle title='Back'/>
     <CardCustom
-      title={"Employee list"}
+      title={"Employee List"}
       extra={
         <>
           <StatusSelection setPageConfig={setPageConfig} />
@@ -117,6 +120,7 @@ const GetAllUser = () => {
         searchBy={"Name"}
       />
     </CardCustom>
+    </>
   );
 };
 
