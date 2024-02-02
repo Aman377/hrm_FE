@@ -74,7 +74,7 @@ const UpdateProject = ({ drawer }) => {
   const onFinishFailed = (errorInfo) => {
     toastHandler("Failed at adding Project", "warning");
   };
-  console.log("userList>>",userList)
+  // console.log("userList>>",userList)
   return (
     <>
       {/* <UserPrivateComponent permission={"create-leaveApplication"}> */}
@@ -112,7 +112,7 @@ const UpdateProject = ({ drawer }) => {
                 <Form.Item
                   style={{ marginBottom: "10px" }}
                   label="Project Manager"
-                  name="firstName"
+                  name={['projectManager', 'fullname']} 
                   rules={[
                     {
                       required: true,

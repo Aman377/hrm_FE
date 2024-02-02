@@ -154,6 +154,7 @@ const GetAllAttendance = (props) => {
           columns={columns}
           csvFileName={"attendance"}
           permission={"readAll-attendance"}
+          searchBy={"Name"}
         />
       </CardCustom>
     </>

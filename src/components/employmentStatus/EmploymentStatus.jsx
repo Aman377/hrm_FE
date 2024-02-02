@@ -9,7 +9,7 @@ import PageTitle from "../page-header/PageHeader";
 import AddEmploymentStatus from "./AddEmploymentStatus";
 
 const EmploymentStatus = () => {
-  const [pageConfig, setPageConfig] = useState({status: 'true', page:1, count:10});
+  const [pageConfig, setPageConfig] = useState({ status: 'true', page: 1, count: 10 });
   const { data, isLoading } = useGetEmploymentStatusesQuery(pageConfig);
 
   const columns = [
@@ -87,6 +87,7 @@ const EmploymentStatus = () => {
           loading={isLoading}
           csvFileName={"employment status"}
           permission={"readAll-employmentStatus"}
+          searchBy={"Name"}
         />
       </CardCustom>
     </div>

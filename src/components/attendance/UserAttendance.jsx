@@ -100,11 +100,12 @@ const UserAttendance = () => {
   return (
     <>
       <PageTitle title='Back' />
-      <CardCustom title={"Attendance Historysss"}>
+      <CardCustom title={"Attendance History"}>
         <TablePagination
           list={data?.getAllAttendanceByUserId}
           total={data?.totalAttendanceByUserId}
           setPageConfig={setPageConfig}
+          searchBy={"Date"}
           loading={loading}
           columns={columns}
           csvFileName={"Attendance History"}

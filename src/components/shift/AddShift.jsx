@@ -19,10 +19,14 @@ const AddShift = ({ drawer }) => {
     };
     try {
       const res = await addShift(shiftData);
+
+      if (res.data.status == 422) {
+        return;
+      }
       if (!res.error && res.data) {
         form.resetFields();
       }
-    } catch (err) {}
+    } catch (err) { }
   };
 
   const onFinishFailed = (errorInfo) => {

@@ -1,4 +1,4 @@
-import { Button, Card, Checkbox, Col, Form, Row, Typography } from "antd";
+import { Button, Card, Checkbox, Col, Form, Row, Typography, Input } from "antd";
 
 import { Fragment, useEffect, useState } from "react";
 import {
@@ -69,6 +69,22 @@ const AddPermission = () => {
   const [addPermission, { isLoading }] = useAddPermissionMutation();
   const { Title } = Typography;
   const [form] = Form.useForm();
+  const [selectAll, setSelectAll] = useState(false);
+
+  const handleSelectAllChange = (e) => {
+    const isChecked = e.target.checked;
+
+    setSelectAll(isChecked);
+
+    const updatedSelectedPermission = { ...selectedPermission };
+
+    permissions.forEach((item) => {
+      updatedSelectedPermission[item.id] = isChecked;
+    });
+
+    setSelectedPermission(updatedSelectedPermission);
+  };
+
 
   useEffect(() => {
     if (d) {
@@ -139,8 +155,18 @@ const AddPermission = () => {
                 <span className="text-primary">{roleName}</span>
               </Title>
 
+
               {permissions.length > 0 ? (
                 <>
+                  <div className="flex ml-4 justify-start">
+                    <Input
+                      className="w-6 h-6 "
+                      type="checkbox"
+                      checked={selectAll}
+                      onChange={handleSelectAllChange}
+                    />
+                    <span className="ml-2 text-[18px] ">Select All</span>
+                  </div>
                   <PermissionList
                     permissionNames={permissions}
                     hasPermissions={rolePermissions}

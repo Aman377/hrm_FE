@@ -9,6 +9,7 @@ const TablePagination = ({
   columns,
   list,
   total,
+  searchBy,
   setPageConfig,
   loading,
   csvFileName,
@@ -100,13 +101,13 @@ const TablePagination = ({
             </div>
           </div>
           <div className="m-4 w-[50%]">
-          
+
           </div>
 
           <div className="m-2">
             <input
               type="text"
-              placeholder="Search by name"
+              placeholder={`Search by ${searchBy}`}
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
               className="form-control border border-stone-600 rounded w-[50%] py-2 px-4"

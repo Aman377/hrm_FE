@@ -4,19 +4,25 @@ import React from "react";
 
 import { toast } from "react-toastify";
 
-import { useAddAnnouncementMutation } from "../../redux/rtk/features/announcement/announcementApi";
+import { useAddAnnouncementMutation, useUpdateAnnouncementMutation } from "../../redux/rtk/features/announcement/announcementApi";
 
-const AddAnnouncement = ({ title, description }) => {
-  console.log("title: ", title);
+const AddAnnouncement = ({ id, title, description }) => {
+  console.log("title: ", id);
   const [addAnnouncement, { isLoading }] = useAddAnnouncementMutation();
+  const [updateAnnouncement] = useUpdateAnnouncementMutation();
 
   const [form] = Form.useForm();
 
   const onFinish = async (values) => {
-    const resp = await addAnnouncement(values);
+    if (id) {
+      await updateAnnouncement({ id, values });
 
-    if (resp.data && !resp.error) {
-      form.resetFields();
+    } else {
+      const resp = await addAnnouncement(values);
+
+      if (resp.data && !resp.error) {
+        form.resetFields();
+      }
     }
   };
 
@@ -41,14 +47,14 @@ const AddAnnouncement = ({ title, description }) => {
           style={{ marginBottom: "10px" }}
           label='Title'
           name='title'
-          rules={[
+          rules={!id ? [
             {
               required: true,
               message: "Please input your title!",
             },
-          ]}
+          ] : null}
         >
-          {title ? (
+          {id ? (
             <Input defaultValue={title} />
           ) : (
             <Input placeholder='Meeting at 00:00' />
@@ -78,17 +84,17 @@ const AddAnnouncement = ({ title, description }) => {
             htmlType='submit'
             loading={isLoading}
           >
-            Updata Announcement
+            Update Announcement
           </Button> :
-          <Button
-            type='primary'
-            size='large'
-            block
-            htmlType='submit'
-            loading={isLoading}
-          >
-            Add Announcement
-          </Button>
+            <Button
+              type='primary'
+              size='large'
+              block
+              htmlType='submit'
+              loading={isLoading}
+            >
+              Add Announcement
+            </Button>
           }
         </Form.Item>
       </div>

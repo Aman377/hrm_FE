@@ -10,7 +10,7 @@ import UserPrivateComponent from "../PrivateRoutes/UserPrivateComponent";
 import AddDesignation from "./addDesignation";
 
 const GetAllDesignation = () => {
-  const [pageConfig, setPageConfig] = useState({status: 'true', page:1, count: 10})
+  const [pageConfig, setPageConfig] = useState({ status: 'true', page: 1, count: 10 })
   const { data, isLoading: loading } = useGetDesignationsQuery(pageConfig);
 
   const columns = [
@@ -64,6 +64,7 @@ const GetAllDesignation = () => {
         loading={loading}
         csvFileName={"designations"}
         permission={"readAll-designation"}
+        searchBy={"Name"}
       />
     </CardCustom>
   );
