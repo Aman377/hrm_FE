@@ -43,7 +43,7 @@ const GetAllLeaves = (props) => {
       id: 4,
       title: "Leave From",
       key: "leaveFrom",
-      render: ({leaveFrom, status, acceptLeaveFrom}) => {
+      render: ({ leaveFrom, status, acceptLeaveFrom }) => {
         return status === 'ACCEPTED' ? dayjs(acceptLeaveFrom).format("DD-MM-YYYY") : dayjs(leaveFrom).format("DD-MM-YYYY");
       },
     },
@@ -51,7 +51,7 @@ const GetAllLeaves = (props) => {
       id: 5,
       title: "Leave To",
       key: "leaveTo",
-      render: ({leaveTo, status, acceptLeaveTo}) => {
+      render: ({ leaveTo, status, acceptLeaveTo }) => {
         return status === 'ACCEPTED' ? dayjs(acceptLeaveTo).format("DD-MM-YYYY") : dayjs(leaveTo).format("DD-MM-YYYY");
       },
     },
@@ -142,6 +142,14 @@ const GetAllLeaves = (props) => {
                 ),
                 value: "pending",
               },
+              {
+                label: (
+                  <span>
+                    <i class="bi bi-person-dash"></i> Rejected
+                  </span>
+                ),
+                value: "rejected",
+              }
             ]}
             value={status}
             onChange={onChange}
@@ -157,6 +165,7 @@ const GetAllLeaves = (props) => {
         permission={"readAll-leaveApplication"}
         loading={isLoading}
         setPageConfig={setPageConfig}
+        searchBy={"all features"}
       />
     </CardCustom>
   );

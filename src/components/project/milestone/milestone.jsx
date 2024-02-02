@@ -27,8 +27,9 @@ const Milestone = ({ isFixed }) => {
     {
       id: 1,
       title: "ID",
-      dataIndex: "id",
+      // dataIndex: "id", 
       key: "id",
+      render: (text, record, index) => index + 1, 
     },
     {
       id: 2,

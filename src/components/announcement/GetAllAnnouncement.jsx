@@ -33,20 +33,20 @@ const TitleComponent = ({ item }) => {
             <BtnEditSvg size={36} />
           </div> */}
           <Drawer
-            title="Create Announcements"
+            title={item.title ? `Update Announcement` : `Create Announcements`}
             onClose={onCloseDrawer}
             visible={isDrawerVisible}
             placement="right"
             width={450}
           >
             {/* <CreateDrawer permission="create-announcement" width={30}> */}
-            <AddAnnouncement title={item.title} description={item.description} />
+            <AddAnnouncement id={item.id} title={item.title} description={item.description} />
 
             {/* </CreateDrawer> */}
           </Drawer>
         </div>
         <div onClick={showDrawer}>
-          <BtnEditSvg size={37}  />
+          <BtnEditSvg size={37} />
         </div>
         <CommonDelete
           permission={"delete-announcement"}
