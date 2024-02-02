@@ -19,12 +19,12 @@ const PublicHoliday = () => {
   const { data, isLoading } = useGetPublicHolidaysQuery(pageConfig);
 
   const columns = [
-    {
-      id: 1,
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
+    // {
+    //   id: 1,
+    //   title: "ID",
+    //   dataIndex: "id",
+    //   key: "id",
+    // },
     {
       id: 2,
       title: "Name",
@@ -84,6 +84,7 @@ const PublicHoliday = () => {
           loading={isLoading}
           csvFileName={"Public holyday list"}
           permission={"readAll-publicHoliday"}
+          searchBy={"Search"}
         />
       </CardCustom>
     </>

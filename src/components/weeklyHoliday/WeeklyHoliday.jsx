@@ -12,12 +12,12 @@ const WeeklyHoliday = () => {
   const [pagConfig, setPageConfig] = useState({status: 'true', page: 1, count: 10});
   const { data, isLoading } = useGetWeeklyHolidaysQuery(pagConfig);
   const columns = [
-    {
-      id: 1,
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
+    // {
+    //   id: 1,
+    //   title: "ID",
+    //   dataIndex: "id",
+    //   key: "id",
+    // },
     {
       id: 2,
       title: "Name",
@@ -71,6 +71,7 @@ const WeeklyHoliday = () => {
           loading={isLoading}
           csvFileName={"Weekly holiday"}
           permission={"readAll-weeklyHoliday"}
+          searchBy={"Search"}
         />
       </CardCustom>
     </>

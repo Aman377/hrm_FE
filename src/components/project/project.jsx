@@ -14,16 +14,17 @@ import TablePagination from "../CommonUi/TablePagination";
 import BtnAllSvg from "../UI/Button/btnAllSvg";
 
 const Project = () => {
-  const [pageConfig, setPageConfig] = useState({ value: "all", page: 1, count: 10 });
+  const [pageConfig, setPageConfig] = useState({ value: "all", page: 1, count: 10, status: undefined });
   const { data, isLoading } = useGetProjectsByStatusQuery(pageConfig);
 
   const columns = [
-    {
-      id: 1,
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
+    // {
+    //   id: 1,
+    //   title: "ID",
+    //   // dataIndex: "id",
+    //   key: "id",
+    //   render: (text, record, index) => index + 1,
+    // },
     {
       id: 2,
       title: "Name",
@@ -97,8 +98,8 @@ const Project = () => {
     setPageConfig({ status: value, page: 1, count: 10 });
   };
   const onAllClick = () => {
-    setPageConfig({ value: "all", page: 1, count: 10 });
-    
+    setPageConfig({ value: "all", page: 1, count: 10, status: undefined });
+
   };
   return (
     <CardCustom
@@ -106,7 +107,7 @@ const Project = () => {
       extra={
         <>
           <div className='ml-2 mt-0.5'>
-             <div className="bg-green-500 flex justify-between hover:bg-emerald-500 text-white font-bold py-1 px-3 rounded mr-2">
+            <div className="bg-green-500 flex justify-between hover:bg-emerald-500 text-white font-bold py-1 px-3 rounded mr-2">
               <button onClick={onAllClick}>
                 <BtnAllSvg size={15} title={"ALL"} />
               </button>
@@ -158,7 +159,7 @@ const Project = () => {
                   value: "DELETED",
                 },
               ]}
-              value={status?.status}
+              value={pageConfig.value === "all" ? undefined : pageConfig.status}
               onChange={onChange}
             />
           </div>
@@ -173,6 +174,7 @@ const Project = () => {
         setPageConfig={setPageConfig}
         permission={"readAll-project"}
         csvFileName={"Projects"}
+        searchBy={"Search by name and project manager"}
       />
     </CardCustom>
   );

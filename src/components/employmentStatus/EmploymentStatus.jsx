@@ -13,12 +13,12 @@ const EmploymentStatus = () => {
   const { data, isLoading } = useGetEmploymentStatusesQuery(pageConfig);
 
   const columns = [
-    {
-      id: 1,
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
+    // {
+    //   id: 1,
+    //   title: "ID",
+    //   dataIndex: "id",
+    //   key: "id",
+    // },
     {
       id: 2,
       title: "Name",
@@ -87,7 +87,7 @@ const EmploymentStatus = () => {
           loading={isLoading}
           csvFileName={"employment status"}
           permission={"readAll-employmentStatus"}
-          searchBy={"Name"}
+          searchBy={"Search by name"}
         />
       </CardCustom>
     </div>

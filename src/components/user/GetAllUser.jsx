@@ -16,13 +16,15 @@ const GetAllUser = () => {
   const [pageConfig, setPageConfig] = useState({ status: "true", page: 1, count: 10 });
   const { data, isLoading } = useGetUsersQuery(pageConfig);
   const [searchText, setSearchText] = useState('');
+  let pageSize = 10;
+
   const columns = [
-    {
-      id: 1,
-      title: "ID",
-      key: "index",
-      render: (text, record, index) => index + 1, 
-    },
+    // {
+    //   id: 1,
+    //   title: "Id",
+    //   key: "srNo",
+    //   render: (text, record, index) => (pageConfig.page - 1) * pageSize + index + 1,
+    // },
     {
       id: 2,
       title: "Name",
@@ -90,36 +92,36 @@ const GetAllUser = () => {
 
   return (
     <>
-    <PageTitle title='Back'/>
-    <CardCustom
-      title={"Employee List"}
-      extra={
-        <>
-          <StatusSelection setPageConfig={setPageConfig} />
-          <CreateDrawer
-            permission={"create-user"}
-            title={"Create user"}
-            width={100}
-          >
-            <AddUser />
-          </CreateDrawer>
-        </>
-      }
-    >
+      <PageTitle title='Back' />
+      <CardCustom
+        title={"Employee List"}
+        extra={
+          <>
+            <StatusSelection setPageConfig={setPageConfig} />
+            <CreateDrawer
+              permission={"create-user"}
+              title={"Create user"}
+              width={100}
+            >
+              <AddUser />
+            </CreateDrawer>
+          </>
+        }
+      >
 
-      <TablePagination
-        list={data?.getAllUser}
-        total={data?.totalUser}
-        loading={isLoading}
-        setPageConfig={setPageConfig}
-        permission={"readAll-user"}
-        csvFileName={"users"}
-        columns={columns}
-        searchText={searchText} 
-        setSearchText={setSearchText} 
-        searchBy={"Name"}
-      />
-    </CardCustom>
+        <TablePagination
+          list={data?.getAllUser}
+          total={data?.totalUser}
+          loading={isLoading}
+          setPageConfig={setPageConfig}
+          permission={"readAll-user"}
+          csvFileName={"users"}
+          columns={columns}
+          searchText={searchText}
+          setSearchText={setSearchText}
+          searchBy={"Search "}
+        />
+      </CardCustom>
     </>
   );
 };

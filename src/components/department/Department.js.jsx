@@ -12,12 +12,12 @@ const Department = () => {
   const [pageConfig, setPageConfig] = useState({status: 'true', page:1, count: 10});
   const { data, isLoading } = useGetDepartmentsQuery(pageConfig);
   const columns = [
-    {
-      id: 1,
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
+    // {
+    //   id: 1,
+    //   title: "ID",
+    //   dataIndex: "id",
+    //   key: "id",
+    // },
     {
       id: 2,
       title: "Name",
@@ -63,7 +63,7 @@ const Department = () => {
           permission={"readAll-department"}
           loading={isLoading}
           csvFileName={"departments"}
-          searchBy={"Name"}
+          searchBy={"Search"}
         />
       </CardCustom>
     </div>

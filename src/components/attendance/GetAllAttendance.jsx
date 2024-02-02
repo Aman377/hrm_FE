@@ -38,12 +38,12 @@ const GetAllAttendance = (props) => {
     return <Navigate to={"/admin/auth/login"} replace={true} />;
   }
   const columns = [
-    {
-      id: 1,
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
+    // {
+    //   id: 1,
+    //   title: "ID",
+    //   dataIndex: "id",
+    //   key: "id",
+    // },
     {
       id: 10,
       title: "Name",
@@ -154,7 +154,7 @@ const GetAllAttendance = (props) => {
           columns={columns}
           csvFileName={"attendance"}
           permission={"readAll-attendance"}
-          searchBy={"Name"}
+          searchBy={"Search"}
         />
       </CardCustom>
     </>

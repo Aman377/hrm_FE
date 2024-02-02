@@ -105,7 +105,7 @@ const UserAttendance = () => {
           list={data?.getAllAttendanceByUserId}
           total={data?.totalAttendanceByUserId}
           setPageConfig={setPageConfig}
-          searchBy={"Date"}
+          searchBy={"Search"}
           loading={loading}
           columns={columns}
           csvFileName={"Attendance History"}

@@ -19,13 +19,12 @@ const GetAllLeaves = (props) => {
   const { data, isLoading } = useGetLeavesByStatusQuery(pageConfig);
 
   const columns = [
-    {
-      id: 1,
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
-
+    // {
+    //   id: 1,
+    //   title: "ID",
+    //   dataIndex: "id",
+    //   key: "id",
+    // },
     {
       id: 2,
       title: " Name",
@@ -165,7 +164,7 @@ const GetAllLeaves = (props) => {
         permission={"readAll-leaveApplication"}
         loading={isLoading}
         setPageConfig={setPageConfig}
-        searchBy={"all features"}
+        searchBy={"Search"}
       />
     </CardCustom>
   );

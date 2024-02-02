@@ -22,8 +22,11 @@ export default function CommonDelete({
 			setLoading(true);
 			const res = await dispatch(deleteThunk(id));
 			setLoading(false);
+			console.log(res);
 			if (res.data && !res.error) {
+
 				navigatePath && navigate(navigatePath);
+				console.log("Done");
 			}
 		}
 	};
@@ -31,13 +34,13 @@ export default function CommonDelete({
 	return (
 		<>
 			<UserPrivateComponent permission={permission}>
-			<Tooltip title='Delete'>
-				<span
-					onClick={() => onDelete(id)}
-					className={`bg-red-600 h-8 w-8 flex justify-center items-center cursor-pointer ${className ? className : "p-2"
-						} text-white rounded-md`}>
-					<DeleteOutlined className={spin && loading ? "animate-spin" : ""} />
-				</span>
+				<Tooltip title='Delete'>
+					<span
+						onClick={() => onDelete(id)}
+						className={`bg-red-600 h-8 w-8 flex justify-center items-center cursor-pointer ${className ? className : "p-2"
+							} text-white rounded-md`}>
+						<DeleteOutlined className={spin && loading ? "animate-spin" : ""} />
+					</span>
 				</Tooltip>
 			</UserPrivateComponent>
 		</>

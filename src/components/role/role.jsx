@@ -14,12 +14,12 @@ const RoleList = () => {
   const { data, isLoading: loading } = useGetRolesQuery(pageConfig);
 
   const columns = [
-    {
-      id: 1,
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
+    // {
+    //   id: 1,
+    //   title: "ID",
+    //   dataIndex: "id",
+    //   key: "id",
+    // },
     {
       id: 2,
       title: "Name",
@@ -74,7 +74,7 @@ const RoleList = () => {
           setPageConfig={setPageConfig}
           csvFileName={"Roles"}
           loading={loading}
-          searchBy={"Name"}
+          searchBy={"Search"}
         />
       </CardCustom>
     </div>

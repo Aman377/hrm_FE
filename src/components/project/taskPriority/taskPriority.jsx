@@ -14,12 +14,12 @@ const TaskStatus = () => {
   const { isLoading, data: list } = useGetTaskPrioritiesQuery();
 
   const columns = [
-    {
-      id: 1,
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
+    // {
+    //   id: 1,
+    //   title: "ID",
+    //   dataIndex: "id",
+    //   key: "id",
+    // },
     {
       id: 2,
       title: "Name",
@@ -71,6 +71,7 @@ const TaskStatus = () => {
           list={list}
           csvFileName={"task priorities"}
           permission={"readAll-priority"}
+          searchBy={"Search"}
         />
       </CardCustom>
     </div>

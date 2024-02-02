@@ -16,12 +16,12 @@ const Shift = (props) => {
   });
   const { data, isLoading } = useGetShiftsQuery(pageConfig);
   const columns = [
-    {
-      id: 1,
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
+    // {
+    //   id: 1,
+    //   title: "ID",
+    //   dataIndex: "id",
+    //   key: "id",
+    // },
     {
       id: 2,
       title: "Name",
@@ -77,7 +77,7 @@ const Shift = (props) => {
           loading={isLoading}
           setPageConfig={setPageConfig}
           permission={"readAll-shift"}
-          searchBy={"Name"}
+          searchBy={"Search by name"}
         />
       </CardCustom>
     </div>

@@ -24,7 +24,8 @@ const TablePagination = ({
     }
   };
   // column select
-  const [columnsToShow, setColumnsToShow] = useState([]);
+  const [columnsToShow, setColumnsToShow] = useState(columns.filter(column => column.title !== "ID"));
+
   const [searchText, setSearchText] = useState('');
   useEffect(() => {
     setColumnsToShow(columns);
@@ -107,7 +108,7 @@ const TablePagination = ({
           <div className="m-2">
             <input
               type="text"
-              placeholder={`Search by ${searchBy}`}
+              placeholder={`${searchBy}`}
               value={searchText}
               onChange={(e) => setSearchText(e.target.value)}
               className="form-control border border-stone-600 rounded w-[50%] py-2 px-4"
