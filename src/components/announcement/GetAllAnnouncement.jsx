@@ -46,7 +46,7 @@ const TitleComponent = ({ item }) => {
           </Drawer>
         </div>
         <div onClick={showDrawer}>
-          <BtnEditSvg size={37}  />
+          <BtnEditSvg size={37} />
         </div>
         <CommonDelete
           permission={"delete-announcement"}
@@ -100,6 +100,12 @@ const GetAllAnnouncement = () => {
               lg: 3,
               xl: 3,
               xxl: 3,
+            }}
+            pagination={{
+              onChange: (page) => {
+                console.log(page);
+              },
+              pageSize: 12,
             }}
             dataSource={filteredList ? filteredList : []}
             renderItem={(item) => (

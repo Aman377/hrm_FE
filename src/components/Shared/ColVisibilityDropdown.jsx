@@ -55,7 +55,8 @@ const ColVisibilityDropdown = ({ options, columns, columnsToShowHandler }) => {
       maxTagCount={0}
       options={modOptions}
       maxTagPlaceholder='Column Selected'
-      placeholder='Column Visibility'
+      showSearch={false}
+      placeholder='Column Visibility '
       onChange={handleChange}
     />
   );
