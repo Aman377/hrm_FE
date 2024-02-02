@@ -15,22 +15,34 @@ const TablePagination = ({
   csvFileName,
   children,
   permission,
+  pageConfig
 }) => {
   const fetchData = (page, count) => {
     if (setPageConfig) {
       setPageConfig((prev) => {
-        return { ...prev, page, count };
+        return { ...prev, page, count, search: searchText };
       });
     }
   };
-  // column select
+
+  const handleSearch = (e) => {
+    const updatedSearchText = e.target.value;
+    setSearchText(updatedSearchText);
+  };
+
   const [columnsToShow, setColumnsToShow] = useState(columns.filter(column => column.title !== "ID"));
 
   const [searchText, setSearchText] = useState('');
   useEffect(() => {
     setColumnsToShow(columns);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      fetchData(pageConfig.page, pageConfig.count, searchText);
+    }, 200);
+
+    return () => clearTimeout(delay);
+  }, [searchText, pageConfig]);
   const columnsToShowHandler = (val) => {
     setColumnsToShow(val);
   };
@@ -46,15 +58,6 @@ const TablePagination = ({
         : typeof value === 'string' && value.toLowerCase().includes(searchText.toLowerCase())
     )
   );
-
-  const extractedData = filteredList?.map((item) => ({
-    ...item,
-    user: {
-      ...item.user,
-      firstName: item.user?.firstName?.toLowerCase(),
-      lastName: item.user?.lastName?.toLowerCase(),
-    },
-  }));
 
   return (
     <>
@@ -110,7 +113,7 @@ const TablePagination = ({
               type="text"
               placeholder={`${searchBy}`}
               value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
+              onChange={handleSearch}
               className="form-control border border-stone-600 rounded w-[50%] py-2 px-4"
             />
           </div>

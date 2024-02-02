@@ -35,7 +35,7 @@ const GetAllUser = () => {
     },
     {
       id: 3,
-      title: "Usr Name",
+      title: "User Name",
       dataIndex: "username",
       key: "username",
     },
@@ -114,12 +114,13 @@ const GetAllUser = () => {
           total={data?.totalUser}
           loading={isLoading}
           setPageConfig={setPageConfig}
+          pageConfig={pageConfig}
           permission={"readAll-user"}
           csvFileName={"users"}
           columns={columns}
           searchText={searchText}
           setSearchText={setSearchText}
-          searchBy={"Search "}
+          searchBy={"Search by userName"}
         />
       </CardCustom>
     </>
