@@ -14,7 +14,6 @@ function UpdateRole() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [updateRole, { isLoading: isUpdating }] = useUpdateRoleMutation();
-  const { data: rolesData, refetch: refetchRoles } = useGetRolesQuery({ status: 'true', page: 1, count: 10 });
 
   const cust = data;
   const [initValues, setInitValues] = useState({
@@ -24,13 +23,10 @@ function UpdateRole() {
   const onFinish = async (values) => {
     try {
       setInitValues(values);
-
       await updateRole({ id, values });
 
-      await refetchRoles();
-
       form.resetFields();
-      navigate(-1);
+      navigate('/admin/role');
     } catch (error) {
       console.log(error.message);
     }

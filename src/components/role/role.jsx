@@ -11,8 +11,7 @@ import AddRole from "./AddRole";
 
 const RoleList = () => {
   const [pageConfig, setPageConfig] = useState({ status: 'true', page: 1, count: 10 });
-  const { data, isLoading: loading } = useGetRolesQuery(pageConfig);
-
+  let { data, isLoading: loading } = useGetRolesQuery(pageConfig, { refetchOnMountOrArgChange: true },);
 
   const calculateSerialNumber = (currentPage, itemsPerPage, index) => {
     return (currentPage - 1) * itemsPerPage + index + 1;
@@ -20,6 +19,7 @@ const RoleList = () => {
   const updatedData = data?.getAllRole.map((item, index) => ({
     ...item,
     serialNumber: calculateSerialNumber(pageConfig.page, pageConfig.count, index),
+    name: item.name
   }));
 
   const columns = [
@@ -58,6 +58,7 @@ const RoleList = () => {
       ),
     },
   ];
+
 
   return (
     <div>
