@@ -73,6 +73,7 @@ export const roleApi = apiSlice.injectEndpoints({
         try {
           await queryFulfilled;
           toastHandler("Role updated successfully", "success");
+          
           // getRoles();
           // console.log("Done");
         } catch (err) {

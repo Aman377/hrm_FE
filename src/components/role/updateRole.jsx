@@ -22,14 +22,16 @@ function UpdateRole() {
     name: cust.name,
   });
 
-  const onFinish = (values) => {
+  const onFinish = async (values) => {
     try {
-      const data = updateRole({ id, values });
-      // if (data) {
-      //   setTimeout(() => {
-      //     navigate("/admin/role");
-      //   }, 1000);
-      // }
+      const data = await updateRole({ id, values });
+      if (data) {
+        form.resetFields();
+        console.log('Form reset.');
+        navigate(-1)
+      } else {
+        console.log('updateRole returned empty data.');
+      }
     } catch (error) {
       console.log(error.message);
     }
