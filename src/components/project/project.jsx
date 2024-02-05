@@ -172,6 +172,7 @@ const Project = () => {
         list={data?.getAllProject}
         total={data?.totalProject}
         setPageConfig={setPageConfig}
+        pageConfig={pageConfig}
         permission={"readAll-project"}
         csvFileName={"Projects"}
         searchBy={"Search by name and project manager"}

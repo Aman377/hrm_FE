@@ -74,6 +74,7 @@ function GetAllAward() {
           list={data?.getAllAward}
           total={data?.totalAward}
           setPageConfig={setPageConfig}
+          pageConfig={pageConfig}
           permission={"readAll-award"}
           searchBy={"Search"}
         />

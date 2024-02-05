@@ -77,11 +77,12 @@ const GetAllAccount = () => {
         list={data?.getAllSubAccount}
         total={data?.totalSubAccount}
         setPageConfig={setPageConfig}
+        pageConfig={pageConfig}
         loading={isLoading}
         permission={"readAll-account"}
         columns={columns}
         csvFileName={"accounts"}
-        searchBy={"Search"}
+        searchBy={"Search by account"}
       />
     </CardCustom>
   );

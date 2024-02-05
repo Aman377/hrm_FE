@@ -71,7 +71,7 @@ const TaskStatus = () => {
           list={list}
           csvFileName={"task priorities"}
           permission={"readAll-priority"}
-          searchBy={"Search"}
+          searchBy={"Search by name"}
         />
       </CardCustom>
     </div>

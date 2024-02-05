@@ -85,6 +85,7 @@ const ProjectTeam = () => {
           list={data?.getAllProjectTeam}
           total={data?.totalProjectTeam}
           setPageConfig={setPageConfig}
+          pageConfig={pageConfig}
           csvFileName={"Team list"}
           permission={"readAll-projectTeam"}
           searchBy={"Search by team name"}

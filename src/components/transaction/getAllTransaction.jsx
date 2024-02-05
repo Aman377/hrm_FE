@@ -108,7 +108,8 @@ const GetAllTransaction = () => {
           total={data?.aggregations?._count.id}
           loading={isLoading}
           setPageConfig={setPageConfig}
-          searchBy={"Search"}
+          pageConfig={pageConfig}
+          searchBy={"Search by particulars"}
         />
       </CardCustom>
     </UserPrivateComponent>
