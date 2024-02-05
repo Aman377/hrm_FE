@@ -18,13 +18,12 @@ const Project = () => {
   const { data, isLoading } = useGetProjectsByStatusQuery(pageConfig);
 
   const columns = [
-    // {
-    //   id: 1,
-    //   title: "ID",
-    //   // dataIndex: "id",
-    //   key: "id",
-    //   render: (text, record, index) => index + 1,
-    // },
+    {
+      id: 1,
+      title: "Sr.No",
+      dataIndex: "serialNumber",
+      key: "serialNumber",
+    },
     {
       id: 2,
       title: "Name",
@@ -101,6 +100,14 @@ const Project = () => {
     setPageConfig({ value: "all", page: 1, count: 10, status: undefined });
 
   };
+
+  const calculateSerialNumber = (currentPage, itemsPerPage, index) => {
+    return (currentPage - 1) * itemsPerPage + index + 1;
+  };
+  const updatedData = data?.getAllProject.map((item, index) => ({
+    ...item,
+    serialNumber: calculateSerialNumber(pageConfig.page, pageConfig.count, index),
+  }));
   return (
     <CardCustom
       title={"Project List"}
@@ -169,7 +176,7 @@ const Project = () => {
       <TablePagination
         loading={isLoading}
         columns={columns}
-        list={data?.getAllProject}
+        list={updatedData}
         total={data?.totalProject}
         setPageConfig={setPageConfig}
         pageConfig={pageConfig}

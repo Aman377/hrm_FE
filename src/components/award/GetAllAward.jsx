@@ -11,14 +11,21 @@ import AddAward from "./AddAward";
 function GetAllAward() {
   const [pageConfig, setPageConfig] = useState({page: 1, count: 10 , status: 'true'});
   const { data, isLoading } = useGetAwardsQuery(pageConfig);
+  const calculateSerialNumber = (currentPage, itemsPerPage, index) => {
+    return (currentPage - 1) * itemsPerPage + index + 1;
+  };
+  const updatedData = data?.getAllAward.map((item, index) => ({
+    ...item,
+    serialNumber: calculateSerialNumber(pageConfig.page, pageConfig.count, index),
+  }));
 
   const columns = [
-    // {
-    //   id: 1,
-    //   title: "ID",
-    //   dataIndex: "id",
-    //   key: "id",
-    // },
+    {
+      id: 1,
+      title: "Sr.No",
+      dataIndex: "serialNumber",
+      key: "serialNumber",
+    },
     {
       id: 2,
       title: "Name",
@@ -71,7 +78,7 @@ function GetAllAward() {
           csvFileName={"Award"}
           loading={isLoading}
           columns={columns}
-          list={data?.getAllAward}
+          list={updatedData}
           total={data?.totalAward}
           setPageConfig={setPageConfig}
           pageConfig={pageConfig}

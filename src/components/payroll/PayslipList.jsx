@@ -55,13 +55,22 @@ const PayslipList = () => {
         });
     }
   };
+  const calculateSerialNumber = (currentPage, itemsPerPage, index) => {
+    return (currentPage - 1) * itemsPerPage + index + 1;
+  };
+  const updatedData = payroll?.getAllPayslip.map((item, index) => ({
+    ...item,
+    serialNumber: calculateSerialNumber(pageConfig.page, pageConfig.count, index),
+  }));
 
   const columns = [
-    // {
-    //   title: "ID",
-    //   dataIndex: "id",
-    //   key: "id",
-    // },
+    {
+      id: 1,
+      title: "Sr.No",
+      dataIndex: "serialNumber",
+      key: "serialNumber",
+      // render: (value) => value.serialNumber,
+    },
     {
       title: "Name",
       key: "name",
@@ -210,7 +219,7 @@ const PayslipList = () => {
         }
       >
         <TablePagination
-          list={payroll?.getAllPayslip}
+          list={updatedData}
           total={payroll?.totalPayslip}
           setPageConfig={setPageConfig}
           pageConfig={pageConfig}

@@ -15,13 +15,20 @@ const UserLeave = (props) => {
 
   const [pageConfig, setPageConfig] = useState({page: 1, count: 10});
   const { data, isLoading } = useGetLeaveHistoryQuery({id, ...pageConfig});
+  const calculateSerialNumber = (currentPage, itemsPerPage, index) => {
+    return (currentPage - 1) * itemsPerPage + index + 1;
+  };
+  const updatedData = data?.getAllLeaveByUser.map((item, index) => ({
+    ...item,
+    serialNumber: calculateSerialNumber(pageConfig.page, pageConfig.count, index),
+  }));
   const columns = [
-    // {
-    //   id: 1,
-    //   title: "ID",
-    //   dataIndex: "id",
-    //   key: "id",
-    // },
+    {
+      id: 1,
+      title: "Sr.No",
+      dataIndex: "serialNumber",
+      key: "serialNumber",
+    },
     {
       id: 3,
       title: "Leave Type",
@@ -98,7 +105,7 @@ const UserLeave = (props) => {
     <CardCustom title={"My Leave Application"}>
       <TablePagination
         columns={columns}
-        list={data?.getAllLeaveByUser}
+        list={updatedData}
         total={data?.totalLeaveByUser}
         setPageConfig={setPageConfig}
         loading={isLoading}
