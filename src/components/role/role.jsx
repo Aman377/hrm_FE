@@ -49,9 +49,9 @@ const RoleList = () => {
     },
   ];
 
-  return ( 
+  return (
     <div>
-      <PageTitle title='Back'/>
+      <PageTitle title='Back' />
       <CardCustom
         title={"Role List"}
         extra={
@@ -71,10 +71,11 @@ const RoleList = () => {
           columns={columns}
           list={data?.getAllRole}
           total={data?.totalRole}
+          pageConfig={pageConfig}
           setPageConfig={setPageConfig}
           csvFileName={"Roles"}
           loading={loading}
-          searchBy={"Search"}
+          searchBy={"Search by name"}
         />
       </CardCustom>
     </div>

@@ -213,6 +213,7 @@ const PayslipList = () => {
           list={payroll?.getAllPayslip}
           total={payroll?.totalPayslip}
           setPageConfig={setPageConfig}
+          pageConfig={pageConfig}
           loading={isLoading}
           columns={columns}
           permission={"readAll-payroll"}

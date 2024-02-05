@@ -105,6 +105,7 @@ const UserAttendance = () => {
           list={data?.getAllAttendanceByUserId}
           total={data?.totalAttendanceByUserId}
           setPageConfig={setPageConfig}
+          pageConfig={pageConfig}
           searchBy={"Search"}
           loading={loading}
           columns={columns}

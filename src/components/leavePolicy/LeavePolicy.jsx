@@ -73,6 +73,7 @@ const LeavePolicy = () => {
           list={data?.getAllLeavePolicy}
           total={data?.totalLeavePolicy}
           setPageConfig={setPageConfig}
+          pageConfig={pagConfig}
           loading={isLoading}
           permission={"readAll-leavePolicy"}
           searchBy={"Search"}

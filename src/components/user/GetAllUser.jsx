@@ -15,15 +15,15 @@ import PageTitle from "../page-header/PageHeader";
 const GetAllUser = () => {
   const [pageConfig, setPageConfig] = useState({ status: "true", page: 1, count: 10 });
   const { data, isLoading } = useGetUsersQuery(pageConfig);
-  const [searchText, setSearchText] = useState('');
   let pageSize = 10;
+  const totalUserCount = data?.totalUser;
 
   const columns = [
     // {
     //   id: 1,
     //   title: "Id",
     //   key: "srNo",
-    //   render: (text, record, index) => (pageConfig.page - 1) * pageSize + index + 1,
+    //   render: (record, index) => index + 1,
     // },
     {
       id: 2,
@@ -90,6 +90,15 @@ const GetAllUser = () => {
     },
   ];
 
+  // for (let i = 1; i <= totalUserCount; i++) {
+  //   columns.push({
+  //     id: 1,
+  //     title: "Id",
+  //     key: "srNo",
+  //     render: (record) => `${i}`,
+  //   });
+  // }
+
   return (
     <>
       <PageTitle title='Back' />
@@ -118,8 +127,6 @@ const GetAllUser = () => {
           permission={"readAll-user"}
           csvFileName={"users"}
           columns={columns}
-          searchText={searchText}
-          setSearchText={setSearchText}
           searchBy={"Search by userName"}
         />
       </CardCustom>

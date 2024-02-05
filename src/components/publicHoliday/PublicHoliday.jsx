@@ -81,10 +81,11 @@ const PublicHoliday = () => {
           list={data?.getAllPublicHoliday}
           total={data?.totalPublicHoliday}
           setPageConfig={setPageConfig}
+          pageConfig={pageConfig}
           loading={isLoading}
           csvFileName={"Public holyday list"}
           permission={"readAll-publicHoliday"}
-          searchBy={"Search"}
+          searchBy={"Search by name"}
         />
       </CardCustom>
     </>

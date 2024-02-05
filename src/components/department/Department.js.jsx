@@ -60,10 +60,11 @@ const Department = () => {
           list={data?.getAllDepartment}
           total={data?.totalDepartment}
           setPageConfig={setPageConfig}
+          pageConfig={pageConfig}
           permission={"readAll-department"}
           loading={isLoading}
           csvFileName={"departments"}
-          searchBy={"Search"}
+          searchBy={"Search by name"}
         />
       </CardCustom>
     </div>

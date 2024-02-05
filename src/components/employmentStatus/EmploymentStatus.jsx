@@ -84,6 +84,7 @@ const EmploymentStatus = () => {
           list={data?.getAllEmploymentStatus}
           total={data?.totalEmploymentStatus}
           setPageConfig={setPageConfig}
+          pageConfig={pageConfig}
           loading={isLoading}
           csvFileName={"employment status"}
           permission={"readAll-employmentStatus"}

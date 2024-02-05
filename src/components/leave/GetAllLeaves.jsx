@@ -164,7 +164,8 @@ const GetAllLeaves = (props) => {
         permission={"readAll-leaveApplication"}
         loading={isLoading}
         setPageConfig={setPageConfig}
-        searchBy={"Search"}
+        pageConfig={pageConfig}
+        searchBy={"Search by name"}
       />
     </CardCustom>
   );

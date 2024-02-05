@@ -76,6 +76,7 @@ const Shift = (props) => {
           csvFileName={"shift list"}
           loading={isLoading}
           setPageConfig={setPageConfig}
+          pageConfig={pageConfig}
           permission={"readAll-shift"}
           searchBy={"Search by name"}
         />

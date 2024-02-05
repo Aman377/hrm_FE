@@ -68,6 +68,7 @@ const WeeklyHoliday = () => {
           list={data?.getAllWeeklyHoliday}
           total={data?.totalWeeklyHoliday}
           setPageConfig={setPageConfig}
+          pageConfig={pagConfig}
           loading={isLoading}
           csvFileName={"Weekly holiday"}
           permission={"readAll-weeklyHoliday"}

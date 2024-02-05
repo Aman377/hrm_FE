@@ -150,11 +150,12 @@ const GetAllAttendance = (props) => {
           list={data?.getAllAttendance}
           total={data?.totalAttendance}
           setPageConfig={setPageConfig}
+          pageConfig={pageConfig}
           loading={isLoading}
           columns={columns}
           csvFileName={"attendance"}
           permission={"readAll-attendance"}
-          searchBy={"Search"}
+          searchBy={"Search by name"}
         />
       </CardCustom>
     </>
