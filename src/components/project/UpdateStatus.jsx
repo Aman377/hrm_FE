@@ -88,6 +88,7 @@ const UpdateStatus = () => {
                     <Select.Option value="COMPLETE">COMPLETE</Select.Option>
                     <Select.Option value="ONHOLD">ONHOLD</Select.Option>
                     <Select.Option value="DELETED">DELETED</Select.Option>
+                    <Select.Option value="PENDING">PENDING</Select.Option>
                   </Select>
                 </Form.Item>
 

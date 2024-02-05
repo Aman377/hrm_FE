@@ -12,12 +12,12 @@ const LeavePolicy = () => {
   const [pagConfig, setPageConfig] = useState({status: 'true', page: 1, count: 10});
   const { data, isLoading } = useGetLeavePoliciesQuery(pagConfig);
   const columns = [
-    {
-      id: 1,
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
+    // {
+    //   id: 1,
+    //   title: "ID",
+    //   dataIndex: "id",
+    //   key: "id",
+    // },
     {
       id: 2,
       title: "Name",
@@ -73,8 +73,10 @@ const LeavePolicy = () => {
           list={data?.getAllLeavePolicy}
           total={data?.totalLeavePolicy}
           setPageConfig={setPageConfig}
+          pageConfig={pagConfig}
           loading={isLoading}
           permission={"readAll-leavePolicy"}
+          searchBy={"Search"}
         />
       </CardCustom>
     </>

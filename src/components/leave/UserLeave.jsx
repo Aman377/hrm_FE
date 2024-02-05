@@ -16,13 +16,12 @@ const UserLeave = (props) => {
   const [pageConfig, setPageConfig] = useState({page: 1, count: 10});
   const { data, isLoading } = useGetLeaveHistoryQuery({id, ...pageConfig});
   const columns = [
-    {
-      id: 1,
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
-
+    // {
+    //   id: 1,
+    //   title: "ID",
+    //   dataIndex: "id",
+    //   key: "id",
+    // },
     {
       id: 3,
       title: "Leave Type",
@@ -104,6 +103,7 @@ const UserLeave = (props) => {
         setPageConfig={setPageConfig}
         loading={isLoading}
         permission={"readSingle-leaveApplication"}
+        searchBy={"Search"}
       />
     </CardCustom>
   );

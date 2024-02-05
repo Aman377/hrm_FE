@@ -57,11 +57,11 @@ const PayslipList = () => {
   };
 
   const columns = [
-    {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
+    // {
+    //   title: "ID",
+    //   dataIndex: "id",
+    //   key: "id",
+    // },
     {
       title: "Name",
       key: "name",
@@ -213,11 +213,12 @@ const PayslipList = () => {
           list={payroll?.getAllPayslip}
           total={payroll?.totalPayslip}
           setPageConfig={setPageConfig}
+          pageConfig={pageConfig}
           loading={isLoading}
           columns={columns}
           permission={"readAll-payroll"}
           csvFileName={"Payslip List"}
-          searchBy={"Name"}
+          searchBy={"Search by name"}
         />
       </CardCustom>
     </div>

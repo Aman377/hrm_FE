@@ -1,19 +1,21 @@
 import { Card, Table } from "antd";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useGetProjectTeamQuery } from "../../../redux/rtk/features/projectManagement/project/projectTeam/projectTeamApi";
+import { useGetProjectTeamQuery, projectTeamApi, useGetProjectTeamsQuery } from "../../../redux/rtk/features/projectManagement/project/projectTeam/projectTeamApi";
 import ViewBtn from "../../Buttons/ViewBtn";
 import UserPrivateComponent from "../../PrivateRoutes/UserPrivateComponent";
 import Loader from "../../loader/loader";
 import PageTitle from "../../page-header/PageHeader";
 import AddProjectTeamMember from "./AddProjectTeamMember";
+import CommonDelete from "../../CommonUi/CommonDelete";
 
 const columns = [
   {
     id: 1,
     title: "ID",
-    dataIndex: "userId",
+    // dataIndex: "userId",
     key: "userId",
+    render: (text, record, index) => index + 1,
   },
   {
     id: 2,
@@ -26,11 +28,18 @@ const columns = [
     title: "Action",
     dataIndex: "userId",
     key: "action",
-    render: (userId) => (
+    render: (userId, record) => (
       <div className='flex justify-start'>
         <UserPrivateComponent permission={"readSingle-user"}>
-           <ViewBtn path={`/admin/hr/staffs/${userId}/`} />
-         </UserPrivateComponent>
+          <ViewBtn path={`/admin/hr/staffs/${userId}/`} />
+        </UserPrivateComponent>
+
+        {/* delete */}
+        <CommonDelete
+          permission={"delete-projectTeam"}
+          deleteThunk={projectTeamApi.endpoints.deleteProjectTeamMember.initiate}
+          id={record.id}
+        />
       </div>
     ),
   },
@@ -89,7 +98,7 @@ const DetailProjectTeam = () => {
               columns={columnsToShow}
               dataSource={ProjectTeam ? ProjectTeam.projectTeamMember : []}
             />
-           
+
           </Card>
         </div>
       ) : (

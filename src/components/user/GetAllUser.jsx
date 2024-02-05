@@ -15,14 +15,16 @@ import PageTitle from "../page-header/PageHeader";
 const GetAllUser = () => {
   const [pageConfig, setPageConfig] = useState({ status: "true", page: 1, count: 10 });
   const { data, isLoading } = useGetUsersQuery(pageConfig);
-  const [searchText, setSearchText] = useState('');
+  let pageSize = 10;
+  const totalUserCount = data?.totalUser;
+
   const columns = [
-    {
-      id: 1,
-      title: "ID",
-      key: "index",
-      render: (text, record, index) => index + 1, 
-    },
+    // {
+    //   id: 1,
+    //   title: "Id",
+    //   key: "srNo",
+    //   render: (record, index) => index + 1,
+    // },
     {
       id: 2,
       title: "Name",
@@ -33,7 +35,7 @@ const GetAllUser = () => {
     },
     {
       id: 3,
-      title: "Usr Name",
+      title: "User Name",
       dataIndex: "username",
       key: "username",
     },
@@ -88,38 +90,46 @@ const GetAllUser = () => {
     },
   ];
 
+  // for (let i = 1; i <= totalUserCount; i++) {
+  //   columns.push({
+  //     id: 1,
+  //     title: "Id",
+  //     key: "srNo",
+  //     render: (record) => `${i}`,
+  //   });
+  // }
+
   return (
     <>
-    <PageTitle title='Back'/>
-    <CardCustom
-      title={"Employee List"}
-      extra={
-        <>
-          <StatusSelection setPageConfig={setPageConfig} />
-          <CreateDrawer
-            permission={"create-user"}
-            title={"Create user"}
-            width={100}
-          >
-            <AddUser />
-          </CreateDrawer>
-        </>
-      }
-    >
+      <PageTitle title='Back' />
+      <CardCustom
+        title={"Employee List"}
+        extra={
+          <>
+            <StatusSelection setPageConfig={setPageConfig} />
+            <CreateDrawer
+              permission={"create-user"}
+              title={"Create user"}
+              width={100}
+            >
+              <AddUser />
+            </CreateDrawer>
+          </>
+        }
+      >
 
-      <TablePagination
-        list={data?.getAllUser}
-        total={data?.totalUser}
-        loading={isLoading}
-        setPageConfig={setPageConfig}
-        permission={"readAll-user"}
-        csvFileName={"users"}
-        columns={columns}
-        searchText={searchText} 
-        setSearchText={setSearchText} 
-        searchBy={"Name"}
-      />
-    </CardCustom>
+        <TablePagination
+          list={data?.getAllUser}
+          total={data?.totalUser}
+          loading={isLoading}
+          setPageConfig={setPageConfig}
+          pageConfig={pageConfig}
+          permission={"readAll-user"}
+          csvFileName={"users"}
+          columns={columns}
+          searchBy={"Search by userName"}
+        />
+      </CardCustom>
     </>
   );
 };

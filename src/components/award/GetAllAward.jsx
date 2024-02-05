@@ -13,12 +13,12 @@ function GetAllAward() {
   const { data, isLoading } = useGetAwardsQuery(pageConfig);
 
   const columns = [
-    {
-      id: 1,
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
+    // {
+    //   id: 1,
+    //   title: "ID",
+    //   dataIndex: "id",
+    //   key: "id",
+    // },
     {
       id: 2,
       title: "Name",
@@ -75,6 +75,7 @@ function GetAllAward() {
           total={data?.totalAward}
           setPageConfig={setPageConfig}
           permission={"readAll-award"}
+          searchBy={"Search"}
         />
       </CardCustom>
     </>

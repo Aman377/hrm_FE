@@ -112,7 +112,7 @@ const UpdateProject = ({ drawer }) => {
                 <Form.Item
                   style={{ marginBottom: "10px" }}
                   label="Project Manager"
-                  name={['projectManager', 'fullname']} 
+                  name={'projectManagerId'} 
                   rules={[
                     {
                       required: true,

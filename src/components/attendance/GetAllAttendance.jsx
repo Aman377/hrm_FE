@@ -38,12 +38,12 @@ const GetAllAttendance = (props) => {
     return <Navigate to={"/admin/auth/login"} replace={true} />;
   }
   const columns = [
-    {
-      id: 1,
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
+    // {
+    //   id: 1,
+    //   title: "ID",
+    //   dataIndex: "id",
+    //   key: "id",
+    // },
     {
       id: 10,
       title: "Name",
@@ -150,11 +150,12 @@ const GetAllAttendance = (props) => {
           list={data?.getAllAttendance}
           total={data?.totalAttendance}
           setPageConfig={setPageConfig}
+          pageConfig={pageConfig}
           loading={isLoading}
           columns={columns}
           csvFileName={"attendance"}
           permission={"readAll-attendance"}
-          searchBy={"Name"}
+          searchBy={"Search by name"}
         />
       </CardCustom>
     </>

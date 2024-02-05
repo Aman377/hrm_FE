@@ -18,14 +18,13 @@ const GetAllAccount = () => {
   const [pageConfig, setPageConfig] = useState({query: 'sa', page: 1, count: 10});
   const { data, isLoading } = useGetAccountsQuery(pageConfig);
   const columns = [
-    {
-      id: 1,
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-      render: (id) => <Link to={`/admin/account/${id}`}>{id}</Link>,
-    },
-
+    // {
+    //   id: 1,
+    //   title: "ID",
+    //   dataIndex: "id",
+    //   key: "id",
+    //   render: (id) => <Link to={`/admin/account/${id}`}>{id}</Link>,
+    // },
     {
       id: 2,
       title: "Account",
@@ -82,6 +81,7 @@ const GetAllAccount = () => {
         permission={"readAll-account"}
         columns={columns}
         csvFileName={"accounts"}
+        searchBy={"Search"}
       />
     </CardCustom>
   );

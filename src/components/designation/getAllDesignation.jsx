@@ -14,12 +14,12 @@ const GetAllDesignation = () => {
   const { data, isLoading: loading } = useGetDesignationsQuery(pageConfig);
 
   const columns = [
-    {
-      id: 1,
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
+    // {
+    //   id: 1,
+    //   title: "ID",
+    //   dataIndex: "id",
+    //   key: "id",
+    // },
     {
       id: 2,
       title: "Name",
@@ -62,9 +62,10 @@ const GetAllDesignation = () => {
         total={data?.totalDesignation}
         setPageConfig={setPageConfig}
         loading={loading}
+        pageConfig={pageConfig}
         csvFileName={"designations"}
         permission={"readAll-designation"}
-        searchBy={"Name"}
+        searchBy={"Search by name"}
       />
     </CardCustom>
   );

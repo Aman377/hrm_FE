@@ -5,6 +5,7 @@ import { useState } from "react";
 import {
   projectTeamApi,
   useGetProjectTeamsQuery,
+  useGetProjectTeamQuery
 } from "../../../redux/rtk/features/projectManagement/project/projectTeam/projectTeamApi";
 import ViewBtn from "../../Buttons/ViewBtn";
 import CardCustom from "../../CommonUi/CardCustom";
@@ -14,22 +15,23 @@ import TablePagination from "../../CommonUi/TablePagination";
 import ProjectTeamStatusUpdatePopup from "../../UI/PopUp/ProjectManagemnet/ProjectTeamStatusUpdatePopup";
 
 const ProjectTeam = () => {
-  const [pageConfig, setPageConfig] = useState({status: "true", page: 1, count: 10});
-  const { data, isLoading } = useGetProjectTeamsQuery(pageConfig);
+  const [pageConfig, setPageConfig] = useState({ status: "true", page: 1, count: 10 });
+  const { data, isLoading } = useGetProjectTeamsQuery(pageConfig) ;
 
   const columns = [
-    {
-      id: 1,
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-    },
+    // {
+    //   id: 1,
+    //   title: "ID",
+    //   // dataIndex: "id",
+    //   key: "id",
+    //   render: (text, record, index) => index + 1,
+    // },
     {
       id: 2,
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (status) => (status ? "True" : "False"),
+      render: (status) => (status ? "Active" : "InActive"),
     },
     {
       id: 3,
@@ -53,6 +55,7 @@ const ProjectTeam = () => {
             permission={"delete-projectTeam"}
             deleteThunk={projectTeamApi.endpoints.deleteProjectTeam.initiate}
             id={id}
+            navigatePath={"/admin/team"}
           />
         </div>
       ),
@@ -84,6 +87,7 @@ const ProjectTeam = () => {
           setPageConfig={setPageConfig}
           csvFileName={"Team list"}
           permission={"readAll-projectTeam"}
+          searchBy={"Search by team name"}
         />
       </CardCustom>
     </div>

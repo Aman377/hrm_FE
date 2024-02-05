@@ -70,6 +70,7 @@ const GetAllEmailConfig = () => {
         loading={loading}
         csvFileName={"Email Config List"}
         permission={"readAll-emailConfig"}
+        searchBy={"Search"}
       />
     </CardCustom>
   );

@@ -30,13 +30,13 @@ const GetAllTransaction = () => {
   };
 
   const columns = [
-    {
-      id: 1,
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
-      render: (id) => <Link to={`/admin/transaction/${id}`}>{id}</Link>,
-    },
+    // {
+    //   id: 1,
+    //   title: "ID",
+    //   dataIndex: "id",
+    //   key: "id",
+    //   render: (id) => <Link to={`/admin/transaction/${id}`}>{id}</Link>,
+    // },
     {
       id: 2,
       title: "Date",
@@ -108,6 +108,7 @@ const GetAllTransaction = () => {
           total={data?.aggregations?._count.id}
           loading={isLoading}
           setPageConfig={setPageConfig}
+          searchBy={"Search"}
         />
       </CardCustom>
     </UserPrivateComponent>

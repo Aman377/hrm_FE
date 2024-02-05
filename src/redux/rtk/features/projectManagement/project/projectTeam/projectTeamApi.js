@@ -41,9 +41,9 @@ export const projectTeamApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
-          toastHandler("ProjectTeam added successfully","success");
+          toastHandler("ProjectTeam added successfully", "success");
         } catch (err) {
-					toastHandler("Something went wrong, Please try again", "warning");
+          toastHandler("Something went wrong, Please try again", "warning");
         }
       },
       invalidatesTags: ["ProjectTeams", "ProjectTeamsById"],
@@ -63,7 +63,7 @@ export const projectTeamApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
-          toastHandler("ProjectTeam updated successfully","success");
+          toastHandler("ProjectTeam updated successfully", "success");
         } catch (err) {
           toastHandler("Something went wrong, Please try again", "warning");
         }
@@ -85,7 +85,7 @@ export const projectTeamApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
-          toastHandler("ProjectTeam Status updated successfully","success");
+          toastHandler("ProjectTeam Status updated successfully", "success");
         } catch (err) {
           toastHandler("Something went wrong, Please try again", "warning");
         }
@@ -108,7 +108,30 @@ export const projectTeamApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
-          toastHandler("Deleted ProjectTeam successful","warning");
+          toastHandler("Deleted ProjectTeam successful", "warning");
+        } catch (err) {
+          toastHandler("Something went wrong, Please try again", "warning");
+        }
+      },
+      invalidatesTags: ["ProjectTeams"],
+    }),
+
+    deleteProjectTeamMember: builder.mutation({
+      query: (id) => ({
+        url: `project-team/${id}`,
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json;charset=UTF-8",
+        },
+        body: {
+          status: "false",
+        },
+      }),
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          await queryFulfilled;
+          toastHandler("project team member deleted successfully", "warning");
         } catch (err) {
           toastHandler("Something went wrong, Please try again", "warning");
         }
@@ -119,11 +142,12 @@ export const projectTeamApi = apiSlice.injectEndpoints({
 });
 
 export const {
-	useGetProjectTeamsQuery,
-	useGetProjectTeamByProjectIdQuery,
-	useGetProjectTeamQuery,
-	useAddProjectTeamMutation,
-	useUpdateProjectTeamMutation,
-	useUpdateProjectTeamStatusMutation,
-	useDeleteProjectTeamMutation,
+  useGetProjectTeamsQuery,
+  useGetProjectTeamByProjectIdQuery,
+  useGetProjectTeamQuery,
+  useAddProjectTeamMutation,
+  useUpdateProjectTeamMutation,
+  useUpdateProjectTeamStatusMutation,
+  useDeleteProjectTeamMutation,
+  useDeleteProjectTeamMemberMutation
 } = projectTeamApi;
