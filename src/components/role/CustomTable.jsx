@@ -120,8 +120,6 @@ const CustomTable = ({ role }) => {
           />
         </div>
 
-
-
         <Table
           rowSelection={columnsToShow.length > 0 && rowSelection}
           columns={columnsToShow}

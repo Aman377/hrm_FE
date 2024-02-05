@@ -20,7 +20,8 @@ const RoleList = () => {
   const updatedData = data?.getAllRole.map((item, index) => ({
     ...item,
     serialNumber: calculateSerialNumber(pageConfig.page, pageConfig.count, index),
-  }));
+  }))|| [];
+ 
 
   const columns = [
     {

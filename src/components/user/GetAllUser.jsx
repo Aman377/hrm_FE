@@ -25,7 +25,7 @@ const GetAllUser = () => {
     ...item,
     serialNumber: calculateSerialNumber(pageConfig.page, pageConfig.count, index),
   }));
-
+ 
   const columns = [
     {
       id: 1,
