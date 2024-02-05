@@ -12,7 +12,6 @@ import CustomTable from "./CustomTable";
 import BtnEditSvg from "../UI/Button/btnEditSvg";
 import CommonDelete from "../CommonUi/CommonDelete";
 
-
 //PopUp
 
 const DetailRole = () => {
