@@ -1,7 +1,7 @@
 import { Button, Card, Col, Form, Input, Row, Typography } from "antd";
 import React, { useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { useUpdateRoleMutation, roleApi } from "../../redux/rtk/features/role/roleApi";
+import { useUpdateRoleMutation, useGetRolesQuery } from "../../redux/rtk/features/role/roleApi";
 import PageTitle from "../page-header/PageHeader";
 import { useNavigate } from "react-router";
 
@@ -9,29 +9,28 @@ function UpdateRole() {
   const { Title } = Typography;
   const [form] = Form.useForm();
 
-  //Loading Old data from URL
   const location = useLocation();
   const { data } = location.state;
   const { id } = useParams();
   const navigate = useNavigate();
-  const [updateRole, { isLoading }] = useUpdateRoleMutation();
+  const [updateRole, { isLoading: isUpdating }] = useUpdateRoleMutation();
+  const { data: rolesData, refetch: refetchRoles } = useGetRolesQuery({ status: 'true', page: 1, count: 10 });
 
   const cust = data;
-  // eslint-disable-next-line no-unused-vars
   const [initValues, setInitValues] = useState({
     name: cust.name,
   });
 
   const onFinish = async (values) => {
     try {
-      const data = await updateRole({ id, values });
-      if (data) {
-        form.resetFields();
-        console.log('Form reset.');
-        navigate(-1)
-      } else {
-        console.log('updateRole returned empty data.');
-      }
+      setInitValues(values);
+
+      await updateRole({ id, values });
+
+      await refetchRoles();
+
+      form.resetFields();
+      navigate(-1);
     } catch (error) {
       console.log(error.message);
     }
@@ -102,7 +101,8 @@ function UpdateRole() {
                     type="primary"
                     htmlType="submit"
                     shape="round"
-                    loading={isLoading}
+                    loading={isUpdating}
+                    disabled={isUpdating}
                   >
                     Update Now
                   </Button>

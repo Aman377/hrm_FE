@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useGetRolesQuery } from "../../redux/rtk/features/role/roleApi";
 import ViewBtn from "../Buttons/ViewBtn";
 import CardCustom from "../CommonUi/CardCustom";
@@ -73,8 +73,8 @@ const RoleList = () => {
           total={data?.totalRole}
           pageConfig={pageConfig}
           setPageConfig={setPageConfig}
-          csvFileName={"Roles"}
           loading={loading}
+          csvFileName={"Roles"}
           searchBy={"Search by name"}
         />
       </CardCustom>

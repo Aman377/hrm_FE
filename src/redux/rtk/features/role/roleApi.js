@@ -1,24 +1,6 @@
 import { buildQuery, toastHandler } from "../../../../utils/functions";
 import { apiSlice } from "../api/apiSlice";
 
-// const getRoles = async () => {
-//   const apiUrl = 'https://hros.excitesystems.com/role?status=true&page=1&count=10';
-
-//   try {
-//     const response = await fetch(apiUrl);
-
-//     if (!response.ok) {
-//       throw new Error(`HTTP error! Status: ${response.status}`);
-//     }
-//     const data = await response.json();
-
-//     console.log('Roles:', data);
-//     return data;
-//   } catch (error) {
-//     console.error('Error fetching roles:', error.message);
-//   }
-// };
-
 export const roleApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getRoles: builder.query({
