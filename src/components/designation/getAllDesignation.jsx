@@ -69,8 +69,8 @@ const GetAllDesignation = () => {
         list={updatedData}
         total={data?.totalDesignation}
         setPageConfig={setPageConfig}
-        loading={loading}
         pageConfig={pageConfig}
+        loading={loading}
         csvFileName={"designations"}
         permission={"readAll-designation"}
         searchBy={"Search by name"}

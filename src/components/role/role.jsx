@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useGetRolesQuery } from "../../redux/rtk/features/role/roleApi";
 import ViewBtn from "../Buttons/ViewBtn";
 import CardCustom from "../CommonUi/CardCustom";
@@ -11,8 +11,7 @@ import AddRole from "./AddRole";
 
 const RoleList = () => {
   const [pageConfig, setPageConfig] = useState({ status: 'true', page: 1, count: 10 });
-  const { data, isLoading: loading } = useGetRolesQuery(pageConfig);
-
+  let { data, isLoading: loading } = useGetRolesQuery(pageConfig, { refetchOnMountOrArgChange: true },);
 
   const calculateSerialNumber = (currentPage, itemsPerPage, index) => {
     return (currentPage - 1) * itemsPerPage + index + 1;
@@ -60,6 +59,7 @@ const RoleList = () => {
     },
   ];
 
+
   return (
     <div>
       <PageTitle title='Back' />
@@ -84,8 +84,8 @@ const RoleList = () => {
           total={data?.totalRole}
           pageConfig={pageConfig}
           setPageConfig={setPageConfig}
-          csvFileName={"Roles"}
           loading={loading}
+          csvFileName={"Roles"}
           searchBy={"Search by name"}
         />
       </CardCustom>

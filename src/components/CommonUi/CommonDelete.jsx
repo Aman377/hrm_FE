@@ -13,6 +13,8 @@ export default function CommonDelete({
 	navigatePath,
 	className,
 	spin,
+	getThunk,
+	userId
 }) {
 	const [loading, setLoading] = useState(false);
 	const dispatch = useDispatch();
@@ -31,6 +33,7 @@ export default function CommonDelete({
 		}
 		// }
 	};
+
 
 	return (
 		<>

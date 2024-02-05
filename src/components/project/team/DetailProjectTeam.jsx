@@ -8,44 +8,10 @@ import Loader from "../../loader/loader";
 import PageTitle from "../../page-header/PageHeader";
 import AddProjectTeamMember from "./AddProjectTeamMember";
 import CommonDelete from "../../CommonUi/CommonDelete";
-
-const columns = [
-  {
-    id: 1,
-    title: "ID",
-    // dataIndex: "userId",
-    key: "userId",
-    render: (text, record, index) => index + 1,
-  },
-  {
-    id: 2,
-    title: "Name",
-    key: "username",
-    render: ({ user }) => user.firstName + " " + user.lastName,
-  },
-  {
-    id: 4,
-    title: "Action",
-    dataIndex: "userId",
-    key: "action",
-    render: (userId, record) => (
-      <div className='flex justify-start'>
-        <UserPrivateComponent permission={"readSingle-user"}>
-          <ViewBtn path={`/admin/hr/staffs/${userId}/`} />
-        </UserPrivateComponent>
-
-        {/* delete */}
-        <CommonDelete
-          permission={"delete-projectTeam"}
-          deleteThunk={projectTeamApi.endpoints.deleteProjectTeamMember.initiate}
-          id={record.id}
-        />
-      </div>
-    ),
-  },
-];
+import { useNavigate  } from "react-router-dom";
 
 const DetailProjectTeam = () => {
+  const navigate  = useNavigate ();
   const { id } = useParams("id");
 
   const { data: ProjectTeam, isLoading: teamLoading } =
@@ -53,8 +19,46 @@ const DetailProjectTeam = () => {
   const [columnsToShow, setColumnsToShow] = useState([]);
 
   useEffect(() => {
+    const columns = [
+      {
+        id: 1,
+        title: "ID",
+        // dataIndex: "userId",
+        key: "userId",
+        render: (text, record, index) => index + 1,
+      },
+      {
+        id: 2,
+        title: "Name",
+        key: "username",
+        render: ({ user }) => user.firstName + " " + user.lastName,
+      },
+      {
+        id: 4,
+        title: "Action",
+        dataIndex: "userId",
+        key: "action",
+        render: (userId, record) => (
+          <div className='flex justify-start'>
+            <UserPrivateComponent permission={"readSingle-user"}>
+              <ViewBtn path={`/admin/hr/staffs/${userId}/`} />
+            </UserPrivateComponent>
+
+            {/* delete */}
+            <CommonDelete
+              permission={"delete-projectTeam"}
+              deleteThunk={projectTeamApi.endpoints.deleteProjectTeamMember.initiate}
+              id={record.id}
+              userId={id}
+              // onSuccess={() => navigate(`/admin/team/${id}`)}
+              getThunk={projectTeamApi.endpoints.getProjectTeam.initiate}
+            />
+          </div>
+        ),
+      },
+    ];
     setColumnsToShow(columns);
-  }, []);
+  }, [id, navigate ]);
 
   return (
     <>

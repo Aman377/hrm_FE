@@ -124,7 +124,6 @@ const CustomTable = ({ role }) => {
           rowSelection={columnsToShow.length > 0 && rowSelection}
           columns={columnsToShow}
           dataSource={filteredData}
-          
           pagination={{
             pageSize: num,
             showSizeChanger: true,

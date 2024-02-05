@@ -15,16 +15,17 @@ export default function CreateDrawer({
   const [open, setOpen] = useState(false);
 
   const onClose = () => {
+    // console.log("close");
     setOpen(false);
   };
+
   return (
     <>
       <UserPrivateComponent permission={permission}>
         <button
           onClick={() => setOpen(true)}
-          className={`xs:px-3 px-1 text-sm md:text-base py-1 lg:px-5  border ${
-            color ? color : "bg-violet-700"
-          } hover:bg-violet-500 text-white rounded cursor-pointer`}
+          className={`xs:px-3 px-1 text-sm md:text-base py-1 lg:px-5  border ${color ? color : "bg-violet-700"
+            } hover:bg-violet-500 text-white rounded cursor-pointer`}
         >
           <div className='flex items-center justify-center gap-2'>
             {update ? <EditOutlined /> : <PlusOutlined />}

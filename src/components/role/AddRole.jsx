@@ -1,16 +1,11 @@
 import { Button, Card, Col, Form, Input, Row, Table, Typography } from "antd";
-
 import { useForm } from "antd/es/form/Form";
-import dayjs from "dayjs";
 import React, { Fragment, useEffect, useState } from "react";
-import { CSVLink } from "react-csv";
 import { toast } from "react-toastify";
 import { useAddRoleMutation } from "../../redux/rtk/features/role/roleApi";
-import ViewBtn from "../Buttons/ViewBtn";
-import UserPrivateComponent from "../PrivateRoutes/UserPrivateComponent";
-import ColVisibilityDropdown from "../Shared/ColVisibilityDropdown";
 
-const AddRole = () => {
+
+const AddRole = ({ onClose }) => {
   const [addRole, { isLoading }] = useAddRoleMutation();
   const { Title } = Typography;
   const [form] = useForm();
