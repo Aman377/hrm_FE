@@ -12,6 +12,7 @@ import AddTaskPriority from "./AddtaskPriority";
 
 const TaskStatus = () => {
   const { isLoading, data: list } = useGetTaskPrioritiesQuery();
+  
 
   const columns = [
     // {

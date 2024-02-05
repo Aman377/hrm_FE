@@ -13,13 +13,21 @@ const GetAllDesignation = () => {
   const [pageConfig, setPageConfig] = useState({ status: 'true', page: 1, count: 10 })
   const { data, isLoading: loading } = useGetDesignationsQuery(pageConfig);
 
+  const calculateSerialNumber = (currentPage, itemsPerPage, index) => {
+    return (currentPage - 1) * itemsPerPage + index + 1;
+  };
+  const updatedData = data?.getAllDesignation.map((item, index) => ({
+    ...item,
+    serialNumber: calculateSerialNumber(pageConfig.page, pageConfig.count, index),
+  }));
+
   const columns = [
-    // {
-    //   id: 1,
-    //   title: "ID",
-    //   dataIndex: "id",
-    //   key: "id",
-    // },
+    {
+      id: 1,
+      title: "Sr.No",
+      dataIndex: "serialNumber",
+      key: "serialNumber",
+    },
     {
       id: 2,
       title: "Name",
@@ -58,7 +66,7 @@ const GetAllDesignation = () => {
     >
       <TablePagination
         columns={columns}
-        list={data?.getAllDesignation}
+        list={updatedData}
         total={data?.totalDesignation}
         setPageConfig={setPageConfig}
         loading={loading}

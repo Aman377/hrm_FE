@@ -12,12 +12,19 @@ const UserAttendance = () => {
   const { id } = useParams("id");
   const [pageConfig, setPageConfig] = useState({page:1, count:10});
   const {  data, isLoading: loading } = useGetAttendanceByUserIdQuery({id, ...pageConfig});
+  const calculateSerialNumber = (currentPage, itemsPerPage, index) => {
+    return (currentPage - 1) * itemsPerPage + index + 1;
+  };
+  const updatedData = data?.getAllAttendanceByUserId.map((item, index) => ({
+    ...item,
+    serialNumber: calculateSerialNumber(pageConfig.page, pageConfig.count, index),
+  }));
   const columns = [
     {
       id: 1,
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
+      title: "Sr.No",
+      dataIndex: "serialNumber",
+      key: "serialNumber",
     },
     {
       id: 2,
@@ -102,7 +109,7 @@ const UserAttendance = () => {
       <PageTitle title='Back' />
       <CardCustom title={"Attendance History"}>
         <TablePagination
-          list={data?.getAllAttendanceByUserId}
+          list={updatedData}
           total={data?.totalAttendanceByUserId}
           setPageConfig={setPageConfig}
           pageConfig={pageConfig}

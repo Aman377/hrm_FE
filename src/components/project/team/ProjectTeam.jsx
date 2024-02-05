@@ -18,14 +18,20 @@ const ProjectTeam = () => {
   const [pageConfig, setPageConfig] = useState({ status: "true", page: 1, count: 10 });
   const { data, isLoading } = useGetProjectTeamsQuery(pageConfig) ;
 
+  const calculateSerialNumber = (currentPage, itemsPerPage, index) => {
+    return (currentPage - 1) * itemsPerPage + index + 1;
+  };
+  const updatedData = data?.getAllProjectTeam.map((item, index) => ({
+    ...item,
+    serialNumber: calculateSerialNumber(pageConfig.page, pageConfig.count, index),
+  }));
   const columns = [
-    // {
-    //   id: 1,
-    //   title: "ID",
-    //   // dataIndex: "id",
-    //   key: "id",
-    //   render: (text, record, index) => index + 1,
-    // },
+    {
+      id: 1,
+      title: "Sr.No",
+      dataIndex: "serialNumber",
+      key: "serialNumber",
+    },
     {
       id: 2,
       title: "Status",
@@ -82,7 +88,7 @@ const ProjectTeam = () => {
         <TablePagination
           loading={isLoading}
           columns={columns}
-          list={data?.getAllProjectTeam}
+          list={updatedData}
           total={data?.totalProjectTeam}
           setPageConfig={setPageConfig}
           pageConfig={pageConfig}

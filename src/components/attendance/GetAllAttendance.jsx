@@ -37,13 +37,20 @@ const GetAllAttendance = (props) => {
   if (!isLogged) {
     return <Navigate to={"/admin/auth/login"} replace={true} />;
   }
+  const calculateSerialNumber = (currentPage, itemsPerPage, index) => {
+    return (currentPage - 1) * itemsPerPage + index + 1;
+  };
+  const updatedData = data?.getAllAttendance.map((item, index) => ({
+    ...item,
+    serialNumber: calculateSerialNumber(pageConfig.page, pageConfig.count, index),
+  }));
   const columns = [
-    // {
-    //   id: 1,
-    //   title: "ID",
-    //   dataIndex: "id",
-    //   key: "id",
-    // },
+    {
+      id: 1,
+      title: "Sr.No",
+      dataIndex: "serialNumber",
+      key: "serialNumber",
+    },
     {
       id: 10,
       title: "Name",
@@ -147,7 +154,7 @@ const GetAllAttendance = (props) => {
         }
       >
         <TablePagination
-          list={data?.getAllAttendance}
+          list={updatedData}
           total={data?.totalAttendance}
           setPageConfig={setPageConfig}
           pageConfig={pageConfig}

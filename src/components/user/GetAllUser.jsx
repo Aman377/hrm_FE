@@ -17,14 +17,22 @@ const GetAllUser = () => {
   const { data, isLoading } = useGetUsersQuery(pageConfig);
   let pageSize = 10;
   const totalUserCount = data?.totalUser;
+  
+  const calculateSerialNumber = (currentPage, itemsPerPage, index) => {
+    return (currentPage - 1) * itemsPerPage + index + 1;
+  };
+  const updatedData = data?.getAllUser.map((item, index) => ({
+    ...item,
+    serialNumber: calculateSerialNumber(pageConfig.page, pageConfig.count, index),
+  }));
 
   const columns = [
-    // {
-    //   id: 1,
-    //   title: "Id",
-    //   key: "srNo",
-    //   render: (record, index) => index + 1,
-    // },
+    {
+      id: 1,
+      title: "Sr.No",
+      dataIndex: "serialNumber",
+      key: "serialNumber",
+    },
     {
       id: 2,
       title: "Name",
@@ -119,7 +127,7 @@ const GetAllUser = () => {
       >
 
         <TablePagination
-          list={data?.getAllUser}
+          list={updatedData}
           total={data?.totalUser}
           loading={isLoading}
           setPageConfig={setPageConfig}

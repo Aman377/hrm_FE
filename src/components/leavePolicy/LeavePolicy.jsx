@@ -11,13 +11,20 @@ import AddLeavePolicy from "./AddLeavePolicy";
 const LeavePolicy = () => {
   const [pagConfig, setPageConfig] = useState({status: 'true', page: 1, count: 10});
   const { data, isLoading } = useGetLeavePoliciesQuery(pagConfig);
+  const calculateSerialNumber = (currentPage, itemsPerPage, index) => {
+    return (currentPage - 1) * itemsPerPage + index + 1;
+  };
+  const updatedData = data?.getAllLeavePolicy.map((item, index) => ({
+    ...item,
+    serialNumber: calculateSerialNumber(pagConfig.page, pagConfig.count, index),
+  }));
   const columns = [
-    // {
-    //   id: 1,
-    //   title: "ID",
-    //   dataIndex: "id",
-    //   key: "id",
-    // },
+    {
+      id: 1,
+      title: "Sr.No",
+      dataIndex: "serialNumber",
+      key: "serialNumber",
+    },
     {
       id: 2,
       title: "Name",
@@ -70,7 +77,7 @@ const LeavePolicy = () => {
         <TablePagination
           columns={columns}
           csvFileName={"Leave Policies"}
-          list={data?.getAllLeavePolicy}
+          list={updatedData}
           total={data?.totalLeavePolicy}
           setPageConfig={setPageConfig}
           pageConfig={pagConfig}

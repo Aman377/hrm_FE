@@ -28,15 +28,20 @@ const GetAllTransaction = () => {
       return { ...prev, startdate, enddate };
     });
   };
-
+  const calculateSerialNumber = (currentPage, itemsPerPage, index) => {
+    return (currentPage - 1) * itemsPerPage + index + 1;
+  };
+  const updatedData = data?.allTransaction.map((item, index) => ({
+    ...item,
+    serialNumber: calculateSerialNumber(pageConfig.page, pageConfig.count, index),
+  }));
   const columns = [
-    // {
-    //   id: 1,
-    //   title: "ID",
-    //   dataIndex: "id",
-    //   key: "id",
-    //   render: (id) => <Link to={`/admin/transaction/${id}`}>{id}</Link>,
-    // },
+    {
+      id: 1,
+      title: "Sr.No",
+      dataIndex: "serialNumber",
+      key: "serialNumber",
+    },
     {
       id: 2,
       title: "Date",
@@ -104,7 +109,7 @@ const GetAllTransaction = () => {
           permission={"readAll-transaction"}
           columns={columns}
           csvFileName={"Transactions"}
-          list={data?.allTransaction}
+          list={updatedData}
           total={data?.aggregations?._count.id}
           loading={isLoading}
           setPageConfig={setPageConfig}

@@ -15,13 +15,22 @@ const Shift = (props) => {
     status: "true",
   });
   const { data, isLoading } = useGetShiftsQuery(pageConfig);
+  const calculateSerialNumber = (currentPage, itemsPerPage, index) => {
+    return (currentPage - 1) * itemsPerPage + index + 1;
+  };
+  const updatedData = data?.getAllShift.map((item, index) => ({
+    ...item,
+    serialNumber: calculateSerialNumber(pageConfig.page, pageConfig.count, index),
+  }));
+  
   const columns = [
-    // {
-    //   id: 1,
-    //   title: "ID",
-    //   dataIndex: "id",
-    //   key: "id",
-    // },
+    {
+      id: 1,
+      title: "Sr.No",
+      dataIndex: "serialNumber",
+      key: "serialNumber",
+    },
+
     {
       id: 2,
       title: "Name",
@@ -70,7 +79,7 @@ const Shift = (props) => {
         }
       >
         <TablePagination
-          list={data?.getAllShift}
+          list={updatedData}
           total={data?.totalShift}
           columns={columns}
           csvFileName={"shift list"}
