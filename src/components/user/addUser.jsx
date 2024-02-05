@@ -160,6 +160,10 @@ const AddUser = () => {
                       required: true,
                       message: "Please input email!",
                     },
+                    {
+                      type: 'email',
+                      message: 'Please enter a valid email address!',
+                    },
                   ]}
                 >
                   <Input placeholder='johndoe2@example.com' />
