@@ -12,8 +12,7 @@ export default function CommonDelete({
 	navigatePath,
 	className,
 	spin,
-	getThunk,
-	userId
+	onDeleted
 }) {
 	const [loading, setLoading] = useState(false);
 	const dispatch = useDispatch();
@@ -25,11 +24,8 @@ export default function CommonDelete({
 			const res = await dispatch(deleteThunk(id));
 			if (res.data && !res.error) {
 				navigatePath && navigate(navigatePath);
-				if (getThunk) {
-					const data = await dispatch(getThunk(userId));
-					//   console.log(data);
-				}
 			}
+			onDeleted();
 			setLoading(false);
 		}
 	};

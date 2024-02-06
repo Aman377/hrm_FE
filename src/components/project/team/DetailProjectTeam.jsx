@@ -8,13 +8,13 @@ import Loader from "../../loader/loader";
 import PageTitle from "../../page-header/PageHeader";
 import AddProjectTeamMember from "./AddProjectTeamMember";
 import CommonDelete from "../../CommonUi/CommonDelete";
-import { useNavigate  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const DetailProjectTeam = () => {
-  const navigate  = useNavigate ();
+  const navigate = useNavigate();
   const { id } = useParams("id");
 
-  const { data: ProjectTeam, isLoading: teamLoading } =
+  const { data: ProjectTeam, isLoading: teamLoading, refetch  } =
     useGetProjectTeamQuery(id);
   const [columnsToShow, setColumnsToShow] = useState([]);
 
@@ -43,22 +43,20 @@ const DetailProjectTeam = () => {
             <UserPrivateComponent permission={"readSingle-user"}>
               <ViewBtn path={`/admin/hr/staffs/${userId}/`} />
             </UserPrivateComponent>
-
+ 
             {/* delete */}
             <CommonDelete
               permission={"delete-projectTeam"}
               deleteThunk={projectTeamApi.endpoints.deleteProjectTeamMember.initiate}
               id={record.id}
-              userId={id}
-              // onSuccess={() => navigate(`/admin/team/${id}`)}
-              getThunk={projectTeamApi.endpoints.getProjectTeam.initiate}
+              onDeleted={() => refetch()}
             />
           </div>
         ),
       },
     ];
     setColumnsToShow(columns);
-  }, [id, navigate ]);
+  }, [id, navigate]);
 
   return (
     <>
