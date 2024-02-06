@@ -96,9 +96,8 @@ const Project = () => {
   const onChange = (value) => {
     setPageConfig({ status: value, page: 1, count: 10 });
   };
-  const onAllClick = () => {
+  const onAllClick = () => { 
     setPageConfig({ value: "all", page: 1, count: 10, status: undefined });
-
   };
 
   const calculateSerialNumber = (currentPage, itemsPerPage, index) => {
@@ -124,6 +123,7 @@ const Project = () => {
             <Segmented
               className='text-center rounded text-red-500'
               size='middle'
+              defaultValue={""}
               options={[
                 {
                   label: (

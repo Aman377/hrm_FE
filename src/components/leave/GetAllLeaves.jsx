@@ -13,7 +13,8 @@ const GetAllLeaves = (props) => {
   const [pageConfig, setPageConfig] = useState({
     value: "all",
     page: 1,
-    count: 10
+    count: 10,
+    status: undefined
   });
   const [status, setStatus] = useState("true");
   const { data, isLoading } = useGetLeavesByStatusQuery(pageConfig);
@@ -112,7 +113,8 @@ const GetAllLeaves = (props) => {
     setPageConfig({
       value: "all",
       page: 1,
-      count: 10
+      count: 10,
+      status: undefined
     });
   };
   return (
@@ -130,7 +132,7 @@ const GetAllLeaves = (props) => {
           <Segmented
             className="text-center rounded text-red-500"
             size="middle"
-            defaultValue={"accepted"}
+            defaultValue={""}
             options={[
               {
                 label: (
@@ -157,7 +159,7 @@ const GetAllLeaves = (props) => {
                 value: "rejected",
               }
             ]}
-            value={status}
+            value={pageConfig.value === "all" ? undefined : pageConfig.status}
             onChange={onChange}
           />
         </>
