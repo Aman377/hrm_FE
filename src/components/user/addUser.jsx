@@ -58,7 +58,7 @@ const AddUser = () => {
     const parsedValue = parseFloat(value);
 
     if (isNaN(parsedValue)) {
-      callback();
+      callback('Salary should be number');
     } else if (parsedValue < 0) {
       callback('Salary must be a non-negative number');
     } else {
@@ -548,7 +548,7 @@ const AddUser = () => {
                     },
                   ]}
                 >
-                  <InputNumber style={{ width: "100%" }} />
+                  <Input style={{ width: "100%" }} />
                 </Form.Item>
 
                 <Form.Item
