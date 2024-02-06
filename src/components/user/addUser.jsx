@@ -642,7 +642,7 @@ const AddUser = () => {
                 shape='round'
                 loading={isLoading}
               >
-                Add New Staff
+                Add New Employee
               </Button>
             </Form.Item>
           </Form>
