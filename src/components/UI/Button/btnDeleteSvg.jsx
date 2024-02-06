@@ -1,7 +1,9 @@
 import React from "react";
+import { Tooltip } from "antd";
 
 const BtnDeleteSvg = ({ size }) => {
   return (
+    <Tooltip title="Delete">
     <svg
       width={`${size}px`}
       height={`${size}px`}
@@ -28,6 +30,7 @@ const BtnDeleteSvg = ({ size }) => {
         ></path>{" "}
       </g>
     </svg>
+    </Tooltip>
   );
 };
 

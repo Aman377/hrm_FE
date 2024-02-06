@@ -43,7 +43,8 @@ const GetAllAttendance = (props) => {
   const updatedData = data?.getAllAttendance.map((item, index) => ({
     ...item,
     serialNumber: calculateSerialNumber(pageConfig.page, pageConfig.count, index),
-  }));
+  })) || [];
+  // console.log("updatedData>>>>",updatedData);
   const columns = [
     {
       id: 1,

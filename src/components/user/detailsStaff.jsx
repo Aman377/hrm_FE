@@ -15,6 +15,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import BtnDeleteSvg from "../UI/Button/btnDeleteSvg";
 import Loader from "../loader/loader";
 import PageTitle from "../page-header/PageHeader";
+import { Button, Popconfirm } from 'antd';
 
 import EmployeeDesignation from "../UI/EmployeeDesignation";
 import EmployeeTimeline from "../UI/EmployeeTimeline";
@@ -156,9 +157,17 @@ const DetailStaff = () => {
                       </button>
                     </UserPrivateComponent>
                     <UserPrivateComponent permission="delete-user">
-                      <button onClick={() => onDelete(id)}>
+                      <Popconfirm
+                        placement="topLeft"
+                        title="Are you sure you want to delete?"
+                        onConfirm={() => onDelete(id)}
+                        okText="Yes"
+                        cancelText="No"
+                      >
+                      <button>
                         <BtnDeleteSvg size={30} />
                       </button>
+                      </Popconfirm>
                     </UserPrivateComponent>
                   </div>
                 </div>
