@@ -15,7 +15,6 @@ import PageTitle from "../page-header/PageHeader";
 const GetAllUser = () => {
   const [pageConfig, setPageConfig] = useState({ status: "true", page: 1, count: 10 });
   const { data, isLoading } = useGetUsersQuery(pageConfig);
-  let pageSize = 10;
   const totalUserCount = data?.totalUser;
   
   const calculateSerialNumber = (currentPage, itemsPerPage, index) => {
@@ -27,11 +26,17 @@ const GetAllUser = () => {
   }));
  
   const columns = [
+    // {
+    //   id: 1,
+    //   title: "Sr.No",
+    //   dataIndex: "serialNumber",
+    //   key: "serialNumber",
+    // },
     {
       id: 1,
-      title: "Sr.No",
-      dataIndex: "serialNumber",
-      key: "serialNumber",
+      title: "Id",
+      dataIndex: "employeeId",
+      key: "employeeId",
     },
     {
       id: 2,
@@ -135,7 +140,7 @@ const GetAllUser = () => {
           permission={"readAll-user"}
           csvFileName={"users"}
           columns={columns}
-          searchBy={"Search by userName"}
+          searchBy={"Search by name"}
         />
       </CardCustom>
     </>

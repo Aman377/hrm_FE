@@ -7,17 +7,21 @@ import {
   InputNumber,
   Row,
   Select,
+  Upload
 } from "antd";
-
+import { UploadOutlined } from "@ant-design/icons";
+import { useState, useEffect, useRef } from 'react';
 import { PlusOutlined } from "@ant-design/icons";
 import { useGetDepartmentsQuery } from "../../redux/rtk/features/Department/departmentApi";
-import { useGetDesignationsQuery } from "../../redux/rtk/features/designation/designationApi";
+import { useGetDesignationsQuery, useGetCountriesQuery, useGetStatesQuery, useGetCityQuery } from "../../redux/rtk/features/designation/designationApi";
 import { useGetEmploymentStatusesQuery } from "../../redux/rtk/features/employemntStatus/employmentStatusApi";
 import { useGetLeavePoliciesQuery } from "../../redux/rtk/features/leavePolicy/leavePolicyApi";
 import { useGetRolesQuery } from "../../redux/rtk/features/role/roleApi";
 import { useGetShiftsQuery } from "../../redux/rtk/features/shift/shiftApi";
 import { useAddUserMutation } from "../../redux/rtk/features/user/userApi";
+import { useAddEducationMutation } from "../../redux/rtk/features/user/userApi";
 import { useGetWeeklyHolidaysQuery } from "../../redux/rtk/features/weeklyHoliday/weeklyHolidayApi";
+import { useGetlastUserQuery } from "../../redux/rtk/features/setting/settingApi";
 import UserPrivateComponent from "../PrivateRoutes/UserPrivateComponent";
 import EmployeeEducationForm from "./EmployeeEducationForm";
 
@@ -26,8 +30,17 @@ const AddUser = () => {
   const { data: list } = useGetRolesQuery({ query: 'all' });
   const { data: department } = useGetDepartmentsQuery({ query: 'all' });
   const [addStaff, { isLoading }] = useAddUserMutation();
+  const { data: setting, isLoading: isFetchingLastUser, isError } = useGetlastUserQuery();
+  const [addEducation] = useAddEducationMutation();
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
+  const [fileList, setFileList] = useState();
+  const [inSetting, setInSetting] = useState();
 
-  //  to get designations from redux
+  // const { data: setting } = useGetlastUserQuery();
+  const { data: cities } = useGetCityQuery(selectedState);
+  const { data: states } = useGetStatesQuery(selectedCountry);
+  const { data: countries } = useGetCountriesQuery();
   const { data: designation } = useGetDesignationsQuery({ query: "all" });
   const { data: employmentStatus } = useGetEmploymentStatusesQuery({ query: 'all' });
   const { data: shift } = useGetShiftsQuery({ query: 'all' });
@@ -35,16 +48,78 @@ const AddUser = () => {
   const { data: leavePolicy } = useGetLeavePoliciesQuery({ query: 'all' });
 
   const [form] = Form.useForm();
+  useEffect(() => {
+    if (!isFetchingLastUser && setting) {
+      form.setFieldsValue({
+        remember: true,
+        employeeId: getNextEmployeeId(setting.employeeId)
+      });
+    }
+  }, [isFetchingLastUser, setting, form]);
+
+  // Image
+  const uploadRef = useRef();
+  const handelImageChange = ({ fileList }) => {
+    setFileList(fileList);
+  };
+
+  const handleCountryChange = (value) => {
+    setSelectedCountry(value);
+  };
+
+  const handleStateChange = (value) => {
+    setSelectedState(value);
+  };
+  // if (setting) {
+  //   console.log("setting", setting.employeeId);
+  // }
+
+  const getNextEmployeeId = (employeeId) => {
+    const prefix = employeeId.split("-")[0];
+    const parts = employeeId.split("-");
+    const number = parseInt(parts[1]);
+    const nextNumber = isNaN(number) ? 1 : number + 1;
+    return `${prefix}-${nextNumber}`;
+  };
+
 
   const onFinish = async (values) => {
-    const FormData = {
+   
+    const formDataObject = {
       ...values,
-      education: values.education || [],
     };
+
     try {
-      const res = await addStaff(FormData);
+      const res = await addStaff(formDataObject);
       if (!res.error && res.data) {
-        form.resetFields();
+        try {
+          const formData = new FormData();
+
+          formData.append("userId", res.data.id);
+          if (fileList.length) {
+            formData.append(`document`, fileList[0].originFileObj);
+          }
+
+          const response = await fetch('https://hros.excitesystems.com/user/education', {
+            method: 'POST',
+            body: formData,
+          });
+
+          if (!response.ok) {
+            throw new Error(`Failed to upload document: ${response.status} ${response.statusText}`);
+          }
+
+          const responseData = await response.json();
+          setFileList([]);
+          window.location.reload();
+          console.log('API response:', responseData);
+
+        } catch (error) {
+          console.log("error >>", error);
+        }
+
+        // form.resetFields();
+
       }
     } catch (error) { }
   };
@@ -82,10 +157,19 @@ const AddUser = () => {
             }}
             initialValues={{
               remember: true,
+              employeeId: setting ? getNextEmployeeId(setting.employeeId) : undefined
             }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}
             autoComplete='off'
+            onValuesChange={(changedValues, allValues) => {
+              if ('employeeId' in changedValues) {
+                form.setFieldsValue({
+                  employeeId: changedValues.employeeId
+                });
+                console.log('formDataObject', formDataObject);
+              }
+            }}
           >
             <Row
               gutter={{
@@ -181,11 +265,112 @@ const AddUser = () => {
                 >
                   <Input placeholder='015000000000' />
                 </Form.Item>
+                <Form.Item
+                  style={{ marginBottom: "10px" }}
+                  label='Emergency Phone'
+                  name='emergency_phone'
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please Enter Emergency Phone Number!",
+                    },
+                  ]}
+                >
+                  <Input placeholder='015000000000' />
+                </Form.Item>
               </Col>
               <Col span={12} className='gutter-row'>
                 <h2 className='text-center text-xl mt-3 mb-3 txt-color'>
                   Address Information
                 </h2>
+                <Form.Item
+                  style={{ marginBottom: "10px" }}
+                  label='Country'
+                  name='country'
+                  rules={[{ required: true, message: "Please input Country!" }]}
+                >
+                  <Select
+                    // loading={!shift}
+                    size='middle'
+                    showSearch
+                    mode='single'
+                    allowClear
+                    filterOption={(input, option) =>
+                      option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                    }
+                    style={{
+                      width: "100%",
+                    }}
+                    placeholder='Please select country'
+                    onChange={handleCountryChange}
+                  >
+                    {countries &&
+                      countries.data.map((country) => (
+                        <Option key={country.id} value={country.id}>
+                          {country.name}
+                        </Option>
+                      ))}
+                  </Select>
+                </Form.Item>
+                {selectedCountry != null ? (
+                  <Form.Item
+                    style={{ marginBottom: "10px" }}
+                    label='State'
+                    name='state'
+                    rules={[{ required: true, message: "Please input state!" }]}
+                  >
+                    <Select
+                      size='middle'
+                      showSearch
+                      mode='single'
+                      allowClear
+                      filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                      }
+                      style={{
+                        width: "100%",
+                      }}
+                      placeholder='Please select state'
+                      onChange={handleStateChange}
+                    >
+                      {states &&
+                        states.data.map((state) => (
+                          <Option key={state.id} value={state.id}>
+                            {state.name}
+                          </Option>
+                        ))}
+                    </Select>
+                  </Form.Item>
+                ) : null}
+                {selectedCountry && selectedState != null ? (
+                  <Form.Item
+                    style={{ marginBottom: "10px" }}
+                    label='City'
+                    name='city'
+                    rules={[{ required: true, message: "Please input city!" }]}
+                  >
+                    <Select
+                      size='middle'
+                      showSearch
+                      mode='single'
+                      allowClear
+                      filterOption={(input, option) =>
+                        option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                      }
+                      style={{
+                        width: "100%",
+                      }}
+                      placeholder='Please select city'
+                    >
+                      {cities &&
+                        cities.data.map((city) => (
+                          <Option key={city.id} value={city.id}>
+                            {city.name}
+                          </Option>
+                        ))}
+                    </Select>
+                  </Form.Item>
+                ) : null}
                 <Form.Item
                   style={{ marginBottom: "10px" }}
                   label='Street'
@@ -204,22 +389,6 @@ const AddUser = () => {
                 </Form.Item>
                 <Form.Item
                   style={{ marginBottom: "10px" }}
-                  label='City'
-                  name='city'
-                  rules={[{ required: true, message: "Please input city!" }]}
-                >
-                  <Input placeholder='Los Angeles' />
-                </Form.Item>
-                <Form.Item
-                  style={{ marginBottom: "10px" }}
-                  label='State'
-                  name='state'
-                  rules={[{ required: true, message: "Please input state!" }]}
-                >
-                  <Input placeholder='CA' />
-                </Form.Item>
-                <Form.Item
-                  style={{ marginBottom: "10px" }}
                   label='Zip Code'
                   name='zipCode'
                   rules={[
@@ -227,14 +396,6 @@ const AddUser = () => {
                   ]}
                 >
                   <Input placeholder='90211' />
-                </Form.Item>
-                <Form.Item
-                  style={{ marginBottom: "10px" }}
-                  label='Country'
-                  name='country'
-                  rules={[{ required: true, message: "Please input Country!" }]}
-                >
-                  <Input placeholder='USA' />
                 </Form.Item>
               </Col>
             </Row>
@@ -272,19 +433,21 @@ const AddUser = () => {
                 >
                   <DatePicker className='date-picker hr-staffs-date-picker' />
                 </Form.Item>
+                {/* {setting ? */}
                 <Form.Item
                   style={{ marginBottom: "10px" }}
-                  label='Employee ID'
-                  name='employeeId'
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input Employee ID!",
-                    },
-                  ]}
+                  label="Employee ID"
+                  name="employeeId"
+                // rules={[
+                //   {
+                //     required: true,
+                //     message: "Please input Employee ID!",
+                //   },
+                // ]}
                 >
-                  <Input placeholder='OE-012' />
+                  <Input />
                 </Form.Item>
+                {/* : null} */}
                 <Form.Item
                   style={{ marginBottom: "10px" }}
                   label='Blood Group'
@@ -593,7 +756,66 @@ const AddUser = () => {
               </p>
             </div>
 
-            <Form.List name='education'>
+            {/* <Form.List name='education'>
+              {(fields, { add, remove }) => (
+                <>
+                  {fields.map(({ key, name, ...restField }) => (
+                    <EmployeeEducationForm
+                      key={key}
+                      name={name}
+                      remove={remove}
+                      restField={restField}
+                      form={form}
+                    />
+                  ))}
+                  <Form.Item
+                    style={{ marginBottom: "10px" }}
+                    wrapperCol={{
+                      offset: 4,
+                      span: 16,
+                    }}
+                  >
+                    <Button
+                      type='dashed'
+                      size='middle'
+                      style={{ color: "#fff", backgroundColor: "#2c3e50" }}
+                      onClick={() => add()}
+                      block
+                      icon={<PlusOutlined />}
+                    >
+                      Add Education Information
+                    </Button>
+                  </Form.Item>
+                </>
+              )}
+            </Form.List> */}
+            <Form.Item
+              // {...restField}
+              // name={[name, "document"]}
+              rules={[{ required: true, message: "Missing document" }]}
+            >
+
+              <Upload
+                action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+                listType="picture"
+                maxCount={1}
+                onChange={handelImageChange}
+              >
+                <Button icon={<UploadOutlined />}>Upload Document</Button>
+              </Upload>
+            </Form.Item>
+
+            <h2 className='text-center text-xl mt-3 mb-5 txt-color'>
+              Document Information
+            </h2>
+
+            <div className='text-center'>
+              <p className='text-red-500 text-base mb-4'>
+                Please add document information using the button below
+              </p>
+            </div>
+
+            {/* <Form.List name='education'>
               {(fields, { add, remove }) => (
                 <>
                   {fields.map(({ key, name, ...restField }) => (
@@ -624,7 +846,7 @@ const AddUser = () => {
                   </Form.Item>
                 </>
               )}
-            </Form.List>
+            </Form.List> */}
 
             <Form.Item
               style={{ marginBottom: "10px", marginTop: "10px" }}

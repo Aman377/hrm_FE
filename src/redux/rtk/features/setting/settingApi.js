@@ -10,6 +10,13 @@ export const settingApi = apiSlice.injectEndpoints({
       providesTags: ["setting"],
     }),
 
+    getlastUser: builder.query({
+      query: () => ({
+        url: `setting/lastData`,
+      }),
+      providesTags: ["setting"],
+    }),
+
     updateSetting: builder.mutation({
       query: (values) => ({
         method: "POST",
@@ -30,4 +37,4 @@ export const settingApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetSettingQuery, useUpdateSettingMutation } = settingApi;
+export const { useGetSettingQuery, useUpdateSettingMutation, useGetlastUserQuery } = settingApi;

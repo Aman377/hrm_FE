@@ -15,7 +15,7 @@ import TablePagination from "../../CommonUi/TablePagination";
 import ProjectTeamStatusUpdatePopup from "../../UI/PopUp/ProjectManagemnet/ProjectTeamStatusUpdatePopup";
 
 const ProjectTeam = () => {
-  const [pageConfig, setPageConfig] = useState({ status: "true", page: 1, count: 10 });
+  const [pageConfig, setPageConfig] = useState({ status: "Active", page: 1, count: 10 });
   const { data, isLoading } = useGetProjectTeamsQuery(pageConfig) ;
 
   const calculateSerialNumber = (currentPage, itemsPerPage, index) => {
@@ -37,7 +37,7 @@ const ProjectTeam = () => {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (status) => (status ? "Active" : "InActive"),
+      render: (status) => (status == "Active" ? "Active" : "InActive"),
     },
     {
       id: 3,

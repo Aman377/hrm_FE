@@ -32,7 +32,7 @@ const RoleList = () => {
     },
     {
       id: 2,
-      title: "Name",
+      title: "Role",
       dataIndex: "name",
       key: "name",
     },

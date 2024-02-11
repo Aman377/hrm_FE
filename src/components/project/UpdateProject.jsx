@@ -112,7 +112,7 @@ const UpdateProject = ({ drawer }) => {
                 <Form.Item
                   style={{ marginBottom: "10px" }}
                   label="Project Manager"
-                  name={'projectManagerId'} 
+                  name={"projectManagerId" ? "projectManagerName" : "projectManagerName"}
                   rules={[
                     {
                       required: true,
@@ -126,12 +126,11 @@ const UpdateProject = ({ drawer }) => {
                     showSearch
                     placeholder="Select Project Manager"
                     optionFilterProp="children"
-                    
                   >
                     {userList?.getAllUser?.map((item) => (
-                    <Select.Option key={item.id} value={item.id}>
-                      {item.firstName} {item.lastName}
-                    </Select.Option>
+                      <Select.Option key={item.id} value={item.id}>
+                        {item.firstName} {item.lastName}
+                      </Select.Option>
                     ))}
                   </Select>
                 </Form.Item>

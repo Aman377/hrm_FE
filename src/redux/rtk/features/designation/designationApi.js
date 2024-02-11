@@ -27,6 +27,27 @@ export const designationApi = apiSlice.injectEndpoints({
       providesTags: ["Designation"],
     }),
 
+    getCountries: builder.query({
+      query: () => ({
+        url: `designation/countries`,
+      }),
+      providesTags: ["Designations"],
+    }),
+
+    getStates: builder.query({
+      query: (id) => ({
+        url: `designation/state/${id}`,
+      }),
+      providesTags: ["Designations"],
+    }),
+
+    getCity: builder.query({
+      query: (id) => ({
+        url: `designation/city/${id}`,
+      }),
+      providesTags: ["Designations"],
+    }),
+
     addDesignation: builder.mutation({
       query: (values) => ({
         method: "POST",
@@ -41,7 +62,7 @@ export const designationApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
-          toastHandler("Designations added successfully","success");
+          toastHandler("Designations added successfully", "success");
         } catch (err) {
           toastHandler("Something went wrong, Please try again", "warning");
         }
@@ -63,7 +84,7 @@ export const designationApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
-          toastHandler("Designations updated successfully","success");
+          toastHandler("Designations updated successfully", "success");
         } catch (err) {
           toastHandler("Something went wrong, Please try again", "warning");
         }
@@ -83,7 +104,7 @@ export const designationApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
-          toastHandler("Deleted Designations successful","warning");
+          toastHandler("Deleted Designations successful", "warning");
         } catch (err) {
           toastHandler("Something went wrong, Please try again", "warning");
         }
@@ -95,6 +116,9 @@ export const designationApi = apiSlice.injectEndpoints({
 
 export const {
   useGetDesignationsQuery,
+  useGetCountriesQuery,
+  useGetStatesQuery,
+  useGetCityQuery,
   useGetDesignationByEmployeeQuery,
   useGetDesignationQuery,
   useAddDesignationMutation,

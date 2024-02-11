@@ -27,6 +27,8 @@ const AddDetails = () => {
       formData.append("phone", values.phone);
       formData.append("email", values.email);
       formData.append("website", values.website);
+      formData.append("emp_id", values.empId);
+      formData.append("emp_code", values.empCode);
       formData.append("footer", values.footer);
       formData.append("_method", "PUT");
       if (fileList.length) {
@@ -34,16 +36,17 @@ const AddDetails = () => {
           formData.append("files[]", fileList[0].originFileObj);
         }
       }
+      console.log(values)
 
       const resp = await updateSetting(formData);
       if (resp.data && !resp.error) {
-        toastHandler("Invoice Setting Updated Successfully", "success");
-        window.location.reload();
+        // toastHandler("Invoice Setting Updated Successfully", "success");
+        // window.location.reload();
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
-  const onFinishFailed = () => {};
+  const onFinishFailed = () => { };
 
   useEffect(() => {
     if (data) {
@@ -102,6 +105,37 @@ const AddDetails = () => {
                   >
                     <Input />
                   </Form.Item>
+
+                  {/* Id code */}
+                  <Form.Item
+                    style={{ marginBottom: "10px" }}
+                    label='Employee Code'
+                    name='empCode'
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input Employee code!",
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+
+                  {/* Id Number */}
+                  <Form.Item
+                    style={{ marginBottom: "10px" }}
+                    label='Employee Id'
+                    name='empId'
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input Employee id!",
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+
                   <Form.Item
                     style={{ marginBottom: "10px" }}
                     fields={[{ name: "Tagline" }]}

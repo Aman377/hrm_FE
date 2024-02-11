@@ -42,6 +42,28 @@ export const userApi = apiSlice.injectEndpoints({
       invalidatesTags: ["Users"],
     }),
 
+    addEducation: builder.mutation({
+      query: (values) => ({
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json;charset=UTF-8",
+        },
+        url: `user/education`,
+        body: values,
+      }),
+
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          await queryFulfilled;
+          toastHandler("Education created successfully","success");
+        } catch (err) {
+          toastHandler("Something went wrong, Please try again", "warning");
+        }
+      },
+      invalidatesTags: ["Users"],
+    }),
+
     updateUser: builder.mutation({
       query: ({ id, values }) => ({
         method: "PUT",
@@ -122,6 +144,7 @@ export const {
   useGetUserQuery,
   useGetUsersQuery,
   useAddUserMutation,
+  useAddEducationMutation,
   useUpdateUserMutation,
   useLoginMutation,
   useDeleteUserMutation,
