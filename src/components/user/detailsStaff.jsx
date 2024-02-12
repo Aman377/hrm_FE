@@ -370,15 +370,15 @@ const DetailStaff = () => {
                         </li>
                         <li className="txt-color-secondary ml-2">
                           {" "}
-                          City : {user?.city || "No Address"}
+                          City : {user.city ? user.city.name : user.city || "No Address"}
                         </li>
                         <li className="txt-color-secondary ml-2">
                           {" "}
-                          State : {user?.state || "No Address"}
+                          State : {user.state ? user.state.name : user.state || "No Address"}
                         </li>
                         <li className="txt-color-secondary ml-2">
                           {" "}
-                          Country : {user?.country || "No Address"}
+                          Country : {user.country ? user.country.name : user.country || "No Address"}
                         </li>
 
                         <li className="txt-color-secondary ml-2">

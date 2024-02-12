@@ -34,7 +34,7 @@ const GetAllUser = () => {
     // },
     {
       id: 1,
-      title: "Id",
+      title: "Employee Id",
       dataIndex: "employeeId",
       key: "employeeId",
     },
@@ -140,7 +140,7 @@ const GetAllUser = () => {
           permission={"readAll-user"}
           csvFileName={"users"}
           columns={columns}
-          searchBy={"Search by name"}
+          searchBy={"Search by Name and Employee ID"}
         />
       </CardCustom>
     </>

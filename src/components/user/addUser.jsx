@@ -34,8 +34,14 @@ const AddUser = () => {
   const [addEducation] = useAddEducationMutation();
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
-  const [fileList, setFileList] = useState();
+  // const [fileList, setFileList] = useState();
   const [inSetting, setInSetting] = useState();
+  const [documentList, setDocumentList] = useState([]);
+  const [cvList, setCvList] = useState([]);
+  const [addressProofList, setAddressProofList] = useState([]);
+  const [addharCardList, setAddharCardList] = useState([]);
+  const [panCardList, setPanCardList] = useState([]);
+  const [experienceLetterList, setExperienceLetterList] = useState([]);
 
   // const { data: setting } = useGetlastUserQuery();
   const { data: cities } = useGetCityQuery(selectedState);
@@ -59,8 +65,20 @@ const AddUser = () => {
 
   // Image
   const uploadRef = useRef();
-  const handelImageChange = ({ fileList }) => {
-    setFileList(fileList);
+  const handleImageChange = (fileList, type) => {
+    if (type === 'document') {
+      setDocumentList(fileList);
+    } else if (type === 'cv') {
+      setCvList(fileList);
+    } else if (type === 'address_proof') {
+      setAddressProofList(fileList);
+    } else if (type === 'aadhar_card') {
+      setAddharCardList(fileList);
+    } else if (type === 'pan_card') {
+      setPanCardList(fileList);
+    } else if (type === 'experience_letter') {
+      setExperienceLetterList(fileList);
+    }
   };
 
   const handleCountryChange = (value) => {
@@ -84,7 +102,7 @@ const AddUser = () => {
 
 
   const onFinish = async (values) => {
-   
+
     const formDataObject = {
       ...values,
     };
@@ -96,8 +114,13 @@ const AddUser = () => {
           const formData = new FormData();
 
           formData.append("userId", res.data.id);
-          if (fileList.length) {
-            formData.append(`document`, fileList[0].originFileObj);
+          if (documentList.length) {
+            formData.append(`document`, documentList[0].originFileObj);
+            formData.append(`cv`, cvList[0].originFileObj);
+            formData.append(`address_proof`, addressProofList[0].originFileObj);
+            formData.append(`aadhar_card`, addharCardList[0].originFileObj);
+            formData.append(`pan_card`, panCardList[0].originFileObj);
+            formData.append(`experience_letter`, experienceLetterList[0].originFileObj);
           }
 
           const response = await fetch('https://hros.excitesystems.com/user/education', {
@@ -110,7 +133,7 @@ const AddUser = () => {
           }
 
           const responseData = await response.json();
-          setFileList([]);
+          // setFileList([]);
           window.location.reload();
           console.log('API response:', responseData);
 
@@ -752,7 +775,7 @@ const AddUser = () => {
 
             <div className='text-center'>
               <p className='text-red-500 text-base mb-4'>
-                Please add education information using the button below
+                Please add education information
               </p>
             </div>
 
@@ -790,8 +813,7 @@ const AddUser = () => {
               )}
             </Form.List> */}
             <Form.Item
-              // {...restField}
-              // name={[name, "document"]}
+              // name="document"
               rules={[{ required: true, message: "Missing document" }]}
             >
 
@@ -799,54 +821,82 @@ const AddUser = () => {
                 action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
                 listType="picture"
                 maxCount={1}
-                onChange={handelImageChange}
+                onChange={(info) => handleImageChange(info.fileList, 'document')}
               >
                 <Button icon={<UploadOutlined />}>Upload Document</Button>
               </Upload>
             </Form.Item>
 
-            <h2 className='text-center text-xl mt-3 mb-5 txt-color'>
-              Document Information
-            </h2>
+            {/* CV */}
+            <Form.Item
+              rules={[{ required: true, message: "Missing CV" }]}
+            >
+              <Upload
+                action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+                listType="picture"
+                maxCount={1}
+                onChange={(info) => handleImageChange(info.fileList, 'cv')}
+              >
+                <Button icon={<UploadOutlined />}>Upload CV</Button>
+              </Upload>
+            </Form.Item>
 
-            <div className='text-center'>
-              <p className='text-red-500 text-base mb-4'>
-                Please add document information using the button below
-              </p>
-            </div>
+            {/* address_proof */}
+            <Form.Item
+              rules={[{ required: true, message: "Missing document" }]}
+            >
 
-            {/* <Form.List name='education'>
-              {(fields, { add, remove }) => (
-                <>
-                  {fields.map(({ key, name, ...restField }) => (
-                    <EmployeeEducationForm
-                      key={key}
-                      name={name}
-                      remove={remove}
-                      restField={restField}
-                    />
-                  ))}
-                  <Form.Item
-                    style={{ marginBottom: "10px" }}
-                    wrapperCol={{
-                      offset: 4,
-                      span: 16,
-                    }}
-                  >
-                    <Button
-                      type='dashed'
-                      size='middle'
-                      style={{ color: "#fff", backgroundColor: "#2c3e50" }}
-                      onClick={() => add()}
-                      block
-                      icon={<PlusOutlined />}
-                    >
-                      Add Education Information
-                    </Button>
-                  </Form.Item>
-                </>
-              )}
-            </Form.List> */}
+              <Upload
+                action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+                listType="picture"
+                maxCount={1}
+                onChange={(info) => handleImageChange(info.fileList, 'address_proof')}
+              >
+                <Button icon={<UploadOutlined />}>Upload Address Proof</Button>
+              </Upload>
+            </Form.Item>
+
+            {/* aadhar_card */}
+            <Form.Item
+              rules={[{ required: true, message: "Missing document" }]}
+            >
+              <Upload
+                action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+                listType="picture"
+                maxCount={1}
+                onChange={(info) => handleImageChange(info.fileList, 'aadhar_card')}
+              >
+                <Button icon={<UploadOutlined />}>Upload Addhar Card</Button>
+              </Upload>
+            </Form.Item>
+
+            {/* pan_card */}
+            <Form.Item
+              rules={[{ required: true, message: "Missing document" }]}
+            >
+              <Upload
+                action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+                listType="picture"
+                maxCount={1}
+                onChange={(info) => handleImageChange(info.fileList, 'pan_card')}
+              >
+                <Button icon={<UploadOutlined />}>Upload Pan Card</Button>
+              </Upload>
+            </Form.Item>
+
+            {/* experience_letter */}
+            <Form.Item
+              rules={[{ required: true, message: "Missing document" }]}
+            >
+              <Upload
+                action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+                listType="picture"
+                maxCount={1}
+                onChange={(info) => handleImageChange(info.fileList, 'experience_letter')}
+              >
+                <Button icon={<UploadOutlined />}>Upload Experience Letter</Button>
+              </Upload>
+            </Form.Item>
 
             <Form.Item
               style={{ marginBottom: "10px", marginTop: "10px" }}
