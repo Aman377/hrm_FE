@@ -770,12 +770,12 @@ const AddUser = () => {
             </Row>
 
             <h2 className='text-center text-xl mt-3 mb-5 txt-color'>
-              Education Information
+              Document Information
             </h2>
 
             <div className='text-center'>
               <p className='text-red-500 text-base mb-4'>
-                Please add education information
+                Please add document information
               </p>
             </div>
 

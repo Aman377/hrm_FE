@@ -124,7 +124,7 @@ export const userApi = apiSlice.injectEndpoints({
         try {
           const { data } = await queryFulfilled;
 
-          localStorage.setItem("access-token", data?.token);
+          localStorage.setItem("x-tenant-key", data?.tenantKey);
           localStorage.setItem("role", data?.roleId);
           localStorage.setItem("user", data?.username);
           localStorage.setItem("id", data?.id);
