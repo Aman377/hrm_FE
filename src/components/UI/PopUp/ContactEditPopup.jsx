@@ -7,24 +7,34 @@ import {
     useUpdateUserMutation,
 } from "../../../redux/rtk/features/user/userApi";
 import BtnEditSvg from "../Button/btnEditSvg";
+import { useGetCountriesQuery, useGetStatesQuery, useGetCityQuery } from "../../../redux/rtk/features/designation/designationApi";
 
 const ContactEditPopup = ({ data }) => {
     const { id } = useParams("id");
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { data: user } = useGetUserQuery(id);
+    const { data: countries } = useGetCountriesQuery();
     const { Option } = Select;
     const [initialValues, setInitialValues] = useState({});
     const [updateUser, { isSuccess, isLoading }] = useUpdateUserMutation();
-
+    const [country, setCountry] = useState();
+    const [state, setState] = useState(user.country.id);
+    const [currentState, setCurrentState] = useState(user.country.id)
+    const [city, setCity] = useState(user.state.id);
+    const [currentCity, setCurrentCity] = useState(user.state.id)
+    const { data: states } = useGetStatesQuery(currentState);
+    const { data: cities } = useGetCityQuery(currentCity);
+    // console.log("country: ", user);
+    // console.log("countries: ",countries);
     useEffect(() => {
         setInitialValues({
             email: user?.email ? user.email : "",
             phone: user?.phone ? user.phone : "",
             street: user?.street ? user.street : "",
-            city: user?.city ? user.city : "",
-            state: user?.state ? user.state : "",
+            city: user.city ? user.city.name : "",
+            state: user.state ? user.state.name : "",
             zipCode: user?.zipCode ? user.zipCode : "",
-            country: user?.country ? user.country : "",
+            country: user.country ? user.country.name : "",
             bloodGroup: user?.bloodGroup ? user.bloodGroup : "",
         });
     }, [user]);
@@ -37,7 +47,9 @@ const ContactEditPopup = ({ data }) => {
                 id: id,
                 values: {
                     ...values,
-
+                    country: country ? country : data.country.id,
+                    state: state ? state : data.state.id,
+                    city: city ? city : data.city.id
                 },
             });
 
@@ -48,6 +60,12 @@ const ContactEditPopup = ({ data }) => {
             toast.error("Something went wrong");
         }
     };
+
+    const handleCountryChange = (value) => {
+        setCountry(value);
+        setState(value);
+        setCurrentState(value)
+    }
 
     const onFinishFailed = (errorInfo) => {
         console.log("Failed:", errorInfo);
@@ -169,21 +187,86 @@ const ContactEditPopup = ({ data }) => {
                     >
                         <Input placeholder='123 Main Street' style={{ width: "100%" }} />
                     </Form.Item>
+
                     <Form.Item
                         style={{ marginBottom: "10px" }}
-                        label='City'
-                        name='city'
-                        rules={[{ required: true, message: "Please input city!" }]}
+                        label='Country'
+                        name='country'
+                        rules={[{ required: true, message: "Please input Country!" }]}
                     >
-                        <Input placeholder='Los Angeles' />
+                        <Select
+                            onChange={(value) => {
+                                handleCountryChange(value)
+                            }}
+                            placeholder='Select Country'
+                            allowClear
+                            mode='single'
+                            size='middle'
+                            style={{
+                                width: "100%",
+                            }}
+                        >
+                            {countries && countries.data.map((country) => (
+                                <Option key={country.id} value={country.id}>
+                                    {country.name}
+                                </Option>
+                            ))}
+                        </Select>
                     </Form.Item>
+
                     <Form.Item
                         style={{ marginBottom: "10px" }}
                         label='State'
                         name='state'
                         rules={[{ required: true, message: "Please input state!" }]}
                     >
-                        <Input placeholder='CA' />
+                        <Select
+                            onChange={(value) => {
+                                setState(value)
+                                setCurrentCity(value)
+                                setCity(value)
+                            }}
+                            placeholder='Select State'
+                            allowClear
+                            mode='single'
+                            size='middle'
+                            style={{
+                                width: "100%",
+                            }}
+                        >
+                            {states && states.data.map((state) => (
+                                <Option key={state.id} value={state.id}>
+                                    {state.name}
+                                </Option>
+                            ))}
+                        </Select>
+                    </Form.Item>
+
+                    <Form.Item
+                        onChange={(value) => setCity(value)}
+                        style={{ marginBottom: "10px" }}
+                        label='City'
+                        name='city'
+                        rules={[{ required: true, message: "Please input city!" }]}
+                    >
+                        <Select
+                            onChange={(value) => {
+                                setCity(value)
+                            }}
+                            placeholder='Select City'
+                            allowClear
+                            mode='single'
+                            size='middle'
+                            style={{
+                                width: "100%",
+                            }}
+                        >
+                            {cities && cities.data.map((city) => (
+                                <Option key={city.id} value={city.id}>
+                                    {city.name}
+                                </Option>
+                            ))}
+                        </Select>
                     </Form.Item>
                     <Form.Item
                         style={{ marginBottom: "10px" }}
@@ -193,15 +276,6 @@ const ContactEditPopup = ({ data }) => {
                     >
                         <Input placeholder='90211' />
                     </Form.Item>
-                    <Form.Item
-                        style={{ marginBottom: "10px" }}
-                        label='Country'
-                        name='country'
-                        rules={[{ required: true, message: "Please input Country!" }]}
-                    >
-                        <Input placeholder='USA' />
-                    </Form.Item>
-
 
                     <Form.Item
                         style={{ marginBottom: "10px", marginTop: "10px" }}

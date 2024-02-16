@@ -44,9 +44,9 @@ const ProfileEditPopup = ({ data }) => {
   const { data: states } = useGetStatesQuery(currentState);
   const { data: cities } = useGetCityQuery(currentCity);
   const [updateUser, { isSuccess, isLoading }] = useUpdateUserMutation();
-  console.log('state', state);
-  console.log('city', city);
-  console.log('currentState', currentState);
+  // console.log('state', state);
+  // console.log('city', city);
+  // console.log('currentState', currentState);
 
   useEffect(() => {
     setInitialValues({
@@ -123,7 +123,7 @@ const ProfileEditPopup = ({ data }) => {
     setState(value);
     setCurrentState(value)
   }
-  console.log('initialValues', initialValues);
+  // console.log('initialValues', initialValues);
   return (
     <>
       <button onClick={showModal}>
