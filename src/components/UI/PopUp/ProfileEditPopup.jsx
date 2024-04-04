@@ -37,10 +37,10 @@ const ProfileEditPopup = ({ data }) => {
   const [leavePolicyId, setLeavePolicyId] = useState("");
   const [weeklyHolidayId, setWeeklyHolidayId] = useState("");
   const [country, setCountry] = useState();
-  const [state, setState] = useState(user.country.id);
-  const [currentState, setCurrentState] = useState(user.country.id)
-  const [currentCity, setCurrentCity] = useState(user.state.id)
-  const [city, setCity] = useState(user.state.id);
+  const [state, setState] = useState(user.country?.id);
+  const [currentState, setCurrentState] = useState(user.country?.id)
+  const [currentCity, setCurrentCity] = useState(user.state?.id)
+  const [city, setCity] = useState(user.state?.id);
   const { data: states } = useGetStatesQuery(currentState);
   const { data: cities } = useGetCityQuery(currentCity);
   const [updateUser, { isSuccess, isLoading }] = useUpdateUserMutation();
@@ -75,7 +75,7 @@ const ProfileEditPopup = ({ data }) => {
 
   const [form] = Form.useForm();
   const onFinish = async (values) => {
-    console.log("values >>", values);
+    // console.log("values >>", values);
     try {
       await updateUser({
         id: id,
@@ -180,7 +180,7 @@ const ProfileEditPopup = ({ data }) => {
           >
             <Input placeholder='Doe' />
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             style={{ marginBottom: "10px" }}
             label='User Name'
             name='username'
@@ -192,8 +192,8 @@ const ProfileEditPopup = ({ data }) => {
             ]}
           >
             <Input placeholder='john_doe' />
-          </Form.Item>
-          <Form.Item
+          </Form.Item> */}
+          {/* <Form.Item
             style={{ marginBottom: "10px" }}
             label='Password'
             name='password'
@@ -205,15 +205,15 @@ const ProfileEditPopup = ({ data }) => {
             ]}
           >
             <Input placeholder='Strong Password' />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
             style={{ marginBottom: "10px" }}
-            label='Email'
+            label='User Name'
             name='email'
             rules={[
               {
                 required: true,
-                message: "Please input email!",
+                message: "Please input User Name!",
               },
             ]}
           >

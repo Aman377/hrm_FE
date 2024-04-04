@@ -41,7 +41,6 @@ const GetAllUser = () => {
     {
       id: 2,
       title: "Name",
-
       key: "fullName",
       render: ({ firstName, lastName }) =>
         (firstName + " " + lastName).toUpperCase(),
@@ -49,8 +48,8 @@ const GetAllUser = () => {
     {
       id: 3,
       title: "User Name",
-      dataIndex: "username",
-      key: "username",
+      dataIndex: "email",
+      key: "email",
     },
 
     {

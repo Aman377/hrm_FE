@@ -38,9 +38,9 @@ const Project = () => {
       key: "projectManager",
       render: ({ projectManager }) =>
         (
-          projectManager.firstName +
+          projectManager?.firstName +
           " " +
-          projectManager.lastName
+          projectManager?.lastName
         ).toUpperCase(),
     },
 

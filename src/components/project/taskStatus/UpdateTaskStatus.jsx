@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   useGetAllTaskStatusQuery,
   useUpdateTaskStatusMutation,
+  useGetTaskStatusQuery
 } from "../../../redux/rtk/features/projectManagement/project/taskStatus/taskStatusApi";
 import Loader from "../../loader/loader";
 import PageTitle from "../../page-header/PageHeader";
@@ -17,18 +18,20 @@ const UpdateTaskStatus = () => {
   const [form] = Form.useForm();
   const { id } = useParams("id");
   const navigate = useNavigate();
-  const [initialValues, setInitialValues] = useState(null);
-
+  const {data:taskData } = useGetTaskStatusQuery(id);
   const { data: taskStatus } = useGetAllTaskStatusQuery({
     status: "true",
   });
+  const [initialValues, setInitialValues] = useState({
+    name: taskData?.name
+  });
   const [updateTaskStatus, { isLoading }] = useUpdateTaskStatusMutation();
-
+  
   useEffect(() => {
-    if (taskStatus) {
-      setInitialValues(taskStatus);
+    if (taskData) {
+      setInitialValues(taskData);
     }
-  }, [taskStatus]);
+  }, [taskData]);
 
   const onFinish = async (values) => {
     const taskStatusData = {

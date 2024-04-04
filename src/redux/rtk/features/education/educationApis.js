@@ -17,7 +17,7 @@ export const educationApi = apiSlice.injectEndpoints({
       providesTags: ["Education"],
     }),
 
-    addEducation: builder.mutation({
+    addSingleEducation: builder.mutation({
       query: (values) => ({
         method: "POST",
         headers: {
@@ -31,7 +31,7 @@ export const educationApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
-          toastHandler("Education added successfully","success");
+          toastHandler("Education added successfully", "success");
         } catch (err) {
           toastHandler("Something went wrong, Please try again", "warning");
         }
@@ -53,7 +53,7 @@ export const educationApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
-          toastHandler("Education updated successfully","success");
+          toastHandler("Education updated successfully", "success");
         } catch (err) {
           toastHandler("Something went wrong, Please try again", "warning");
         }
@@ -74,7 +74,7 @@ export const educationApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           await queryFulfilled;
-          toastHandler("Deleted Education successful","warning");
+          toastHandler("Deleted Education successful", "warning");
         } catch (err) {
           toastHandler("Something went wrong, Please try again", "warning");
         }
@@ -87,7 +87,7 @@ export const educationApi = apiSlice.injectEndpoints({
 export const {
   useGetEducationsQuery,
   useGetSingleEducationQuery,
-  useAddEducationMutation,
+  useAddSingleEducationMutation,
   useUpdateEducationMutation,
   useDeleteEducationMutation,
 } = educationApi;

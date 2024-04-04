@@ -18,10 +18,10 @@ const ContactEditPopup = ({ data }) => {
     const [initialValues, setInitialValues] = useState({});
     const [updateUser, { isSuccess, isLoading }] = useUpdateUserMutation();
     const [country, setCountry] = useState();
-    const [state, setState] = useState(user.country.id);
-    const [currentState, setCurrentState] = useState(user.country.id)
-    const [city, setCity] = useState(user.state.id);
-    const [currentCity, setCurrentCity] = useState(user.state.id)
+    const [state, setState] = useState(user.country?.id);
+    const [currentState, setCurrentState] = useState(user.country?.id)
+    const [city, setCity] = useState(user.state?.id);
+    const [currentCity, setCurrentCity] = useState(user.state?.id)
     const { data: states } = useGetStatesQuery(currentState);
     const { data: cities } = useGetCityQuery(currentCity);
     // console.log("country: ", user);

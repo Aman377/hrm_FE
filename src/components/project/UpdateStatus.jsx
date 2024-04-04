@@ -16,10 +16,11 @@ const UpdateStatus = () => {
   const [updateProject, { isLoading }] = useUpdateProjectMutation();
 
   useEffect(() => {
-    if (project) {
+    // console.log("project ",project);
+    // if (project) {
       setInitialValues(project);
-    }
-  }, [project]);
+    // }
+  });
 
   const { Title } = Typography;
   const [form] = Form.useForm();

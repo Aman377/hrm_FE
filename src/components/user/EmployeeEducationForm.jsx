@@ -38,31 +38,31 @@ const EmployeeEducationForm = ({ key, restField, remove, name, form }) => {
         <Form.Item
           {...restField}
           name={[name, "degree"]}
-          rules={[
-            {
-              required: true,
-              message: "Missing  degree",
-            },
-          ]}
+          // rules={[
+          //   {
+          //     required: true,
+          //     message: "Missing  degree",
+          //   },
+          // ]}
         >
           <Input placeholder='Degree' />
         </Form.Item>
         <Form.Item
           {...restField}
           name={[name, "institution"]}
-          rules={[
-            {
-              required: true,
-              message: "Missing institution",
-            },
-          ]}
+          // rules={[
+          //   {
+          //     required: true,
+          //     message: "Missing institution",
+          //   },
+          // ]}
         >
           <Input placeholder='Institution' />
         </Form.Item>
         <Form.Item
           {...restField}
           name={[name, "result"]}
-          rules={[{ required: true, message: "Missing result" }]}
+          // rules={[{ required: true, message: "Missing result" }]}
         >
           <Input placeholder='Result' />
         </Form.Item>
@@ -70,7 +70,7 @@ const EmployeeEducationForm = ({ key, restField, remove, name, form }) => {
         <Form.Item
           {...restField}
           name={[name, "studyStartDate"]}
-          rules={[{ required: true, message: "Missing studyStartDate" }]}
+          // rules={[{ required: true, message: "Missing studyStartDate" }]}
         >
           <DatePicker placeholder='studyStartDate' />
         </Form.Item>
@@ -85,18 +85,18 @@ const EmployeeEducationForm = ({ key, restField, remove, name, form }) => {
         <Form.Item
           {...restField}
           name={[name, "fieldOfStudy"]}
-          rules={[{ required: true, message: "Missing fieldOfStudy" }]}
+          // rules={[{ required: true, message: "Missing fieldOfStudy" }]}
         >
           <Input placeholder='Field Of Study; Computer' />
         </Form.Item>
 
-        <Form.Item
+        {/* <Form.Item
           {...restField}
           name={[name, "document"]}
-          rules={[{ required: true, message: "Missing document" }]}
-        // valuePropName='fileList'
-        >
-          <Upload
+          rules={[{ required: true, message: "Missing document" }]} */}
+        {/* // valuePropName='fileList' */}
+        {/* > */}
+          {/* <Upload
             onChange={(info) => {
               if (info.fileList.length > 0) {
                 // debugger
@@ -121,9 +121,9 @@ const EmployeeEducationForm = ({ key, restField, remove, name, form }) => {
             maxCount={1}
           >
             {fileList.length === 0 && <Button icon={<UploadOutlined />}>Upload</Button>}
-          </Upload>
+          </Upload> */}
           {/* <input type="file" accept="image/png" onChange={onChange} /> */}
-        </Form.Item>
+        {/* </Form.Item> */}
 
         <MinusCircleOutlined
           className='txt-color'

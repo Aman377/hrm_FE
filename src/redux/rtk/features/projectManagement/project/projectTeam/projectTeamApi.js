@@ -24,7 +24,7 @@ export const projectTeamApi = apiSlice.injectEndpoints({
       query: (id) => ({
         url: `project-team/${id}`,
       }),
-      providesTags: ["ProjectTeam"],
+      providesTags: ["ProjectTeams"],
     }),
 
     addProjectTeam: builder.mutation({

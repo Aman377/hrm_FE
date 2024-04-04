@@ -15,7 +15,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import BtnDeleteSvg from "../UI/Button/btnDeleteSvg";
 import Loader from "../loader/loader";
 import PageTitle from "../page-header/PageHeader";
-import { Button, Popconfirm } from 'antd';
+import { Button, Popconfirm } from "antd";
 
 import EmployeeDesignation from "../UI/EmployeeDesignation";
 import EmployeeTimeline from "../UI/EmployeeTimeline";
@@ -26,6 +26,7 @@ import PersonEditPopup from "../UI/PopUp/PersonalEditPopup";
 import ContactEditPopup from "../UI/PopUp/ContactEditPopup";
 import EmployeeSalary from "../UI/EmployeeSalary";
 import SalaryEditPopup from "../UI/PopUp/SalaryEditPopup";
+import DocumentPage from "../UI/DocumentPage";
 
 import EmployeeAward from "../UI/EmployeeAward";
 
@@ -39,11 +40,11 @@ import AwardHistoryEditPopup from "../UI/PopUp/AwardHistoryEditPopup";
 
 //PopUp
 
-const DetailStaff = () => {
+const DetailStaff = ({ids}) => {
   const { id } = useParams();
   let navigate = useNavigate();
 
-  const { data: user, isError: error, isLoading } = useGetUserQuery(id);
+  const { data: user, isError: error, isLoading } = useGetUserQuery(id === null ? ids : id);
   const [onDelete, { isSuccess }] = useDeleteUserMutation();
 
   useEffect(() => {
@@ -164,9 +165,9 @@ const DetailStaff = () => {
                         okText="Yes"
                         cancelText="No"
                       >
-                      <button>
-                        <BtnDeleteSvg size={30} />
-                      </button>
+                        <button>
+                          <BtnDeleteSvg size={30} />
+                        </button>
                       </Popconfirm>
                     </UserPrivateComponent>
                   </div>
@@ -370,15 +371,24 @@ const DetailStaff = () => {
                         </li>
                         <li className="txt-color-secondary ml-2">
                           {" "}
-                          City : {user.city ? user.city.name : user.city || "No Address"}
+                          City :{" "}
+                          {user.city
+                            ? user.city.name
+                            : user.city || "No Address"}
                         </li>
                         <li className="txt-color-secondary ml-2">
                           {" "}
-                          State : {user.state ? user.state.name : user.state || "No Address"}
+                          State :{" "}
+                          {user.state
+                            ? user.state.name
+                            : user.state || "No Address"}
                         </li>
                         <li className="txt-color-secondary ml-2">
                           {" "}
-                          Country : {user.country ? user.country.name : user.country || "No Address"}
+                          Country :{" "}
+                          {user.country
+                            ? user.country.name
+                            : user.country || "No Address"}
                         </li>
 
                         <li className="txt-color-secondary ml-2">
@@ -505,7 +515,7 @@ const DetailStaff = () => {
                   ) : (
                     <div className="mb-10">
                       <p className="text-center mt-3 mb-3 ">
-                        No Education History Found
+                        No Salary History Found
                       </p>
                       <Alert
                         message="Not found , Click on edit button to add new"
@@ -554,6 +564,31 @@ const DetailStaff = () => {
                   )}
                 </div>
               </Col>
+
+              {/* Documents Data */}
+              <Col
+                xs={24}
+                sm={12}
+                md={12}
+                lg={11}
+                xl={11}
+                className="new-card rounded h-auto m-2 "
+              >
+                <div className="flex justify-between">
+                  <div className="text-start txt-color-2 text-xl mt-5 ">
+                    Documents History
+                  </div>
+                  {/* <UserPrivateComponent permission={"update-education"}>
+              {user?.document && (
+                <SalaryEditPopup data={user?.document} />
+              )}
+            </UserPrivateComponent> */}
+                </div>
+                <hr className="mt-3 mb-3 new-hr" />
+                <div className="flex justify-start ml-2">
+                  <DocumentPage list={user.document} />
+                </div>
+              </Col>
             </Row>
           </div>
         ) : (
@@ -566,7 +601,5 @@ const DetailStaff = () => {
     </div>
   );
 };
-
-
 
 export default DetailStaff;

@@ -153,7 +153,7 @@ const GetAllLeaves = (props) => {
               {
                 label: (
                   <span>
-                    <i class="bi bi-person-dash"></i> Rejected
+                    <i className="bi bi-person-dash"></i> Rejected
                   </span>
                 ),
                 value: "rejected",

@@ -24,7 +24,7 @@ export const projectApi = apiSlice.injectEndpoints({
 			query: (id) => ({
 				url: `project/${id}`,
 			}),
-			providesTags: ["Project"],
+			providesTags: ["Projects"],
 		}),
 
 		addProject: builder.mutation({
@@ -41,7 +41,7 @@ export const projectApi = apiSlice.injectEndpoints({
 			async onQueryStarted(arg, { queryFulfilled, dispatch }) {
 				try {
 					await queryFulfilled;
-					toastHandler("Project added successfully","success");
+					toastHandler("Project added successfully", "success");
 				} catch (err) {
 					toastHandler("Something went wrong, Please try again", "warning");
 				}
@@ -67,7 +67,7 @@ export const projectApi = apiSlice.injectEndpoints({
 					dispatch(
 						apiSlice.util.updateQueryData("getProject", arg.id, () => data)
 					);
-					toastHandler("Project updated successfully","success");
+					toastHandler("Project updated successfully", "success");
 				} catch (err) {
 					toastHandler("Something went wrong, Please try again", "warning");
 				}
@@ -91,7 +91,7 @@ export const projectApi = apiSlice.injectEndpoints({
 				// pessimistic user cache update
 				try {
 					await queryFulfilled;
-					toastHandler("Deleted Project successful","warning");
+					toastHandler("Deleted Project successful", "warning");
 				} catch (err) {
 					toastHandler("Something went wrong, Please try again", "warning");
 				}

@@ -1,19 +1,20 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
-import { DarkModeSwitch } from "react-toggle-dark-mode";
 import { Button, Col, Menu, Row } from "antd";
 import { LogoutOutlined, UserOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import ViewDrawler from "../CommonUi/ViewDrawler";
+import DetailStaff from "../../components/user/detailsStaff";
 
 const toggler = [
   <svg
-    width='20'
-    height='20'
-    xmlns='http://www.w3.org/2000/svg'
-    viewBox='0 0 448 512'
+    width="20"
+    height="20"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 448 512"
     key={0}
   >
-    <path d='M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z'></path>
+    <path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path>
   </svg>,
 ];
 
@@ -22,23 +23,36 @@ function Header({ onPress, collapsed, handleCollapsed }) {
 
   const isLogged = localStorage.getItem("isLogged");
   const user = localStorage.getItem("user");
-
+  const firstName = localStorage.getItem("firstName");
+  const lastName = localStorage.getItem("lastName");
+  const id = localStorage.getItem("id");
+  console.log(id);
   const items = [
     {
       key: "1",
       label: (
-        <p className='flex items-center p-0.5'>
+        <p className="flex items-center p-0.5">
           <UserOutlined style={{ fontSize: "16px" }} />{" "}
-          <span className='logout-text font-weight-bold me-2 ms-1'>{user}</span>
+          <span className="logout-text font-weight-bold me-2 ms-1">
+            {/* <ViewDrawler
+              permission={"readSingle-user"}
+              title={firstName + " " + lastName}
+              width={100}
+              header={"Profile"}  
+            > */}
+            {firstName} {lastName}
+            {/* <DetailStaff ids={id} />
+            </ViewDrawler> */}
+          </span>
         </p>
       ),
     },
     {
       key: "2",
       label: (
-        <Link to='/admin/auth/logout' className='flex items-center p-0.5'>
-          <LogoutOutlined className='text-danger' />
-          <span className='logout-text font-weight-bold me-2 ms-1'>
+        <Link to="/admin/auth/logout" className="flex items-center p-0.5">
+          <LogoutOutlined className="text-danger" />
+          <span className="logout-text font-weight-bold me-2 ms-1">
             Log Out
           </span>
         </Link>
@@ -61,7 +75,7 @@ function Header({ onPress, collapsed, handleCollapsed }) {
     <>
       <Row gutter={[24, 0]}>
         <Col span={24} md={4}>
-          <div className='hidden md:block '>
+          <div className="hidden md:block ">
             {isLogged &&
               React.createElement(
                 collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
@@ -72,7 +86,7 @@ function Header({ onPress, collapsed, handleCollapsed }) {
               )}
           </div>
         </Col>
-        <Col span={24} md={20} className='flex items-center justify-end'>
+        <Col span={24} md={20} className="flex items-center justify-end">
           {/* <DarkModeSwitch
             style={{ margin: "1rem" }}
             checked={isDarkMode}
@@ -93,27 +107,39 @@ function Header({ onPress, collapsed, handleCollapsed }) {
           )} */}
 
           {!isLogged && (
-            <Link to='/admin/auth/login' className='btn-sign-in text-dark'>
+            <Link to="/admin/auth/login" className="btn-sign-in text-dark">
               <span></span>
             </Link>
           )}
 
           {isLogged && (
-            <Button
-              type='link'
-              className='block md:hidden'
-              onClick={() => onPress()}
-              style={{ boxShadow: "none" }}
-            >
-              {toggler}
-            </Button>
+            <>
+              {/* UserName */}
+              <ViewDrawler
+                permission={"readSingle-user"}
+                title={firstName + " " + lastName}
+                width={100}
+                header={"Profile"}
+              >
+                <DetailStaff ids={id} />
+              </ViewDrawler>
+              
+              <Button
+                type="link"
+                className="block md:hidden"
+                onClick={() => onPress()}
+                style={{ boxShadow: "none" }}
+              >
+                {toggler}
+              </Button>
+            </>
           )}
           {isLogged && (
             <div>
-              <Button className='user-btn group relative'>
-                <UserOutlined style={{ fontSize: "16px" }} className='mb-2' />
+              <Button className="user-btn group relative">
+                <UserOutlined style={{ fontSize: "16px" }} className="mb-2" />
                 <Menu
-                  className='absolute hidden group-hover:block rounded right-0  z-10'
+                  className="absolute hidden group-hover:block rounded right-0  z-10"
                   items={items}
                 />
               </Button>

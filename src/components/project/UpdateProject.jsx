@@ -31,13 +31,15 @@ const UpdateProject = ({ drawer }) => {
   const [initialState, setInitialState] = useState(null);
 
   const dispatch = useDispatch();
-
   useEffect(() => {
+    console.log("project >>",project);
     if (project) {
       setInitialState({
         ...project,
         startDate: dayjs(project.startDate),
         endDate: dayjs(project.endDate),
+        name: project.name,
+        description: project.description
       });
     }
   }, [project]);
@@ -51,18 +53,19 @@ const UpdateProject = ({ drawer }) => {
       ...values,
       startDate: dayjs(values.startDate).format(),
       endDate: dayjs(values.endDate).format(),
+      name: values.name
     };
-    console.log('Form resetting...');
+    // console.log('Form resetting...');
     try {
-      console.log('Starting async operation...');
+      // console.log('Starting async operation...');
       const resp = await (
         updateSingleProject({ id: projectId, values: projectData })
       );
 
       if (resp) {
-        console.log('Form resetting...');
+        // console.log('Form resetting...');
         form.resetFields();
-        console.log('Form reset.');
+        // console.log('Form reset.');
         navigate(-1);
       }
     } catch (error) {
@@ -112,7 +115,7 @@ const UpdateProject = ({ drawer }) => {
                 <Form.Item
                   style={{ marginBottom: "10px" }}
                   label="Project Manager"
-                  name={"projectManagerId" ? "projectManagerName" : "projectManagerName"}
+                  name={"projectManagerId" ? "projectManagerId" : "projectManagerId"}
                   rules={[
                     {
                       required: true,

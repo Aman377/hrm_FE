@@ -79,7 +79,7 @@ const AddProjectTeamMember = ({ id, projectId, teamName }) => {
                 >
                   {list?.map((item) => (
                     <Select.Option key={item.id} value={item.id}>
-                      {item.firstName} {item.lastName}
+                      {item?.firstName} {item?.lastName}
                     </Select.Option>
                   ))}
                 </Select>

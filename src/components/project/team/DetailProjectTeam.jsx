@@ -14,8 +14,7 @@ const DetailProjectTeam = () => {
   const navigate = useNavigate();
   const { id } = useParams("id");
 
-  const { data: ProjectTeam, isLoading: teamLoading, refetch  } =
-    useGetProjectTeamQuery(id);
+  const { data: ProjectTeam, isLoading: teamLoading, refetch } = useGetProjectTeamQuery(id);
   const [columnsToShow, setColumnsToShow] = useState([]);
 
   useEffect(() => {
@@ -23,7 +22,6 @@ const DetailProjectTeam = () => {
       {
         id: 1,
         title: "ID",
-        // dataIndex: "userId",
         key: "userId",
         render: (text, record, index) => index + 1,
       },
@@ -31,7 +29,7 @@ const DetailProjectTeam = () => {
         id: 2,
         title: "Name",
         key: "username",
-        render: ({ user }) => user.firstName + " " + user.lastName,
+        render: ({ user }) => user?.firstName + " " + user?.lastName,
       },
       {
         id: 4,
@@ -43,7 +41,7 @@ const DetailProjectTeam = () => {
             <UserPrivateComponent permission={"readSingle-user"}>
               <ViewBtn path={`/admin/hr/staffs/${userId}/`} />
             </UserPrivateComponent>
- 
+
             {/* delete */}
             <CommonDelete
               permission={"delete-projectTeam"}

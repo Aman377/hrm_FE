@@ -1,5 +1,5 @@
 import { Button, Form, Input, Modal } from "antd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useUpdateDepartmentMutation } from "../../../redux/rtk/features/Department/departmentApi";
@@ -10,7 +10,6 @@ const DepartmentEditPopup = ({ data }) => {
   const { id } = useParams("id");
   const [updateDepartment, { isLoading }] = useUpdateDepartmentMutation();
   const navigate = useNavigate();
-
   const onFinish = async (values) => {
     const resp = await updateDepartment({ id, values });
 
@@ -22,9 +21,13 @@ const DepartmentEditPopup = ({ data }) => {
     }
   };
 
-  const [initialValues, setInitialValues] = useState({
-    name: data?.name || "",
-  });
+  useEffect(() => {
+    if (data) {
+      setInitialValues({ name: data.name });
+    }
+  }, [data]);
+
+  const [initialValues, setInitialValues] = useState({});
 
   const onFinishFailed = (errorInfo) => {
     toast.warning("Failed at adding department");

@@ -2,14 +2,15 @@ import { Button, DatePicker, Form, Input, Modal } from "antd";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAddEducationMutation } from "../../../redux/rtk/features/education/educationApis";
+import { useAddSingleEducationMutation } from "../../../redux/rtk/features/education/educationApis";
+import { toastHandler } from "../../../utils/functions";
 
 const EducaitonAddSinglePopup = ({ data, setLoading }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
-
+  const token = localStorage.getItem("access-token");
   const userId = useParams("id");
-  const [addEducation, { isLoading }] = useAddEducationMutation();
+  const [addSingleEducation, { isLoading }] = useAddSingleEducationMutation();
 
   const onFinish = async (values) => {
     setLoading(true);
@@ -18,10 +19,22 @@ const EducaitonAddSinglePopup = ({ data, setLoading }) => {
       userId: parseInt(userId.id),
     };
 
-    const resp = await addEducation(infoData);
+    const resp = await fetch(`${import.meta.env.VITE_APP_API}/education`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(infoData),
+    });
 
-    if (resp.data && !resp.error) {
-      setIsModalOpen(false);
+    console.log(resp);
+    if (!resp.error) {
+      toastHandler("Education added successfully", "success");
+      window.location.reload();
+     
+      // setIsModalOpen(false);
       setLoading(false);
       form.resetFields();
     } else {
@@ -51,8 +64,8 @@ const EducaitonAddSinglePopup = ({ data, setLoading }) => {
 
   return (
     <>
-      <div className='text-center'>
-        <Button type='primary' onClick={showModal}>
+      <div className="text-center">
+        <Button type="primary" onClick={showModal}>
           Add New Education
         </Button>
       </div>
@@ -65,8 +78,8 @@ const EducaitonAddSinglePopup = ({ data, setLoading }) => {
         <Form
           form={form}
           style={{ marginBottom: "100px" }}
-          eventKey='department-form'
-          name='basic'
+          eventKey="department-form"
+          name="basic"
           labelCol={{
             span: 6,
           }}
@@ -75,13 +88,13 @@ const EducaitonAddSinglePopup = ({ data, setLoading }) => {
           }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          autoComplete='off'
+          autoComplete="off"
         >
           <div>
             <Form.Item
               style={{ marginBottom: "10px" }}
-              label='Degree'
-              name='degree'
+              label="Degree"
+              name="degree"
               rules={[
                 {
                   required: true,
@@ -94,8 +107,8 @@ const EducaitonAddSinglePopup = ({ data, setLoading }) => {
 
             <Form.Item
               style={{ marginBottom: "10px" }}
-              label='Institution'
-              name='institution'
+              label="Institution"
+              name="institution"
               rules={[
                 {
                   required: true,
@@ -108,8 +121,8 @@ const EducaitonAddSinglePopup = ({ data, setLoading }) => {
 
             <Form.Item
               style={{ marginBottom: "10px" }}
-              label='Field of Study'
-              name='fieldOfStudy'
+              label="Field of Study"
+              name="fieldOfStudy"
               rules={[
                 {
                   required: true,
@@ -122,8 +135,8 @@ const EducaitonAddSinglePopup = ({ data, setLoading }) => {
 
             <Form.Item
               style={{ marginBottom: "10px" }}
-              label='Result'
-              name='result'
+              label="Result"
+              name="result"
               rules={[
                 {
                   required: true,
@@ -136,9 +149,9 @@ const EducaitonAddSinglePopup = ({ data, setLoading }) => {
 
             <Form.Item
               style={{ marginBottom: "10px" }}
-              label='Start Date'
-              name='studyStartDate'
-              valuePropName='studyStartDate'
+              label="Start Date"
+              name="studyStartDate"
+              valuePropName="studyStartDate"
               rules={[
                 {
                   required: true,
@@ -151,9 +164,9 @@ const EducaitonAddSinglePopup = ({ data, setLoading }) => {
 
             <Form.Item
               style={{ marginBottom: "10px" }}
-              label='End Date'
-              name='studyEndDate'
-              valuePropName='studyEndDate'
+              label="End Date"
+              name="studyEndDate"
+              valuePropName="studyEndDate"
             >
               <DatePicker />
             </Form.Item>
@@ -166,9 +179,9 @@ const EducaitonAddSinglePopup = ({ data, setLoading }) => {
               }}
             >
               <Button
-                type='primary'
-                size='small'
-                htmlType='submit'
+                type="primary"
+                size="small"
+                htmlType="submit"
                 block
                 loading={isLoading}
               >

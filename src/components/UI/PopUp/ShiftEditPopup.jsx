@@ -27,10 +27,10 @@ const ShiftEditPopup = ({ data }) => {
     setIsModalOpen(false);
     navigate(-1);
   };
-
   // eslint-disable-next-line no-unused-vars
+  // console.log("Name: ",data?.name);
   const [initialValues, setInitialValues] = useState({
-    name: data?.name || "",
+    name: data?.name || "" ,
     startTime: dayjs(data?.startTime),
     endTime: dayjs(data?.endTime),
   });

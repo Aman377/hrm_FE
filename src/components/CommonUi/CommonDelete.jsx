@@ -24,7 +24,7 @@ export default function CommonDelete({
 		if (res.data && !res.error) {
 			navigatePath && navigate(navigatePath);
 		}
-		onDeleted();
+		onDeleted;
 		setLoading(false);
 	};
 

@@ -398,7 +398,7 @@ const Sidenav = ({ color, sideNavOpenKeys }) => {
             </NavLink>
           ),
           key: "team",
-          icon:<FundProjectionScreenOutlined />,
+          icon: <FundProjectionScreenOutlined />,
         },
         (hasPermission("create-priority") ||
           hasPermission("readAll-priority")) && {
@@ -462,10 +462,10 @@ const Sidenav = ({ color, sideNavOpenKeys }) => {
   return (
     <div>
       <Menu
-        theme='dark'
-        mode='inline'
+        theme="dark"
+        mode="inline"
         items={menu}
-        className='sidenav-menu '
+        className="sidenav-menu "
         // openKeys={[sideNavOpenKeys]}
         // style={{ backgroundColor: "transparent" }}
       />
