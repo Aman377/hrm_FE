@@ -10,7 +10,7 @@ import BtnEditSvg from "./Button/btnEditSvg";
 import BtnDownlaodSvg from "./Button/btnDownloadSvg";
 import { toastHandler } from "../../utils/functions";
 
-const DocumentPage = ({ list }) => {
+const DocumentPage = ({ list, ids }) => {
   const { id } = useParams();
   const imagePath = "https://hros.excitesystems.com/public/";
 
@@ -144,9 +144,11 @@ const DocumentPage = ({ list }) => {
                     Document
                   </h3>
                   <div className="flex space-x-3">
-                    <button onClick={() => showModal("document")}>
-                      <BtnEditSvg size={26} />
-                    </button>
+                    {ids ? null : (
+                      <button onClick={() => showModal("document")}>
+                        <BtnEditSvg size={26} />
+                      </button>
+                    )}
                     <BtnDownlaodSvg
                       onClick={() => handleDownload(item.document)}
                       size={26}
@@ -159,9 +161,11 @@ const DocumentPage = ({ list }) => {
                     CV
                   </h3>
                   <div className="flex space-x-3">
-                    <button onClick={() => showModal("cv")}>
-                      <BtnEditSvg size={26} />
-                    </button>
+                    {ids ? null : (
+                      <button onClick={() => showModal("cv")}>
+                        <BtnEditSvg size={26} />
+                      </button>
+                    )}
                     <BtnDownlaodSvg
                       size={26}
                       onClick={() => handleDownload(item.cv)}
@@ -175,9 +179,11 @@ const DocumentPage = ({ list }) => {
                     Address Proof
                   </h3>
                   <div className="flex space-x-3">
-                    <button onClick={() => showModal("addressProof")}>
-                      <BtnEditSvg size={26} />
-                    </button>
+                    {ids ? null : (
+                      <button onClick={() => showModal("addressProof")}>
+                        <BtnEditSvg size={26} />
+                      </button>
+                    )}
                     <BtnDownlaodSvg
                       size={26}
                       onClick={() => handleDownload(item.addressProof)}
@@ -191,9 +197,11 @@ const DocumentPage = ({ list }) => {
                     Aadhar Card
                   </h3>
                   <div className="flex space-x-3">
-                    <button onClick={() => showModal("aadharCard")}>
-                      <BtnEditSvg size={26} />
-                    </button>
+                    {ids ? null : (
+                      <button onClick={() => showModal("aadharCard")}>
+                        <BtnEditSvg size={26} />
+                      </button>
+                    )}
                     <BtnDownlaodSvg
                       size={26}
                       onClick={() => handleDownload(item.aadharCard)}
@@ -207,9 +215,11 @@ const DocumentPage = ({ list }) => {
                     Pan Card
                   </h3>
                   <div className="flex space-x-3">
-                    <button onClick={() => showModal("panCard")}>
-                      <BtnEditSvg size={26} />
-                    </button>
+                    {ids ? null : (
+                      <button onClick={() => showModal("panCard")}>
+                        <BtnEditSvg size={26} />
+                      </button>
+                    )}
                     <BtnDownlaodSvg
                       size={26}
                       onClick={() => handleDownload(item.panCard)}
@@ -223,9 +233,11 @@ const DocumentPage = ({ list }) => {
                     Experience Letter
                   </h3>
                   <div className="flex space-x-3">
-                    <button onClick={() => showModal("experienceLetter")}>
-                      <BtnEditSvg size={26} />
-                    </button>
+                    {ids ? null : (
+                      <button onClick={() => showModal("experienceLetter")}>
+                        <BtnEditSvg size={26} />
+                      </button>
+                    )}
                     <BtnDownlaodSvg
                       size={26}
                       onClick={() => handleDownload(item.experienceLetter)}

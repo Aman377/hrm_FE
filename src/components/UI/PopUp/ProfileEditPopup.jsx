@@ -18,11 +18,14 @@ import BtnEditSvg from "../Button/btnEditSvg";
 
 const ProfileEditPopup = ({ data }) => {
   const { id } = useParams("id");
+  // console.log("data: ",data.id);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { data: leavePolicy } = useGetLeavePoliciesQuery({ query: 'all' });
   const { data: weeklyHoliday } = useGetWeeklyHolidaysQuery({ query: 'all' });
   const { data: shift } = useGetShiftsQuery({ query: 'all' });
-  const { data: user } = useGetUserQuery(id);
+  const { data: user } = useGetUserQuery(!id ? data.id : id);
+  // console.log("Id: ",data.id);
+  // console.log("user: ",user);
 
   const { Option } = Select;
   const { data: list } = useGetRolesQuery({ query: 'all' });
@@ -30,7 +33,6 @@ const ProfileEditPopup = ({ data }) => {
   const { data: department } = useGetDepartmentsQuery({ query: 'all' });
   const { data: countries } = useGetCountriesQuery();
   const [initialValues, setInitialValues] = useState({});
-
   const [roleId, setRoleId] = useState("");
   const [departmentId, setDepartmentId] = useState("");
   const [shiftId, setShiftId] = useState("");

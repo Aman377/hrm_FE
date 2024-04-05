@@ -16,7 +16,6 @@ export default function CreateDrawer({
   const [open, setOpen] = useState(false);
 
   const onClose = () => {
-    // console.log("close");
     setOpen(false);
   };
 
@@ -27,7 +26,7 @@ export default function CreateDrawer({
           onClick={() => setOpen(true)}
         >
           <div className="flex items-start justify-start ">
-            <div className="min-w-[110px]">{title}</div>
+            <div className="min-w-[110px] text-blue-400 hover:underline cursor-pointer">{title}</div>
           </div>
         </div>
         <Drawer

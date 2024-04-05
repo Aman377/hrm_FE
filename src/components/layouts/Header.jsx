@@ -26,7 +26,7 @@ function Header({ onPress, collapsed, handleCollapsed }) {
   const firstName = localStorage.getItem("firstName");
   const lastName = localStorage.getItem("lastName");
   const id = localStorage.getItem("id");
-  console.log(id);
+  // console.log(id);
   const items = [
     {
       key: "1",
@@ -34,15 +34,7 @@ function Header({ onPress, collapsed, handleCollapsed }) {
         <p className="flex items-center p-0.5">
           <UserOutlined style={{ fontSize: "16px" }} />{" "}
           <span className="logout-text font-weight-bold me-2 ms-1">
-            {/* <ViewDrawler
-              permission={"readSingle-user"}
-              title={firstName + " " + lastName}
-              width={100}
-              header={"Profile"}  
-            > */}
             {firstName} {lastName}
-            {/* <DetailStaff ids={id} />
-            </ViewDrawler> */}
           </span>
         </p>
       ),
@@ -123,7 +115,7 @@ function Header({ onPress, collapsed, handleCollapsed }) {
               >
                 <DetailStaff ids={id} />
               </ViewDrawler>
-              
+
               <Button
                 type="link"
                 className="block md:hidden"

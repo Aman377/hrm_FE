@@ -154,7 +154,7 @@ export const userApi = apiSlice.injectEndpoints({
           localStorage.setItem("user", data?.username);
           localStorage.setItem("firstName", data?.firstName);
           localStorage.setItem("lastName", data?.lastName);
-          localStorage.setItem("id", data?.id);
+          localStorage.setItem("id", data?.user_id);
           localStorage.setItem("isLogged", true);
           toastHandler("User logged in successfully", "success");
           window.location.href = "/admin/dashboard";
