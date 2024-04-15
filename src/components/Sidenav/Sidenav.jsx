@@ -29,6 +29,7 @@ import getUserFromToken from "../../utils/getUserFromToken";
 
 const Sidenav = ({ color, sideNavOpenKeys }) => {
   const user = getUserFromToken();
+  const id = localStorage.getItem("id");
   const permissions = getPermissions();
   const hasPermission = (item) => {
     return permissions?.includes(item ? item : "");
@@ -104,7 +105,8 @@ const Sidenav = ({ color, sideNavOpenKeys }) => {
     },
 
     (hasPermission("create-attendance") ||
-      hasPermission("readAll-attendance")) && {
+      hasPermission("readAll-attendance") ||
+      hasPermission("readSingle-attendance") ) && {
       label: "ATTENDANCE",
       key: "ATTENDANCE",
       icon: <ClockCircleOutlined />,
@@ -130,7 +132,7 @@ const Sidenav = ({ color, sideNavOpenKeys }) => {
       ],
     },
 
-    (hasPermission("create-payroll") || hasPermission("readAll-payroll")) && {
+    (hasPermission("create-payroll") || hasPermission("readAll-payroll") || hasPermission("readSingle-payroll")) && {
       label: "PAYROLL",
       key: "payroll",
       icon: <WalletOutlined />,
@@ -148,6 +150,15 @@ const Sidenav = ({ color, sideNavOpenKeys }) => {
           label: (
             <NavLink to="/admin/payroll/list">
               <span>Payslip List</span>
+            </NavLink>
+          ),
+          key: "payslipList",
+          icon: <FileOutlined />,
+        },
+        hasPermission("readSingle-payroll") && {
+          label: (
+            <NavLink to={`/admin/payroll/${id}`}>
+              <span>My Payslip</span>
             </NavLink>
           ),
           key: "payslipList",
@@ -432,7 +443,7 @@ const Sidenav = ({ color, sideNavOpenKeys }) => {
       ],
     },
 
-    hasPermission("readAll-setting") && {
+    hasPermission("readAll-emailConfig") && {
       label: "SETTINGS",
       key: "settings",
       icon: <SettingOutlined />,

@@ -18,6 +18,7 @@ import Loader from "../loader/loader";
 
 // eslint-disable-next-line react/display-name
 const PrintToPdf = forwardRef(({ data, invoiceData }, ref) => {
+  // log("invoiceData ",invoiceData)
   const { Title } = Typography;
   return (
     <Fragment>
@@ -81,7 +82,10 @@ const PrintToPdf = forwardRef(({ data, invoiceData }, ref) => {
                 <span className="text-sm font-semibold text-slate-700">
                   Payslip for:
                 </span>{" "}
-                {dayjs().month(data.salaryMonth -1).format("MMMM")}, {data.salaryYear}
+                {dayjs()
+                  .month(data.salaryMonth - 1)
+                  .format("MMMM")}
+                , {data.salaryYear}
               </p>
               <p>
                 <span className="text-sm font-semibold text-slate-700">
@@ -198,7 +202,7 @@ const DetailPayslip = () => {
   });
   const { data: setting } = useGetSettingQuery();
   const [invoiceData, setInvoiceData] = useState(null);
-  
+
   useEffect(() => {
     if (setting) {
       setInvoiceData(setting);
@@ -211,10 +215,10 @@ const DetailPayslip = () => {
   return (
     <div>
       <UserPrivateComponent permission={"readSingle-payroll"}>
-        <div className=''>
-          <div className='flex justify-end mr-10'>
+        <div className="">
+          <div className="flex justify-end mr-10">
             {invoiceData && (
-              <Button type='primary' size='large' onClick={handlePrint}>
+              <Button type="primary" size="large" onClick={handlePrint}>
                 Print Payslip
               </Button>
             )}
@@ -233,6 +237,5 @@ const DetailPayslip = () => {
     </div>
   );
 };
-
 
 export default DetailPayslip;

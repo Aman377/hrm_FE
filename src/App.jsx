@@ -535,7 +535,7 @@ function App() {
             {/* === === === TaskStatus Routes === === === */}
 
             <Route
-              element={<UserPrivateRoute permission={"readAll-taskStatus"} />}
+              element={<UserPrivateRoute permission={"create-taskStatus"} />}
             >
               <Route path="/admin/task-status" element={<TaskStatus />} />
             </Route>

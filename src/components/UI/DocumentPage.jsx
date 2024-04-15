@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import BtnEditSvg from "./Button/btnEditSvg";
 import BtnDownlaodSvg from "./Button/btnDownloadSvg";
 import { toastHandler } from "../../utils/functions";
+import UserPrivateComponent from "../PrivateRoutes/UserPrivateComponent";
 
 const DocumentPage = ({ list, ids }) => {
   const { id } = useParams();
@@ -144,11 +145,11 @@ const DocumentPage = ({ list, ids }) => {
                     Document
                   </h3>
                   <div className="flex space-x-3">
-                    {ids ? null : (
+                    <UserPrivateComponent permission={"update-user"}>
                       <button onClick={() => showModal("document")}>
                         <BtnEditSvg size={26} />
                       </button>
-                    )}
+                    </UserPrivateComponent>
                     <BtnDownlaodSvg
                       onClick={() => handleDownload(item.document)}
                       size={26}
@@ -161,11 +162,11 @@ const DocumentPage = ({ list, ids }) => {
                     CV
                   </h3>
                   <div className="flex space-x-3">
-                    {ids ? null : (
+                    <UserPrivateComponent permission={"update-user"}>
                       <button onClick={() => showModal("cv")}>
                         <BtnEditSvg size={26} />
                       </button>
-                    )}
+                    </UserPrivateComponent>
                     <BtnDownlaodSvg
                       size={26}
                       onClick={() => handleDownload(item.cv)}
@@ -179,11 +180,11 @@ const DocumentPage = ({ list, ids }) => {
                     Address Proof
                   </h3>
                   <div className="flex space-x-3">
-                    {ids ? null : (
+                    <UserPrivateComponent permission={"update-user"}>
                       <button onClick={() => showModal("addressProof")}>
                         <BtnEditSvg size={26} />
                       </button>
-                    )}
+                    </UserPrivateComponent>
                     <BtnDownlaodSvg
                       size={26}
                       onClick={() => handleDownload(item.addressProof)}
@@ -197,11 +198,11 @@ const DocumentPage = ({ list, ids }) => {
                     Aadhar Card
                   </h3>
                   <div className="flex space-x-3">
-                    {ids ? null : (
+                    <UserPrivateComponent permission={"update-user"}>
                       <button onClick={() => showModal("aadharCard")}>
                         <BtnEditSvg size={26} />
                       </button>
-                    )}
+                    </UserPrivateComponent>
                     <BtnDownlaodSvg
                       size={26}
                       onClick={() => handleDownload(item.aadharCard)}
@@ -215,11 +216,11 @@ const DocumentPage = ({ list, ids }) => {
                     Pan Card
                   </h3>
                   <div className="flex space-x-3">
-                    {ids ? null : (
+                    <UserPrivateComponent permission={"update-user"}>
                       <button onClick={() => showModal("panCard")}>
                         <BtnEditSvg size={26} />
                       </button>
-                    )}
+                    </UserPrivateComponent>
                     <BtnDownlaodSvg
                       size={26}
                       onClick={() => handleDownload(item.panCard)}
@@ -233,11 +234,11 @@ const DocumentPage = ({ list, ids }) => {
                     Experience Letter
                   </h3>
                   <div className="flex space-x-3">
-                    {ids ? null : (
+                    <UserPrivateComponent permission={"update-user"}>
                       <button onClick={() => showModal("experienceLetter")}>
                         <BtnEditSvg size={26} />
                       </button>
-                    )}
+                    </UserPrivateComponent>
                     <BtnDownlaodSvg
                       size={26}
                       onClick={() => handleDownload(item.experienceLetter)}

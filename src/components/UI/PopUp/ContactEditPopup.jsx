@@ -24,8 +24,6 @@ const ContactEditPopup = ({ data }) => {
     const [currentCity, setCurrentCity] = useState(user.state?.id)
     const { data: states } = useGetStatesQuery(currentState);
     const { data: cities } = useGetCityQuery(currentCity);
-    // console.log("country: ", user);
-    // console.log("countries: ",countries);
     useEffect(() => {
         setInitialValues({
             email: user?.email ? user.email : "",
@@ -47,7 +45,7 @@ const ContactEditPopup = ({ data }) => {
                 id: id,
                 values: {
                     ...values,
-                    country: country ? country : data.country.id,
+                    country: country ? country : data.country?.id,
                     state: state ? state : data.state.id,
                     city: city ? city : data.city.id
                 },
@@ -155,7 +153,7 @@ const ContactEditPopup = ({ data }) => {
                         <Select
                             placeholder='Select Blood Group'
                             allowClear
-                            defaultValue={initialValues.bloodGroup}
+                            initialValues={initialValues.bloodGroup}
                             mode='single'
                             size='middle'
                             style={{

@@ -40,11 +40,15 @@ import AwardHistoryEditPopup from "../UI/PopUp/AwardHistoryEditPopup";
 
 //PopUp
 
-const DetailStaff = ({ids}) => {
+const DetailStaff = ({ ids }) => {
   const { id } = useParams();
   let navigate = useNavigate();
 
-  const { data: user, isError: error, isLoading } = useGetUserQuery(id ? id : ids);
+  const {
+    data: user,
+    isError: error,
+    isLoading,
+  } = useGetUserQuery(ids ? ids : id);
   const [onDelete, { isSuccess }] = useDeleteUserMutation();
 
   useEffect(() => {
@@ -56,7 +60,7 @@ const DetailStaff = ({ids}) => {
   return (
     <div>
       <UserPrivateComponent permission={"readSingle-user"}>
-       {ids ? null : <PageTitle title=" Back  " /> } 
+        {ids ? null : <PageTitle title=" Back  " />}
 
         {user && !isLoading ? (
           <div className="mr-top">
@@ -580,11 +584,6 @@ const DetailStaff = ({ids}) => {
                   <div className="text-start txt-color-2 text-xl mt-5 ">
                     Documents History
                   </div>
-                  {/* <UserPrivateComponent permission={"update-education"}>
-              {user?.document && (
-                <SalaryEditPopup data={user?.document} />
-              )}
-            </UserPrivateComponent> */}
                 </div>
                 <hr className="mt-3 mb-3 new-hr" />
                 <div className="flex justify-start ml-2">
