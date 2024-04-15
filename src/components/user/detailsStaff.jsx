@@ -44,12 +44,14 @@ const DetailStaff = ({ids}) => {
   const { id } = useParams();
   let navigate = useNavigate();
 
-  const { data: user, isError: error, isLoading } = useGetUserQuery(ids ? ids : id);
+  const { data: user, isError: error, isLoading } = useGetUserQuery(id ? id : ids);
   const [onDelete, { isSuccess }] = useDeleteUserMutation();
 
   useEffect(() => {
     isSuccess && navigate("/admin/hr/staffs");
   }, [isSuccess, navigate]);
+
+  console.log("MAIN",user);
 
   return (
     <div>

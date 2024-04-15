@@ -12,25 +12,48 @@ import {
   useUpdateUserMutation,
 } from "../../../redux/rtk/features/user/userApi";
 import { useDeleteRoleQuery } from "../../../redux/rtk/features/role/roleApi";
-import { useGetCountriesQuery, useGetStatesQuery, useGetCityQuery } from "../../../redux/rtk/features/designation/designationApi";
+import {
+  useGetCountriesQuery,
+  useGetStatesQuery,
+  useGetCityQuery,
+} from "../../../redux/rtk/features/designation/designationApi";
 import { useGetWeeklyHolidaysQuery } from "../../../redux/rtk/features/weeklyHoliday/weeklyHolidayApi";
 import BtnEditSvg from "../Button/btnEditSvg";
 
 const ProfileEditPopup = ({ data }) => {
   const { id } = useParams("id");
-  // console.log("data: ",data.id);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { data: leavePolicy } = useGetLeavePoliciesQuery({ query: 'all' });
-  const { data: weeklyHoliday } = useGetWeeklyHolidaysQuery({ query: 'all' });
-  const { data: shift } = useGetShiftsQuery({ query: 'all' });
-  const { data: user } = useGetUserQuery(!id ? data.id : id);
-  // console.log("Id: ",data.id);
-  // console.log("user: ",user);
+  const { data: leavePolicy } = useGetLeavePoliciesQuery({ query: "all" });
+  const { data: weeklyHoliday } = useGetWeeklyHolidaysQuery({ query: "all" });
+  const { data: shift } = useGetShiftsQuery({ query: "all" });
+  // const { data: user } = useGetUserQuery(!id ? data.id : id);
+  // Fetch user data based on the presence of 'id'
+  const { data: userData } = useGetUserQuery(1);
+
+  console.log("ID !",userData);
+
+  const [user, setUser] = useState([]);
+
+  useEffect(() => {
+    if (data) {
+      setUser(data);
+    } else {
+      setUser(userData);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (data) {
+      setUser(data);
+    } else {
+      setUser(userData);
+    }
+  }, []);
 
   const { Option } = Select;
-  const { data: list } = useGetRolesQuery({ query: 'all' });
+  const { data: list } = useGetRolesQuery({ query: "all" });
 
-  const { data: department } = useGetDepartmentsQuery({ query: 'all' });
+  const { data: department } = useGetDepartmentsQuery({ query: "all" });
   const { data: countries } = useGetCountriesQuery();
   const [initialValues, setInitialValues] = useState({});
   const [roleId, setRoleId] = useState("");
@@ -40,8 +63,8 @@ const ProfileEditPopup = ({ data }) => {
   const [weeklyHolidayId, setWeeklyHolidayId] = useState("");
   const [country, setCountry] = useState();
   const [state, setState] = useState(user.country?.id);
-  const [currentState, setCurrentState] = useState(user.country?.id)
-  const [currentCity, setCurrentCity] = useState(user.state?.id)
+  const [currentState, setCurrentState] = useState(user.country?.id);
+  const [currentCity, setCurrentCity] = useState(user.state?.id);
   const [city, setCity] = useState(user.state?.id);
   const { data: states } = useGetStatesQuery(currentState);
   const { data: cities } = useGetCityQuery(currentCity);
@@ -92,7 +115,7 @@ const ProfileEditPopup = ({ data }) => {
             : data.weeklyHolidayId,
           country: country ? country : data.country.id,
           state: state ? state : data.state.id,
-          city: city ? city : data.city.id
+          city: city ? city : data.city.id,
         },
       });
 
@@ -123,8 +146,8 @@ const ProfileEditPopup = ({ data }) => {
   const handleCountyChange = (value) => {
     setCountry(value);
     setState(value);
-    setCurrentState(value)
-  }
+    setCurrentState(value);
+  };
   // console.log('initialValues', initialValues);
   return (
     <>
@@ -133,15 +156,15 @@ const ProfileEditPopup = ({ data }) => {
       </button>
       <Modal
         width={"50%"}
-        title='Update Employee Information'
+        title="Update Employee Information"
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
       >
         <Form
-          size='small'
+          size="small"
           form={form}
-          name='basic'
+          name="basic"
           labelCol={{
             span: 5,
           }}
@@ -151,15 +174,15 @@ const ProfileEditPopup = ({ data }) => {
           initialValues={initialValues}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
-          autoComplete='off'
+          autoComplete="off"
         >
-          <h2 className='text-center text-xl mt-3 mb-3 txt-color'>
+          <h2 className="text-center text-xl mt-3 mb-3 txt-color">
             User Information
           </h2>
           <Form.Item
             style={{ marginBottom: "10px" }}
-            label='First Name'
-            name='firstName'
+            label="First Name"
+            name="firstName"
             rules={[
               {
                 required: true,
@@ -167,12 +190,12 @@ const ProfileEditPopup = ({ data }) => {
               },
             ]}
           >
-            <Input placeholder='John' />
+            <Input placeholder="John" />
           </Form.Item>
           <Form.Item
             style={{ marginBottom: "10px" }}
-            label='Last Name'
-            name='lastName'
+            label="Last Name"
+            name="lastName"
             rules={[
               {
                 required: true,
@@ -180,7 +203,7 @@ const ProfileEditPopup = ({ data }) => {
               },
             ]}
           >
-            <Input placeholder='Doe' />
+            <Input placeholder="Doe" />
           </Form.Item>
           {/* <Form.Item
             style={{ marginBottom: "10px" }}
@@ -210,8 +233,8 @@ const ProfileEditPopup = ({ data }) => {
           </Form.Item> */}
           <Form.Item
             style={{ marginBottom: "10px" }}
-            label='User Name'
-            name='email'
+            label="User Name"
+            name="email"
             rules={[
               {
                 required: true,
@@ -219,13 +242,13 @@ const ProfileEditPopup = ({ data }) => {
               },
             ]}
           >
-            <Input placeholder='johndoe2@example.com' />
+            <Input placeholder="johndoe2@example.com" />
           </Form.Item>
 
           <Form.Item
             style={{ marginBottom: "10px" }}
-            label='Phone'
-            name='phone'
+            label="Phone"
+            name="phone"
             rules={[
               {
                 required: true,
@@ -233,97 +256,100 @@ const ProfileEditPopup = ({ data }) => {
               },
             ]}
           >
-            <Input placeholder='1234584515' />
+            <Input placeholder="1234584515" />
           </Form.Item>
 
-          <h2 className='text-center text-xl mt-3 mb-3 txt-color'>
+          <h2 className="text-center text-xl mt-3 mb-3 txt-color">
             Address Information
           </h2>
           <Form.Item
             style={{ marginBottom: "10px" }}
-            label='Country'
-            name='country'
+            label="Country"
+            name="country"
             rules={[{ required: true, message: "Please input Country!" }]}
           >
             <Select
               onChange={(value) => {
-                handleCountyChange(value)
+                handleCountyChange(value);
               }}
-              placeholder='Select Country'
+              placeholder="Select Country"
               allowClear
-              mode='single'
-              size='middle'
+              mode="single"
+              size="middle"
               style={{
                 width: "100%",
               }}
             >
-              {countries && countries.data.map((country) => (
-                <Option key={country.id} value={country.id}>
-                  {country.name}
-                </Option>
-              ))}
+              {countries &&
+                countries.data.map((country) => (
+                  <Option key={country.id} value={country.id}>
+                    {country.name}
+                  </Option>
+                ))}
             </Select>
           </Form.Item>
 
           {states ? (
             <Form.Item
               style={{ marginBottom: "10px" }}
-              label='State'
-              name='state'
+              label="State"
+              name="state"
               rules={[{ required: true, message: "Please input state!" }]}
             >
               <Select
                 onChange={(value) => {
-                  setState(value)
-                  setCurrentCity(value)
-                  setCity(value)
+                  setState(value);
+                  setCurrentCity(value);
+                  setCity(value);
                 }}
-                placeholder='Select State'
+                placeholder="Select State"
                 allowClear
-                mode='single'
-                size='middle'
+                mode="single"
+                size="middle"
                 style={{
                   width: "100%",
                 }}
               >
-                {states && states.data.map((state) => (
-                  <Option key={state.id} value={state.id}>
-                    {state.name}
-                  </Option>
-                ))}
+                {states &&
+                  states.data.map((state) => (
+                    <Option key={state.id} value={state.id}>
+                      {state.name}
+                    </Option>
+                  ))}
               </Select>
             </Form.Item>
           ) : null}
           <Form.Item
             onChange={(value) => setCity(value)}
             style={{ marginBottom: "10px" }}
-            label='City'
-            name='city'
+            label="City"
+            name="city"
             rules={[{ required: true, message: "Please input city!" }]}
           >
             <Select
               onChange={(value) => {
-                setCity(value)
+                setCity(value);
               }}
-              placeholder='Select City'
+              placeholder="Select City"
               allowClear
-              mode='single'
-              size='middle'
+              mode="single"
+              size="middle"
               style={{
                 width: "100%",
               }}
             >
-              {cities && cities.data.map((city) => (
-                <Option key={city.id} value={city.id}>
-                  {city.name}
-                </Option>
-              ))}
+              {cities &&
+                cities.data.map((city) => (
+                  <Option key={city.id} value={city.id}>
+                    {city.name}
+                  </Option>
+                ))}
             </Select>
           </Form.Item>
           <Form.Item
             style={{ marginBottom: "10px" }}
-            label='Street'
-            name='street'
+            label="Street"
+            name="street"
             rules={[
               {
                 required: true,
@@ -331,27 +357,27 @@ const ProfileEditPopup = ({ data }) => {
               },
             ]}
           >
-            <Input placeholder='123 Main Street' style={{ width: "100%" }} />
+            <Input placeholder="123 Main Street" style={{ width: "100%" }} />
           </Form.Item>
 
           <Form.Item
             style={{ marginBottom: "10px" }}
-            label='Zip Code'
-            name='zipCode'
+            label="Zip Code"
+            name="zipCode"
             rules={[{ required: true, message: "Please input Zip Code!" }]}
           >
-            <Input placeholder='90211' />
+            <Input placeholder="90211" />
           </Form.Item>
 
-          <h2 className='text-center text-xl mt-3 mb-3 txt-color'>
+          <h2 className="text-center text-xl mt-3 mb-3 txt-color">
             {" "}
             Employee Information{" "}
           </h2>
           <Form.Item
             style={{ marginBottom: "10px" }}
-            label='Joining Date'
-            name='joinDate'
-            valuePropName='date'
+            label="Joining Date"
+            name="joinDate"
+            valuePropName="date"
             rules={[
               {
                 required: true,
@@ -360,18 +386,18 @@ const ProfileEditPopup = ({ data }) => {
             ]}
           >
             <DatePicker
-              className='date-picker hr-staffs-date-picker'
+              className="date-picker hr-staffs-date-picker"
               defaultValue={initialValues.joinDate}
             />
           </Form.Item>
           <Form.Item
             style={{ marginBottom: "10px" }}
-            label='Leave Date'
-            name='leaveDate'
-            valuePropName='leaveDate'
+            label="Leave Date"
+            name="leaveDate"
+            valuePropName="leaveDate"
           >
             <DatePicker
-              className='date-picker hr-staffs-date-picker'
+              className="date-picker hr-staffs-date-picker"
               defaultValue={initialValues.leaveDate}
             />
           </Form.Item>
@@ -390,8 +416,8 @@ const ProfileEditPopup = ({ data }) => {
           </Form.Item> */}
           <Form.Item
             style={{ marginBottom: "10px" }}
-            label='Blood Group'
-            name='bloodGroup'
+            label="Blood Group"
+            name="bloodGroup"
             rules={[
               {
                 required: true,
@@ -400,11 +426,11 @@ const ProfileEditPopup = ({ data }) => {
             ]}
           >
             <Select
-              placeholder='Select Blood Group'
+              placeholder="Select Blood Group"
               allowClear
               defaultValue={initialValues.bloodGroup}
-              mode='single'
-              size='middle'
+              mode="single"
+              size="middle"
               style={{
                 width: "100%",
               }}
@@ -421,12 +447,12 @@ const ProfileEditPopup = ({ data }) => {
           <Form.Item
             name={"departmentId"}
             style={{ marginBottom: "10px" }}
-            label='Department'
+            label="Department"
             rules={[{ required: true, message: "Please input Department!" }]}
           >
             <Select
               onChange={(value) => setDepartmentId(value)}
-              placeholder='Select Department'
+              placeholder="Select Department"
               allowClear
               size={"middle"}
               defaultValue={initialValues.departmentId}
@@ -446,7 +472,7 @@ const ProfileEditPopup = ({ data }) => {
                 message: "Pleases Select Type!",
               },
             ]}
-            label='Role'
+            label="Role"
             name={"roleId"}
             style={{ marginBottom: "10px" }}
           >
@@ -454,13 +480,13 @@ const ProfileEditPopup = ({ data }) => {
               onChange={(value) => setRoleId(value)}
               defaultValue={initialValues.roleId}
               loading={!list}
-              size='middle'
-              mode='single'
+              size="middle"
+              mode="single"
               allowClear
               style={{
                 width: "100%",
               }}
-              placeholder='Please select Role'
+              placeholder="Please select Role"
             >
               {list &&
                 list.map((role) => (
@@ -478,7 +504,7 @@ const ProfileEditPopup = ({ data }) => {
                 message: "Pleases Select Type!",
               },
             ]}
-            label='Shift'
+            label="Shift"
             name={"shiftId"}
             style={{ marginBottom: "10px" }}
           >
@@ -486,13 +512,13 @@ const ProfileEditPopup = ({ data }) => {
               onChange={(value) => setShiftId(value)}
               defaultValue={initialValues.shiftId}
               loading={!shift}
-              size='middle'
-              mode='single'
+              size="middle"
+              mode="single"
               allowClear
               style={{
                 width: "100%",
               }}
-              placeholder='Please select shift'
+              placeholder="Please select shift"
             >
               {shift &&
                 shift.map((shift) => (
@@ -510,7 +536,7 @@ const ProfileEditPopup = ({ data }) => {
                 message: "Pleases Select Type!",
               },
             ]}
-            label='Leave Policy'
+            label="Leave Policy"
             name={"leavePolicyId"}
             style={{ marginBottom: "10px" }}
           >
@@ -518,13 +544,13 @@ const ProfileEditPopup = ({ data }) => {
               onChange={(value) => setLeavePolicyId(value)}
               defaultValue={initialValues.leavePolicyId}
               loading={!leavePolicy}
-              size='middle'
-              mode='single'
+              size="middle"
+              mode="single"
               allowClear
               style={{
                 width: "100%",
               }}
-              placeholder='Please select leavePolicy'
+              placeholder="Please select leavePolicy"
             >
               {leavePolicy &&
                 leavePolicy.map((leavePolicy) => (
@@ -542,7 +568,7 @@ const ProfileEditPopup = ({ data }) => {
                 message: "Pleases Select Type!",
               },
             ]}
-            label='Weekly Holiday'
+            label="Weekly Holiday"
             name={"weeklyHolidayId"}
             style={{ marginBottom: "10px" }}
           >
@@ -550,13 +576,13 @@ const ProfileEditPopup = ({ data }) => {
               onChange={(value) => setWeeklyHolidayId(value)}
               defaultValue={initialValues.weeklyHolidayId}
               loading={!weeklyHoliday}
-              size='middle'
-              mode='single'
+              size="middle"
+              mode="single"
               allowClear
               style={{
                 width: "100%",
               }}
-              placeholder='Please select weeklyHoliday'
+              placeholder="Please select weeklyHoliday"
             >
               {weeklyHoliday &&
                 weeklyHoliday.map((weeklyHoliday) => (
@@ -575,11 +601,11 @@ const ProfileEditPopup = ({ data }) => {
             }}
           >
             <Button
-              className='mt-5'
+              className="mt-5"
               block
-              type='primary'
-              shape='round'
-              htmlType='submit'
+              type="primary"
+              shape="round"
+              htmlType="submit"
               loading={isLoading}
             >
               Update Employee
