@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetShiftsQuery } from "../../redux/rtk/features/shift/shiftApi";
 import ViewBtn from "../Buttons/ViewBtn";
 import CardCustom from "../CommonUi/CardCustom";
@@ -7,6 +7,8 @@ import CreateDrawer from "../CommonUi/CreateDrawer";
 import TablePagination from "../CommonUi/TablePagination";
 import PageTitle from "../page-header/PageHeader";
 import AddShift from "./AddShift";
+import UserPrivateComponent from "../PrivateRoutes/UserPrivateComponent";
+import getPermissions from "../../utils/getPermissions";
 
 const Shift = (props) => {
   const [pageConfig, setPageConfig] = useState({
@@ -14,15 +16,30 @@ const Shift = (props) => {
     count: 10,
     status: "true",
   });
+  const [permission, setPermission] = useState([]);
   const { data, isLoading } = useGetShiftsQuery(pageConfig);
   const calculateSerialNumber = (currentPage, itemsPerPage, index) => {
     return (currentPage - 1) * itemsPerPage + index + 1;
   };
   const updatedData = data?.getAllShift.map((item, index) => ({
     ...item,
-    serialNumber: calculateSerialNumber(pageConfig.page, pageConfig.count, index),
+    serialNumber: calculateSerialNumber(
+      pageConfig.page,
+      pageConfig.count,
+      index
+    ),
   }));
-  
+
+  const fetchData = async () => {
+    const response = await getPermissions();
+    setPermission(response)
+    console.log("PERsss", permission === "readSingle-shift");
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const columns = [
     {
       id: 1,
@@ -54,16 +71,27 @@ const Shift = (props) => {
       render: (endTime) => dayjs(endTime).format("hh:mm A"),
     },
     {
-      id: 5,
-      title: "Action",
+      id: (5),
+      title: (
+        <UserPrivateComponent permission={"readSingle-shift"}>
+          Action
+        </UserPrivateComponent>
+      ),
       dataIndex: "id",
       key: "action",
-      render: (id) => <ViewBtn path={`/admin/shift/${id}/`} />,
+      render: (id) => (
+        <UserPrivateComponent permission={"readSingle-shift"}>
+          <ViewBtn path={`/admin/shift/${id}/`} />
+        </UserPrivateComponent>
+      ),
     },
   ];
+
+
+  console.log(permission?.includes("readSingle-shift"));
   return (
     <div>
-      <PageTitle title='Back' />
+      <PageTitle title="Back" />
       <CardCustom
         title={"Shift List"}
         extra={
