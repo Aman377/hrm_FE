@@ -1,4 +1,13 @@
-import { Button, Card, Checkbox, Col, Form, Row, Typography, Input } from "antd";
+import {
+  Button,
+  Card,
+  Checkbox,
+  Col,
+  Form,
+  Row,
+  Typography,
+  Input,
+} from "antd";
 
 import { Fragment, useEffect, useState } from "react";
 import {
@@ -16,44 +25,63 @@ import UserPrivateComponent from "../PrivateRoutes/UserPrivateComponent";
 import Loader from "../loader/loader";
 import PageTitle from "../page-header/PageHeader";
 
+function capitalize(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
+function toTitleCase(str) {
+  return str.replace(/([A-Z])/g, " $1").trim();
+}
+
 function PermissionList(props) {
   const permissionNames = props.permissionNames;
   const { selectedPermission, setSelectedPermission } = props;
 
-  const permissionElements = permissionNames.map((item) => (
-    <Fragment key={item.id}>
-      <Checkbox
-        value={item.id}
-        onChange={() => {
-          setSelectedPermission((prev) => {
-            return {
+  const dividedGroups = [];
+  for (let i = 0; i < permissionNames.length; i += 5) {
+    dividedGroups.push(permissionNames.slice(i, i + 5));
+  }
+
+  const groups = dividedGroups.map((group, index) => {
+    const firstName = group[0].name;
+    const actualFirstName = firstName.split("-")[1];
+    const checkboxes = group.map((item) => (
+      <Fragment key={item.id}>
+        <Checkbox
+          value={item.id}
+          onChange={() => {
+            setSelectedPermission((prev) => ({
               ...prev,
               [item.id]: !prev[item.id],
-            };
-          });
-        }}
-        checked={selectedPermission[item.id]}
-      >
-        {item.name}
-      </Checkbox>
-    </Fragment>
-  ));
-
-  const rows = [];
-  for (let i = 0; i < permissionElements.length; i += 5) {
-    rows.push(
-      <div
-        key={i}
-        className="flex justify-between m-4 border-2 border-indigo-100 px-4 py-3"
-      >
-        {permissionElements.slice(i, i + 5)}
-        <br />
+            }));
+          }}
+          checked={selectedPermission[item.id]}
+        >
+          {item.name}
+        </Checkbox>
+      </Fragment>
+    ));
+    return (
+      <div key={index}>
+        <div className="w-full ml-4">
+          {/* <Checkbox
+            className="mr-2"
+            // checked={selectAll}
+            // onChange={handleSelectAllChange}
+          /> */}
+          {toTitleCase(capitalize(actualFirstName))}
+        </div>
+        <div>
+          <div className="flex justify-between m-2  border-2 border-indigo-100 px-4 py-3">
+            {checkboxes}
+          </div>
+        </div>
       </div>
     );
-  }
-  return <div>{rows}</div>;
-}
+  });
 
+  return <div>{groups}</div>;
+}
 
 const AddPermission = () => {
   const navigate = useNavigate();
@@ -84,7 +112,6 @@ const AddPermission = () => {
 
     setSelectedPermission(updatedSelectedPermission);
   };
-
 
   useEffect(() => {
     if (d) {
@@ -155,7 +182,6 @@ const AddPermission = () => {
                 <span className="text-primary">{roleName}</span>
               </Title>
 
-
               {permissions.length > 0 ? (
                 <>
                   <div className="flex ml-4 justify-start">
@@ -165,7 +191,7 @@ const AddPermission = () => {
                       checked={selectAll}
                       onChange={handleSelectAllChange}
                     />
-                    <span className="ml-2 text-[18px] ">Select All</span>
+                    <span className="ml-2 text-[18px] mb-4">Select All</span>
                   </div>
                   <PermissionList
                     permissionNames={permissions}

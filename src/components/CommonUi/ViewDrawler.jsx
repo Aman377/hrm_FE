@@ -10,10 +10,12 @@ export default function CreateDrawer({
   children,
   update,
   color,
-  header
+  header,
 }) {
   // Drawer state
   const [open, setOpen] = useState(false);
+
+  const role = localStorage.getItem("role");
 
   const onClose = () => {
     setOpen(false);
@@ -22,12 +24,16 @@ export default function CreateDrawer({
   return (
     <>
       <UserPrivateComponent permission={permission}>
-        <div
-          onClick={() => setOpen(true)}
-        >
-          <div className="flex items-start justify-start ">
-            <div className="min-w-[110px] text-blue-400 hover:underline cursor-pointer">{title}</div>
-          </div>
+        <div onClick={() => setOpen(true)}>
+          {role == 1 ? (
+            ""
+          ) : (
+            <div className="flex items-end justify-end ">
+              <div className="min-w-[110px] text-blue-400 hover:underline cursor-pointer flex justify-center">
+                {title}
+              </div>
+            </div>
+          )}
         </div>
         <Drawer
           width={

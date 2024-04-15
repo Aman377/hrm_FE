@@ -77,7 +77,6 @@ const ProfileEditPopup = ({ data }) => {
 
   const [form] = Form.useForm();
   const onFinish = async (values) => {
-    // console.log("values >>", values);
     try {
       await updateUser({
         id: id,

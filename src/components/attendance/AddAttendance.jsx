@@ -103,7 +103,7 @@ const AddAttendance = ({ drawer }) => {
             <Select placeholder='Select User'>
               {users?.map((user) => (
                 <Select.Option key={user.id} value={user.id}>
-                  {user.username}
+                  {user.firstName + " " + user.lastName}
                 </Select.Option>
               ))}
             </Select>

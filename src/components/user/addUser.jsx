@@ -315,11 +315,11 @@ const AddUser = () => {
                   rules={[
                     {
                       required: true,
-                      message: "Please input userName/Email",
+                      message: "Please input UserName/Email",
                     },
                     {
                       type: "email",
-                      message: "Please enter a valid userName/Email",
+                      message: "Please enter a valid Email",
                     },
                   ]}
                 >

@@ -5,16 +5,19 @@ import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAddPaymentMutation } from "../../redux/rtk/features/payment/paymentApi";
-import { useGetPayslipForPaymentMonthWiseQuery } from "../../redux/rtk/features/payroll/payrollApi";
+import {
+  useGetPayslipForPaymentMonthWiseQuery,
+  useGetPayrollQuery,
+} from "../../redux/rtk/features/payroll/payrollApi";
 import CardCustom from "../CommonUi/CardCustom";
 import TablePagination from "../CommonUi/TablePagination";
 import UserPrivateComponent from "../PrivateRoutes/UserPrivateComponent";
 import PageTitle from "../page-header/PageHeader";
 
 const PayslipList = () => {
-  const [pageConfig, setPageConfig] = useState({page:1, count:10});
-  const { data: payroll, isLoading } =
-    useGetPayslipForPaymentMonthWiseQuery(pageConfig);
+  const id = localStorage.getItem("id");
+  const [pageConfig, setPageConfig] = useState({ page: 1, count: 10 });
+  const { data: payroll, isLoading } = useGetPayrollQuery(id);
   const [addPayslipPayment, { isLoading: loading }] = useAddPaymentMutation();
 
   const onMonthChange = (date, dateString) => {
@@ -45,24 +48,33 @@ const PayslipList = () => {
   ];
 
   const onChange4 = ({ target: { value } }) => {
-    if(value === 'ALL'){
-        setPageConfig((prev) => {
-          return {page:1, count:10};
-        });
-    }else{
-        setPageConfig((prev) => {
-          return { ...prev, value: "monthWise", paymentStatus: value };
-        });
+    if (value === "ALL") {
+      setPageConfig((prev) => {
+        return { page: 1, count: 10 };
+      });
+    } else {
+      setPageConfig((prev) => {
+        return { ...prev, value: "monthWise", paymentStatus: value };
+      });
     }
   };
   const calculateSerialNumber = (currentPage, itemsPerPage, index) => {
     return (currentPage - 1) * itemsPerPage + index + 1;
   };
-  const updatedData = payroll?.getAllPayslip.map((item, index) => ({
-    ...item,
-    id: item.userId,
-    serialNumber: calculateSerialNumber(pageConfig.page, pageConfig.count, index),
-  }));
+  if (payroll && payroll.getAllPayslip) {
+    const item = payroll.getAllPayslip;
+    const updatedItem = {
+      ...item,
+      id: item.id,
+      userId: item.user.id,
+      serialNumber: calculateSerialNumber(
+        pageConfig.page,
+        pageConfig.count,
+        0 
+      ),
+    };
+  }
+  
 
   const columns = [
     {
@@ -152,28 +164,16 @@ const PayslipList = () => {
         return (
           <div className="flex flex-col gap-1">
             <Link to={`/admin/payroll/${id}`}>
-              <Tooltip title='View'>
+              <Tooltip title="View">
                 <Button
                   icon={<EyeFilled />}
-                  type='primary'
-                  size='middle'
-                  className='mr-2'
+                  type="primary"
+                  size="middle"
+                  className="mr-2"
                 ></Button>
               </Tooltip>
             </Link>
 
-            <UserPrivateComponent permission='create-transaction'>
-              <Tooltip title='Payment'>
-                <Button
-                  loading={loading}
-                  icon={<DollarCircleFilled />}
-                  type='primary'
-                  size='middle'
-                  onClick={onPayment}
-                  disabled={paymentStatus === "PAID"}
-                ></Button>
-              </Tooltip>
-            </UserPrivateComponent>
           </div>
         );
       },

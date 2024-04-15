@@ -44,7 +44,6 @@ const GetAllAttendance = (props) => {
     ...item,
     serialNumber: calculateSerialNumber(pageConfig.page, pageConfig.count, index),
   })) || [];
-  // console.log("updatedData>>>>",updatedData);
   const columns = [
     {
       id: 1,
