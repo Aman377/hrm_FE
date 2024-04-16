@@ -16,8 +16,19 @@ const Shift = (props) => {
     count: 10,
     status: "true",
   });
-  const [permission, setPermission] = useState([]);
   const { data, isLoading } = useGetShiftsQuery(pageConfig);
+  const [permission, setPermission] = useState([]);
+
+  const fetchData = async () => {
+    const response = await getPermissions();
+    setPermission(response);
+  };
+
+  
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   const calculateSerialNumber = (currentPage, itemsPerPage, index) => {
     return (currentPage - 1) * itemsPerPage + index + 1;
   };
@@ -30,31 +41,20 @@ const Shift = (props) => {
     ),
   }));
 
-  const fetchData = async () => {
-    const response = await getPermissions();
-    setPermission(response)
-    console.log("PERsss", permission === "readSingle-shift");
-  };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const columns = [
+  const initialColumns = [
     {
       id: 1,
       title: "Sr.No",
       dataIndex: "serialNumber",
       key: "serialNumber",
     },
-
     {
       id: 2,
       title: "Name",
       dataIndex: "name",
       key: "name",
     },
-
     {
       id: 3,
       title: "Start Time",
@@ -62,7 +62,6 @@ const Shift = (props) => {
       key: "startTime",
       render: (startTime) => dayjs(startTime).format("hh:mm A"),
     },
-
     {
       id: 4,
       title: "End Time",
@@ -70,8 +69,12 @@ const Shift = (props) => {
       key: "endTime",
       render: (endTime) => dayjs(endTime).format("hh:mm A"),
     },
+  ];
+
+  const columnsWithAction = [
+    ...initialColumns,
     {
-      id: (5),
+      id: 5,
       title: (
         <UserPrivateComponent permission={"readSingle-shift"}>
           Action
@@ -87,8 +90,9 @@ const Shift = (props) => {
     },
   ];
 
+  const hasReadSingleShiftPermission = permission?.includes("readSingle-shift");
 
-  console.log(permission?.includes("readSingle-shift"));
+  // Only render TablePagination when permission state is updated
   return (
     <div>
       <PageTitle title="Back" />
@@ -106,17 +110,19 @@ const Shift = (props) => {
           </>
         }
       >
-        <TablePagination
-          list={updatedData}
-          total={data?.totalShift}
-          columns={columns}
-          csvFileName={"shift list"}
-          loading={isLoading}
-          setPageConfig={setPageConfig}
-          pageConfig={pageConfig}
-          permission={"readAll-shift"}
-          searchBy={"Search by name"}
-        />
+        {permission.length > 0 && (
+          <TablePagination
+            list={updatedData}
+            total={data?.totalShift}
+            columns={hasReadSingleShiftPermission ? columnsWithAction : initialColumns}
+            csvFileName={"shift list"}
+            loading={isLoading}
+            setPageConfig={setPageConfig}
+            pageConfig={pageConfig}
+            permission={"readAll-shift"}
+            searchBy={"Search by name"}
+          />
+        )}
       </CardCustom>
     </div>
   );

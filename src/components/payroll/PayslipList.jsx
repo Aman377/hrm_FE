@@ -1,6 +1,6 @@
 import { DollarCircleFilled, EyeFilled } from "@ant-design/icons";
 import { Button, DatePicker, Radio, Tooltip } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -10,9 +10,10 @@ import CardCustom from "../CommonUi/CardCustom";
 import TablePagination from "../CommonUi/TablePagination";
 import UserPrivateComponent from "../PrivateRoutes/UserPrivateComponent";
 import PageTitle from "../page-header/PageHeader";
+import getPermissions from "../../utils/getPermissions";
 
 const PayslipList = () => {
-  const [pageConfig, setPageConfig] = useState({page:1, count:10});
+  const [pageConfig, setPageConfig] = useState({ page: 1, count: 10 });
   const { data: payroll, isLoading } =
     useGetPayslipForPaymentMonthWiseQuery(pageConfig);
   const [addPayslipPayment, { isLoading: loading }] = useAddPaymentMutation();
@@ -45,14 +46,14 @@ const PayslipList = () => {
   ];
 
   const onChange4 = ({ target: { value } }) => {
-    if(value === 'ALL'){
-        setPageConfig((prev) => {
-          return {page:1, count:10};
-        });
-    }else{
-        setPageConfig((prev) => {
-          return { ...prev, value: "monthWise", paymentStatus: value };
-        });
+    if (value === "ALL") {
+      setPageConfig((prev) => {
+        return { page: 1, count: 10 };
+      });
+    } else {
+      setPageConfig((prev) => {
+        return { ...prev, value: "monthWise", paymentStatus: value };
+      });
     }
   };
   const calculateSerialNumber = (currentPage, itemsPerPage, index) => {
@@ -61,10 +62,25 @@ const PayslipList = () => {
   const updatedData = payroll?.getAllPayslip.map((item, index) => ({
     ...item,
     id: item.userId,
-    serialNumber: calculateSerialNumber(pageConfig.page, pageConfig.count, index),
+    serialNumber: calculateSerialNumber(
+      pageConfig.page,
+      pageConfig.count,
+      index
+    ),
   }));
 
-  const columns = [
+  const [permission, setPermission] = useState([]);
+
+  const fetchData = async () => {
+    const response = await getPermissions();
+    setPermission(response);
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const initialColumns = [
     {
       id: 1,
       title: "Sr.No",
@@ -141,6 +157,11 @@ const PayslipList = () => {
       dataIndex: "paymentStatus",
       key: "paymentStatus",
     },
+  ];
+
+  const columnsWithAction = [
+    ...initialColumns,
+
     {
       title: "Action",
       key: "action",
@@ -152,23 +173,23 @@ const PayslipList = () => {
         return (
           <div className="flex flex-col gap-1">
             <Link to={`/admin/payroll/${id}`}>
-              <Tooltip title='View'>
+              <Tooltip title="View">
                 <Button
                   icon={<EyeFilled />}
-                  type='primary'
-                  size='middle'
-                  className='mr-2'
+                  type="primary"
+                  size="middle"
+                  className="mr-2"
                 ></Button>
               </Tooltip>
             </Link>
 
-            <UserPrivateComponent permission='create-transaction'>
-              <Tooltip title='Payment'>
+            <UserPrivateComponent permission="create-transaction">
+              <Tooltip title="Payment">
                 <Button
                   loading={loading}
                   icon={<DollarCircleFilled />}
-                  type='primary'
-                  size='middle'
+                  type="primary"
+                  size="middle"
                   onClick={onPayment}
                   disabled={paymentStatus === "PAID"}
                 ></Button>
@@ -179,6 +200,10 @@ const PayslipList = () => {
       },
     },
   ];
+
+  const hasReadSingleShiftPermission =
+    permission?.includes("readSingle-payroll");
+
   return (
     <div>
       <PageTitle title="Back" />
@@ -219,17 +244,21 @@ const PayslipList = () => {
           </div>
         }
       >
-        <TablePagination
-          list={updatedData}
-          total={payroll?.totalPayslip}
-          setPageConfig={setPageConfig}
-          pageConfig={pageConfig}
-          loading={isLoading}
-          columns={columns}
-          permission={"readAll-payroll"}
-          csvFileName={"Payslip List"}
-          searchBy={"Search by name"}
-        />
+        {permission.length > 0 && (
+          <TablePagination
+            list={updatedData}
+            total={payroll?.totalPayslip}
+            setPageConfig={setPageConfig}
+            pageConfig={pageConfig}
+            loading={isLoading}
+            columns={
+              hasReadSingleShiftPermission ? columnsWithAction : initialColumns
+            }
+            permission={"readAll-payroll"}
+            csvFileName={"Payslip List"}
+            searchBy={"Search by name"}
+          />
+        )}
       </CardCustom>
     </div>
   );

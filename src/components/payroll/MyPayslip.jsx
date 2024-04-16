@@ -67,14 +67,9 @@ const PayslipList = () => {
       ...item,
       id: item.id,
       userId: item.user.id,
-      serialNumber: calculateSerialNumber(
-        pageConfig.page,
-        pageConfig.count,
-        0 
-      ),
+      serialNumber: calculateSerialNumber(pageConfig.page, pageConfig.count, 0),
     };
   }
-  
 
   const columns = [
     {
@@ -173,7 +168,6 @@ const PayslipList = () => {
                 ></Button>
               </Tooltip>
             </Link>
-
           </div>
         );
       },

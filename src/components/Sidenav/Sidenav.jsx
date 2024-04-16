@@ -402,7 +402,7 @@ const Sidenav = ({ color, sideNavOpenKeys }) => {
           key: "allProject",
           icon: <FundProjectionScreenOutlined />,
         },
-        hasPermission("create-projectTeam") && {
+        hasPermission("readAll-projectTeam") && {
           label: (
             <NavLink to="/admin/team">
               <span>Team</span>

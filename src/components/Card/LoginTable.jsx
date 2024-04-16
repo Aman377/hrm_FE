@@ -20,6 +20,10 @@ const LoginTable = () => {
 						<td className='border border-slate-500 px-9 py-2'>admin</td>
 						<td className='border border-slate-500 px-9 py-2'>admin</td>
 					</tr>
+					<tr>
+						<td className='border border-slate-500 px-9 py-2'>user@gmail.com</td>
+						<td className='border border-slate-500 px-9 py-2'>123</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
