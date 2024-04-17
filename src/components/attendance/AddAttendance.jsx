@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Button,
@@ -16,6 +16,22 @@ import { useGetUsersQuery } from "../../redux/rtk/features/user/userApi";
 
 const AddAttendance = ({ drawer }) => {
   const { data: users } = useGetUsersQuery({ query: "all" });
+  const [defaultValue, setDefaultValue] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  const loggedInUserEmail = localStorage.getItem("user");
+  const loggedInUserRole = localStorage.getItem("role");
+  const matchedUser = users?.find((user) => user?.email === loggedInUserEmail);
+
+  useEffect(() => {
+    if (matchedUser) {
+      setDefaultValue(`${matchedUser.firstName} ${matchedUser.lastName}`);
+      setLoading(false);
+    }
+  }, [matchedUser]);
+
+  // console.log("loggedInUser", loggedInUser);
+
   const [addManualAttendance, { isLoading }] = useAddManualAttendanceMutation();
 
   const { Title } = Typography;
@@ -63,14 +79,14 @@ const AddAttendance = ({ drawer }) => {
 
   return (
     <>
-      <Title level={4} className='m-2 mt-5 mb-5 text-center'>
+      <Title level={4} className="m-2 mt-5 mb-5 text-center">
         Add Manual Attendance
       </Title>
       {inTimeDate.time === null ||
       inTimeDate.date === null ||
       outTimeDate.time === null ||
       outTimeDate.date === null ? (
-        <p className='text-center text-rose-500 text-sm font-medium mb-4'>
+        <p className="text-center  text-sm font-bold mb-4">
           {" "}
           * Please fill Date and Time
         </p>
@@ -80,41 +96,61 @@ const AddAttendance = ({ drawer }) => {
       <Form
         form={form}
         style={{ marginBottom: "40px" }}
-        eventKey='shift-form'
-        name='basic'
-        layout='vertical'
+        eventKey="shift-form"
+        name="basic"
+        layout="vertical"
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
-        autoComplete='off'
-        className='mx-4'
+        autoComplete="off"
+        className="mx-4"
       >
         <div>
           <Form.Item
             style={{ marginBottom: "10px" }}
-            label='User'
-            name='userId'
+            label="User"
+            name="userId"
             rules={[
               {
                 required: true,
-                message: "Please input your user!",
+                message: "Please select an user!",
               },
             ]}
           >
-            <Select placeholder='Select User'>
+            {/* <Select placeholder="Select User">
               {users?.map((user) => (
                 <Select.Option key={user.id} value={user.id}>
                   {user.firstName + " " + user.lastName}
                 </Select.Option>
               ))}
+            </Select> */}
+            <Select
+              placeholder="Select User"
+              defaultValue={
+                loggedInUserRole === "2" && matchedUser
+                  ? `${matchedUser.firstName} ${matchedUser.lastName}`
+                  : null
+              }
+            >
+              {loggedInUserRole === "2" && matchedUser ? (
+                <Select.Option key={matchedUser.id} value={matchedUser.id}>
+                  {`${matchedUser.firstName} ${matchedUser.lastName}`}
+                </Select.Option>
+              ) : (
+                users?.map((user) => (
+                  <Select.Option key={user.id} value={user.id}>
+                    {`${user.firstName} ${user.lastName}`}
+                  </Select.Option>
+                ))
+              )}
             </Select>
           </Form.Item>
 
           <Form.Item
             style={{ marginBottom: "10px" }}
-            label='Start Time'
-            name='inTime'
+            label="Start Time"
+            name="inTime"
           >
-            <div className='flex justify-between'>
+            <div className="flex justify-between">
               <DatePicker
                 format={"YYYY-MM-DD"}
                 onChange={(date, dateString) =>
@@ -122,7 +158,7 @@ const AddAttendance = ({ drawer }) => {
                 }
               />
               <TimePicker
-                className='ml-4'
+                className="ml-4"
                 format={"HH:mm:s"}
                 onChange={(time, timeString) =>
                   setInTimeDate({ ...inTimeDate, time: timeString })
@@ -133,10 +169,10 @@ const AddAttendance = ({ drawer }) => {
 
           <Form.Item
             style={{ marginBottom: "10px" }}
-            label='End Time'
-            name='outTime'
+            label="End Time"
+            name="outTime"
           >
-            <div className='flex justify-between'>
+            <div className="flex justify-between">
               <DatePicker
                 format={"YYYY-MM-DD"}
                 onChange={(date, dateString) =>
@@ -144,7 +180,7 @@ const AddAttendance = ({ drawer }) => {
                 }
               />
               <TimePicker
-                className='ml-4'
+                className="ml-4"
                 format={"HH:mm:s"}
                 onChange={(time, timeString) =>
                   setOutTimeDate({ ...outTimeDate, time: timeString })
@@ -155,18 +191,18 @@ const AddAttendance = ({ drawer }) => {
 
           <Form.Item
             style={{ marginBottom: "10px" }}
-            label='Comment'
-            name='comment'
+            label="Comment"
+            name="comment"
           >
-            <Input placeholder='Comment' />
+            <Input placeholder="Comment" />
           </Form.Item>
 
           <Form.Item
             style={{ marginBottom: "10px" }}
-            label='IP Address'
-            name='ip'
+            label="IP Address"
+            name="ip"
           >
-            <Input placeholder='127.0.0.1' />
+            <Input placeholder="127.0.0.1" />
           </Form.Item>
 
           <Form.Item
@@ -177,15 +213,15 @@ const AddAttendance = ({ drawer }) => {
             }}
           >
             <Button
-              type='primary'
-              size='large'
+              type="primary"
+              size="large"
               disabled={
                 inTimeDate.time === null ||
                 inTimeDate.date === null ||
                 outTimeDate.time === null ||
                 outTimeDate.date === null
               }
-              htmlType='submit'
+              htmlType="submit"
               block
               loading={isLoading}
             >

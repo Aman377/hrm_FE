@@ -92,7 +92,7 @@ const EmploymentStatus = () => {
       key: "action",
       render: (id) => (
         <UserPrivateComponent permission={"readSingle-employmentStatus"}>
-          <ViewBtn path={`/admin/employment-status/${id}/`} />,
+          <ViewBtn path={`/admin/employment-status/${id}/`} />
         </UserPrivateComponent>
       ),
     },

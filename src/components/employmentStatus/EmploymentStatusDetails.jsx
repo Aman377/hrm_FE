@@ -33,27 +33,27 @@ const DetailEmploymentStatus = () => {
      },
 
      {
-       id: 6,
+       id: 3,
        title: "User Name",
        dataIndex: "username",
        key: "username",
      },
      {
-       id: 7,
+       id: 4,
        title: "Start Time",
        dataIndex: "startTime",
        key: "startTime",
        render: (startTime) => dayjs(startTime).format("hh:mm A"),
      },
      {
-       id: 8,
+       id: 5,
        title: "End Time",
        dataIndex: "endTime",
        key: "endTime",
        render: (endTime) => dayjs(endTime).format("hh:mm A"),
      },
      {
-       id: 4,
+       id: 6,
        title: "Action",
        dataIndex: "id",
        key: "action",

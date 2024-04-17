@@ -117,9 +117,8 @@ const GetAllUser = () => {
     },
   ];
 
-  const hasReadSingleShiftPermission = permission?.includes(
-    "readSingle-user" || "readSingle-attendance"
-  );
+  const hasReadSingleShiftPermission = permission?.includes("readSingle-user") || permission?.includes("readSingle-attendance");
+
 
   // const columns = [
   //   // {

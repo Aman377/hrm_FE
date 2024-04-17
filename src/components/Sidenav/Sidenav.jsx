@@ -104,14 +104,14 @@ const Sidenav = ({ color, sideNavOpenKeys }) => {
       ],
     },
 
-    (hasPermission("create-attendance") ||
+    (hasPermission("readAll-attendance") ||
       hasPermission("readAll-attendance") ||
       hasPermission("readSingle-attendance") ) && {
       label: "ATTENDANCE",
       key: "ATTENDANCE",
       icon: <ClockCircleOutlined />,
       children: [
-        hasPermission("create-attendance") && {
+        hasPermission("readAll-attendance") && {
           label: (
             <NavLink to="/admin/attendance">
               <span>Attendance</span>
