@@ -19,16 +19,15 @@ const AddAttendance = ({ drawer }) => {
   const [defaultValue, setDefaultValue] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const loggedInUserEmail = localStorage.getItem("user");
   const loggedInUserRole = localStorage.getItem("role");
-  const matchedUser = users?.find((user) => user?.email === loggedInUserEmail);
+  const loggedInUserFirstName = localStorage.getItem("firstName");
+  const loggedInUserLastName = localStorage.getItem("lastName");
+  const loggedInUserId = localStorage.getItem("id");
 
   useEffect(() => {
-    if (matchedUser) {
-      setDefaultValue(`${matchedUser.firstName} ${matchedUser.lastName}`);
-      setLoading(false);
-    }
-  }, [matchedUser]);
+    setDefaultValue(`${loggedInUserFirstName} ${loggedInUserLastName}`);
+    setLoading(false);
+  }, []);
 
   // console.log("loggedInUser", loggedInUser);
 
@@ -65,6 +64,7 @@ const AddAttendance = ({ drawer }) => {
           ? dayjs(outTimeDateNew).format("YYYY-MM-DD HH:mm:ss")
           : null,
     };
+    console.log("VAUES", FormData);
 
     const resp = await addManualAttendance(FormData);
     if (resp.data && !resp.error) {
@@ -126,14 +126,14 @@ const AddAttendance = ({ drawer }) => {
             <Select
               placeholder="Select User"
               defaultValue={
-                loggedInUserRole === "2" && matchedUser
-                  ? `${matchedUser.firstName} ${matchedUser.lastName}`
+                loggedInUserRole === "2"
+                  ? `${loggedInUserFirstName} ${loggedInUserLastName}`
                   : null
               }
             >
-              {loggedInUserRole === "2" && matchedUser ? (
-                <Select.Option key={matchedUser.id} value={matchedUser.id}>
-                  {`${matchedUser.firstName} ${matchedUser.lastName}`}
+              {loggedInUserRole === "2" ? (
+                <Select.Option key={loggedInUserId} value={loggedInUserId}>
+                  {`${loggedInUserFirstName} ${loggedInUserLastName}`}
                 </Select.Option>
               ) : (
                 users?.map((user) => (

@@ -55,7 +55,7 @@ const DetailStaff = ({ ids }) => {
     isSuccess && navigate("/admin/hr/staffs");
   }, [isSuccess, navigate]);
 
-  console.log("MAIN",user);
+  const getUserRole = localStorage.getItem("role");
 
   return (
     <div>
@@ -155,27 +155,30 @@ const DetailStaff = ({ ids }) => {
                 </div>
 
                 {/* Action Buttons */}
-
                 <div className="">
                   <div className="flex justify-center py-8 px-4 mt-10 mr-4">
-                    <UserPrivateComponent permission="update-user">
-                      <button className="mr-2 mt-2">
-                        {user && <ProfileEditPopup data={user} />}
-                      </button>
-                    </UserPrivateComponent>
-                    <UserPrivateComponent permission="delete-user">
-                      <Popconfirm
-                        placement="topLeft"
-                        title="Are you sure you want to delete?"
-                        onConfirm={() => onDelete(id)}
-                        okText="Yes"
-                        cancelText="No"
-                      >
-                        <button>
-                          <BtnDeleteSvg size={30} />
-                        </button>
-                      </Popconfirm>
-                    </UserPrivateComponent>
+                    {getUserRole === "1" && (
+                      <>
+                        <UserPrivateComponent permission="update-user">
+                          <button className="mr-2 mt-2">
+                            {user && <ProfileEditPopup data={user} />}
+                          </button>
+                        </UserPrivateComponent>
+                        <UserPrivateComponent permission="delete-user">
+                          <Popconfirm
+                            placement="topLeft"
+                            title="Are you sure you want to delete?"
+                            onConfirm={() => onDelete(id)}
+                            okText="Yes"
+                            cancelText="No"
+                          >
+                            <button>
+                              <BtnDeleteSvg size={30} />
+                            </button>
+                          </Popconfirm>
+                        </UserPrivateComponent>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

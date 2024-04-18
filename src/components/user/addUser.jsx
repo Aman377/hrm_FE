@@ -813,13 +813,13 @@ const AddUser = () => {
                   <DatePicker className="date-picker hr-staffs-date-picker" />
                 </Form.Item>
 
-                <Form.Item
+                {/* <Form.Item
                   style={{ marginBottom: "10px" }}
                   label="Salary End Date"
                   name="salaryEndDate"
                 >
                   <DatePicker className="date-picker hr-staffs-date-picker" />
-                </Form.Item>
+                </Form.Item> */}
 
                 <Form.Item
                   style={{ marginBottom: "10px" }}
@@ -836,7 +836,7 @@ const AddUser = () => {
             </h2>
 
             <div className="text-center">
-              <p className="text-red-500 text-base mb-4">
+              <p className="text-base mb-4">
                 Please add education information
               </p>
             </div>

@@ -1,18 +1,15 @@
-import { DollarCircleFilled, EyeFilled } from "@ant-design/icons";
+import React, { useState } from "react";
 import { Button, DatePicker, Radio, Tooltip } from "antd";
-import React from "react";
-
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useAddPaymentMutation } from "../../redux/rtk/features/payment/paymentApi";
 import {
-  useGetPayslipForPaymentMonthWiseQuery,
+  useAddPaymentMutation,
   useGetPayrollQuery,
+  useGetPayslipForPaymentMonthWiseQuery,
 } from "../../redux/rtk/features/payroll/payrollApi";
 import CardCustom from "../CommonUi/CardCustom";
 import TablePagination from "../CommonUi/TablePagination";
-import UserPrivateComponent from "../PrivateRoutes/UserPrivateComponent";
 import PageTitle from "../page-header/PageHeader";
+import { EyeFilled } from "@ant-design/icons";
 
 const PayslipList = () => {
   const id = localStorage.getItem("id");
@@ -58,18 +55,10 @@ const PayslipList = () => {
       });
     }
   };
+
   const calculateSerialNumber = (currentPage, itemsPerPage, index) => {
     return (currentPage - 1) * itemsPerPage + index + 1;
   };
-  if (payroll && payroll.getAllPayslip) {
-    const item = payroll.getAllPayslip;
-    const updatedItem = {
-      ...item,
-      id: item.id,
-      userId: item.user.id,
-      serialNumber: calculateSerialNumber(pageConfig.page, pageConfig.count, 0),
-    };
-  }
 
   const columns = [
     {
@@ -77,7 +66,6 @@ const PayslipList = () => {
       title: "Sr.No",
       dataIndex: "serialNumber",
       key: "serialNumber",
-      // render: (value) => value.serialNumber,
     },
     {
       title: "Name",
@@ -85,7 +73,6 @@ const PayslipList = () => {
       dataIndex: "user",
       render: (user) => `${user?.firstName} ${user?.lastName}`,
     },
-
     {
       title: "Salary",
       dataIndex: "salary",
@@ -106,37 +93,31 @@ const PayslipList = () => {
       key: "year",
       render: ({ salaryYear }) => `${salaryYear}`,
     },
-
     {
       title: "bonus",
       dataIndex: "bonus",
       key: "bonus",
     },
-
     {
       title: "bonusComment",
       dataIndex: "bonusComment",
       key: "bonusComment",
     },
-
     {
       title: "deduction",
       dataIndex: "deduction",
       key: "deduction",
     },
-
     {
       title: "deductionComment",
       dataIndex: "deductionComment",
       key: "deductionComment",
     },
-
     {
       title: "Total",
       dataIndex: "totalPayable",
       key: "totalPayable",
     },
-
     {
       title: "W Hours",
       dataIndex: "workingHour",
@@ -173,6 +154,7 @@ const PayslipList = () => {
       },
     },
   ];
+
   return (
     <div>
       <PageTitle title="Back" />
@@ -214,13 +196,13 @@ const PayslipList = () => {
         }
       >
         <TablePagination
-          list={updatedData}
+          list={payroll?.getAllPayslip}
           total={payroll?.totalPayslip}
           setPageConfig={setPageConfig}
           pageConfig={pageConfig}
           loading={isLoading}
           columns={columns}
-          permission={"readAll-payroll"}
+          permission={"readSingle-payroll"}
           csvFileName={"Payslip List"}
           searchBy={"Search by name"}
         />

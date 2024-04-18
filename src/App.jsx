@@ -188,13 +188,8 @@ function App() {
                 element={<UpdateDesignation />}
               />
             </Route>
-            <Route 
-              element={<UserPrivateRoute permission={"update-role"} />}
-            >
-              <Route
-                path="/admin/role/:id/update"
-                element={<UpdateRole />}
-              />
+            <Route element={<UserPrivateRoute permission={"update-role"} />}>
+              <Route path="/admin/role/:id/update" element={<UpdateRole />} />
             </Route>
             <Route
               element={<UserPrivateRoute permission={"readAll-setting"} />}
@@ -277,7 +272,6 @@ function App() {
                 <UserPrivateRoute permission={"readAll-leaveApplication"} />
               }
             >
-              <Route path="/admin/leave/:id" element={<DetailLeave />} />
               <Route path="/admin/leave" element={<GetAllLeaves />} />
             </Route>
             <Route
@@ -285,6 +279,8 @@ function App() {
                 <UserPrivateRoute permission={"readSingle-leaveApplication"} />
               }
             >
+              <Route path="/admin/leave/:id" element={<DetailLeave />} />
+
               <Route path="/admin/leave/user/:id" element={<UserLeave />} />
             </Route>
             {/* === === === Attendance Routes === === === */}

@@ -49,13 +49,13 @@ const PrintToPdf = forwardRef(({ data, invoiceData }, ref) => {
 
             <Col span={6}>
               <span className="text-sm font-semibold text-slate-700">
-                {(data.user.firstName + " " + data.user.lastName).toUpperCase()}
+                {(data?.user?.firstName + " " + data?.user?.lastName).toUpperCase()}
               </span>
               <div className="text-sm text-slate-700">
-                {data.user.email || "demo@demo.com"}
+                {data?.user?.email || "demo@demo.com"}
               </div>
               <div className="text-sm text-slate-700">
-                {data.user.phone || "+800777877787"}
+                {data?.user?.phone || "+800777877787"}
               </div>
             </Col>
 

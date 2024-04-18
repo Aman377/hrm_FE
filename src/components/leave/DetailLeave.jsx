@@ -11,6 +11,9 @@ const DetailLeave = () => {
 	const { id } = useParams("id");
 	const { data: leave } = useGetLeaveQuery(id);
 
+  console.log("id", id);
+  console.log("LEAVE", leave);
+
 	return (
     <div>
       <PageTitle title="Back" />
@@ -72,11 +75,11 @@ const DetailLeave = () => {
                 <li className="text-sm text-gray-600 font-semibold py-2 px-4 bg-gray-100 mb-1.5 rounded w-96 flex justify-start">
                   Leave Status :{" "}
                   <p className="ml-2 text-sm text-gray-900">
-                    {leave.status === "pending" ? (
+                    {leave.status.toLowerCase() === "pending" ? (
                       <span className="text-yellow-500">
                         {leave.status.toUpperCase()}
                       </span>
-                    ) : leave.status === "accepted" ? (
+                    ) : leave.status.toLowerCase() === "accepted" ? (
                       <span className="text-green-500">
                         {leave.status.toUpperCase()}
                       </span>
