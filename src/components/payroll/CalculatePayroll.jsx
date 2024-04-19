@@ -337,10 +337,9 @@ const CalculatePayroll = () => {
 
     try {
       const resp = await addPayslip(dataArray);
-      console.log(resp);
-      // if (resp) {
-      //   navigate("/admin/payroll/list");
-      // }
+      if (resp) {
+        navigate("/admin/payroll/list");
+      }
     } catch (error) {
       console.log(error);
     }
