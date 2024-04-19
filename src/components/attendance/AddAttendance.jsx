@@ -103,6 +103,9 @@ const AddAttendance = ({ drawer }) => {
         onFinishFailed={onFinishFailed}
         autoComplete="off"
         className="mx-4"
+        initialValues={{
+          userId: loggedInUserRole === "2" ? loggedInUserId : undefined,
+        }}
       >
         <div>
           <Form.Item

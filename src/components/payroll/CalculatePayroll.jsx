@@ -87,7 +87,7 @@ function CustomTable({ list, loading }) {
         return (
           <div>
             <Input
-              placeholder='comment'
+              placeholder="comment"
               size={"small"}
               style={{ width: "100px", fontSize: "15px" }}
               onChange={(e) => {
@@ -138,7 +138,7 @@ function CustomTable({ list, loading }) {
         return (
           <div>
             <Input
-              placeholder='comment'
+              placeholder="comment"
               size={"small"}
               style={{ width: "100px", fontSize: "15px" }}
               onChange={(e) => {
@@ -185,10 +185,8 @@ function CustomTable({ list, loading }) {
   const addKeys = (arr) => arr.map((i) => ({ ...i, key: i.id }));
 
   return (
-
-    <div className='mt-5'>
-      <div className='text-center items-center gap-5 my-2 flex'>
-
+    <div className="mt-5">
+      <div className="text-center items-center gap-5 my-2 flex">
         {list && (
           <div>
             <ColVisibilityDropdown
@@ -281,9 +279,20 @@ const CalculatePayroll = () => {
   const [addPayslip, { isLoading: addLoading }] = useAddPayrollMutation();
 
   const onMonthChange = (date, dateString) => {
-    setPageConfig((prev) => {
-      return { ...prev, month: dateString };
-    });
+    if (date && dateString) {
+      const month = parseInt(dateString, 10);
+
+      if (month >= 1 && month <= 12) {
+        setPageConfig((prev) => ({
+          ...prev,
+          month: month.toString(),
+        }));
+      } else {
+        console.warn("Invalid month selected:", dateString);
+      }
+    } else {
+      console.warn("Invalid date or dateString provided:", date, dateString);
+    }
   };
 
   const onYearChange = (date, dateString) => {
@@ -298,13 +307,16 @@ const CalculatePayroll = () => {
     setPayslips(list);
   }, [list]);
 
+  console.log("pageConfig", pageConfig);
+
   const navigate = useNavigate();
 
   const OnSubmit = async () => {
     const dataArray = payslips.map((i) => ({
       userId: i.id,
-      salaryMonth: parseInt(pageConfig?.salaryMonth || dayjs().format("M")),
-      salaryYear: parseInt(pageConfig?.salaryYear || dayjs().format("YYYY")),
+      // salaryMonth: parseInt(pageConfig?.salaryMonth || dayjs().format("M")),
+      salaryMonth:  pageConfig?.month,
+      salaryYear:  pageConfig?.year,
       salary: i.salary,
       paidLeave: i.paidLeave,
       unpaidLeave: i.unpaidLeave,
@@ -325,9 +337,10 @@ const CalculatePayroll = () => {
 
     try {
       const resp = await addPayslip(dataArray);
-      if (resp) {
-        navigate("/admin/payroll/list");
-      }
+      console.log(resp);
+      // if (resp) {
+      //   navigate("/admin/payroll/list");
+      // }
     } catch (error) {
       console.log(error);
     }
@@ -335,30 +348,30 @@ const CalculatePayroll = () => {
 
   return (
     <div>
-      <PageTitle title='Back' />
+      <PageTitle title="Back" />
       <UserPrivateComponent permission={"readAll-payroll"}>
-        <Card className='mt-5'>
-          <div className='flex justify-between'>
-            <h1 className='font-bold text-lg'>Calculate Payroll</h1>
-            <div className='flex gap-3'>
-              <h1 className='text-base text-color-2 items-center'>
+        <Card className="mt-5">
+          <div className="flex justify-between">
+            <h1 className="font-bold text-lg">Calculate Payroll</h1>
+            <div className="flex gap-3">
+              <h1 className="text-base text-color-2 items-center">
                 {" "}
                 Select Month :{" "}
               </h1>
               <DatePicker
                 format={"M"}
                 style={{ maxWidth: "200px" }}
-                picker='month'
+                picker="month"
                 defaultValue={dayjs()}
                 onChange={onMonthChange}
               />
-              <h1 className='text-base text-color-2 items-center'>
+              <h1 className="text-base text-color-2 items-center">
                 {" "}
                 Select Year :{" "}
               </h1>
               <DatePicker
                 format={"YYYY"}
-                picker='year'
+                picker="year"
                 style={{ maxWidth: "200px" }}
                 onChange={onYearChange}
                 defaultValue={dayjs()}
@@ -368,14 +381,14 @@ const CalculatePayroll = () => {
 
           <CustomTable list={payslips} loading={isLoading} />
 
-          <div className='flex justify-end'>
+          <div className="flex justify-end">
             <Button
               loading={isLoading || addLoading}
-              type='primary'
-              size='large'
-              htmlType='submit'
+              type="primary"
+              size="large"
+              htmlType="submit"
               onClick={OnSubmit}
-              className='mt-5 text-end'
+              className="mt-5 text-end"
             >
               Generate Payslip
             </Button>
