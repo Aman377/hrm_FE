@@ -13,7 +13,7 @@ const DetailLeave = () => {
 
   console.log("id", id);
   console.log("LEAVE", leave);
-
+  const getUserRole = localStorage.getItem("role");
 	return (
     <div>
       <PageTitle title="Back" />
@@ -147,7 +147,8 @@ const DetailLeave = () => {
           ) : (
             <Loader />
           )}
-          <UserPrivateComponent permission={"update-leaveApplication"}>
+
+        { getUserRole === "1" && (<UserPrivateComponent permission={"update-leaveApplication"}>
             {leave?.status === "PENDING" && (
               <div className="flex justify-center items-center">
                 <ReviewLeavePopup data={leave} />
@@ -158,7 +159,7 @@ const DetailLeave = () => {
                 <ReviewLeavePopup data={leave} />
               </div>
             )}
-          </UserPrivateComponent>
+          </UserPrivateComponent>)}
         </Card>
       </UserPrivateComponent>
     </div>
