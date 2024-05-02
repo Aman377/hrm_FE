@@ -183,7 +183,7 @@ const PayslipList = () => {
               </Tooltip>
             </Link>
 
-            <UserPrivateComponent permission="create-transaction">
+            {/* <UserPrivateComponent permission="create-transaction">
               <Tooltip title="Payment">
                 <Button
                   loading={loading}
@@ -194,7 +194,7 @@ const PayslipList = () => {
                   disabled={paymentStatus === "PAID"}
                 ></Button>
               </Tooltip>
-            </UserPrivateComponent>
+            </UserPrivateComponent> */}
           </div>
         );
       },
