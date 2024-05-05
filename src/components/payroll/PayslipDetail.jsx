@@ -34,29 +34,35 @@ const PrintToPdf = forwardRef(({ data, invoiceData }, ref) => {
           </Row>
           <Row>
             {/* show Avatar with url */}
-            <Col span={6}>
-              <span className="text-sm font-semibold text-slate-700">
-                {invoiceData?.companyName.toUpperCase()}
-              </span>
-              <div className="text-sm text-slate-700">
-                {invoiceData?.email || "demo@demo.com"}
-              </div>
+            <Col span={9}>
 
-              <div className="text-sm  text-slate-700">
-                {invoiceData?.phone}
-              </div>
-            </Col>
+            <div className="flex flex-col">
+                <span className="text-sm font-semibold text-slate-700">
+                  {invoiceData?.companyName.toUpperCase()}
+                </span>
+                <div className="text-sm text-slate-700">
+                  {invoiceData?.email || "demo@demo.com"}
+                </div>
 
-            <Col span={6}>
-              <span className="text-sm font-semibold text-slate-700">
-                {(data?.user?.firstName + " " + data?.user?.lastName).toUpperCase()}
-              </span>
-              <div className="text-sm text-slate-700">
-                {data?.user?.email || "demo@demo.com"}
-              </div>
-              <div className="text-sm text-slate-700">
-                {data?.user?.phone || "+800777877787"}
-              </div>
+                <div className="text-sm  text-slate-700">
+                  {invoiceData?.phone}
+                </div>
+                <div className="mt-4">
+                <span className="text-sm font-semibold text-slate-700">
+                  {(
+                    data?.user?.firstName +
+                    " " +
+                    data?.user?.lastName
+                  ).toUpperCase()}
+                </span>
+                <div className="text-sm text-slate-700">
+                  {data?.user?.email || "demo@demo.com"}
+                </div>
+                <div className="text-sm text-slate-700">
+                  {data?.user?.phone || "+800777877787"}
+                </div>
+                </div>
+            </div>
             </Col>
 
             <Col span={6}>
@@ -178,7 +184,7 @@ const PrintToPdf = forwardRef(({ data, invoiceData }, ref) => {
             </Col>
           </Row>
 
-          <div style={{ marginTop: "5%" }} className="flex justify-end">
+          <div style={{ marginTop: "5%" }} className="flex justify-end text-right">
             <div>
               <Title level={4}>
                 Total Earnings : $ {data.salaryPayable + data.bonus}{" "}
