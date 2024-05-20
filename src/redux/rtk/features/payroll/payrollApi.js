@@ -11,6 +11,13 @@ export const payrollApi = apiSlice.injectEndpoints({
 			providesTags: ["Payrolls"],
 		}),
 
+		getAllPayrollById: builder.query({
+			query: (id) => ({
+				url: `payroll/list/${id}`,
+			}),
+			providesTags: ["Payrolls"],
+		}),
+
 		getPayslips: builder.query({
 			query: ({ month, year }) => ({
 				url: `payroll?salaryMonth=${month}&salaryYear=${year}`,
@@ -119,4 +126,5 @@ export const {
 	useAddPayrollMutation,
 	useUpdatePayrollMutation,
 	useDeletePayrollMutation,
+	useGetAllPayrollByIdQuery,
 } = payrollApi;

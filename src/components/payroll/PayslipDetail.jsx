@@ -18,7 +18,6 @@ import Loader from "../loader/loader";
 
 // eslint-disable-next-line react/display-name
 const PrintToPdf = forwardRef(({ data, invoiceData }, ref) => {
-  // log("invoiceData ",invoiceData)
   const { Title } = Typography;
   return (
     <Fragment>

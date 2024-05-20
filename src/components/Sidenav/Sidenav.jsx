@@ -157,7 +157,7 @@ const Sidenav = ({ color, sideNavOpenKeys }) => {
         },
         hasPermission("readSingle-payroll") && {
           label: (
-            <NavLink to={`/admin/payroll/${id}`}>
+            <NavLink to={`/admin/payroll/myList`}>
               <span>My Payslip</span>
             </NavLink>
           ),

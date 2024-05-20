@@ -46,7 +46,6 @@ import BalanceSheet from "./components/account/balanceSheet";
 import DetailAccount from "./components/account/detailAccount";
 import IncomeStatement from "./components/account/incomeStatement";
 import TrialBalance from "./components/account/trialBalance";
-
 import UserPrivateRoute from "./components/PrivateRoutes/UserPrivateRoute";
 import Announcement from "./components/announcement/Announcement";
 import DetailAnnouncement from "./components/announcement/AnnouncementDetails";
@@ -58,6 +57,7 @@ import UserLeave from "./components/leave/UserLeave";
 import DetailLeavePolicy from "./components/leavePolicy/DetailsLeavePolicy";
 import LeavePolicy from "./components/leavePolicy/LeavePolicy";
 import DetailPayslip from "./components/payroll/PayslipDetail";
+import MyPayslipList from "./components/payroll/MyPayslipList.jsx"
 import AddProject from "./components/project/AddProject";
 import UpdateProject from "./components/project/UpdateProject";
 import UpdateStatus from "./components/project/UpdateStatus";
@@ -188,8 +188,13 @@ function App() {
                 element={<UpdateDesignation />}
               />
             </Route>
-            <Route element={<UserPrivateRoute permission={"update-role"} />}>
-              <Route path="/admin/role/:id/update" element={<UpdateRole />} />
+            <Route
+              element={<UserPrivateRoute permission={"update-role"} />}
+            >
+              <Route
+                path="/admin/role/:id/update"
+                element={<UpdateRole />}
+              />
             </Route>
             <Route
               element={<UserPrivateRoute permission={"readAll-setting"} />}
@@ -221,6 +226,12 @@ function App() {
               element={<UserPrivateRoute permission={"readSingle-payroll"} />}
             >
               <Route path="/admin/payroll/:id" element={<DetailPayslip />} />
+            </Route>
+
+            <Route
+              element={<UserPrivateRoute permission={"readSingle-payroll"} />}
+            >
+              <Route path="/admin/payroll/myList" element={<MyPayslipList />} />
             </Route>
 
             {/* === === === Shift Routes === === === */}
@@ -272,6 +283,7 @@ function App() {
                 <UserPrivateRoute permission={"readAll-leaveApplication"} />
               }
             >
+              <Route path="/admin/leave/:id" element={<DetailLeave />} />
               <Route path="/admin/leave" element={<GetAllLeaves />} />
             </Route>
             <Route
@@ -279,8 +291,6 @@ function App() {
                 <UserPrivateRoute permission={"readSingle-leaveApplication"} />
               }
             >
-              <Route path="/admin/leave/:id" element={<DetailLeave />} />
-
               <Route path="/admin/leave/user/:id" element={<UserLeave />} />
             </Route>
             {/* === === === Attendance Routes === === === */}
@@ -531,7 +541,7 @@ function App() {
             {/* === === === TaskStatus Routes === === === */}
 
             <Route
-              element={<UserPrivateRoute permission={"create-taskStatus"} />}
+              element={<UserPrivateRoute permission={"readAll-taskStatus"} />}
             >
               <Route path="/admin/task-status" element={<TaskStatus />} />
             </Route>
