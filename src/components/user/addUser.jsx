@@ -253,7 +253,6 @@ const AddUser = () => {
                 form.setFieldsValue({
                   employeeId: changedValues.employeeId,
                 });
-                console.log("formDataObject", formDataObject);
               }
             }}
           >
@@ -784,7 +783,7 @@ const AddUser = () => {
 
                 <Form.Item
                   style={{ marginBottom: "10px" }}
-                  label="Salary"
+                  label="Monthly Salary"
                   name="salary"
                   rules={[
                     {

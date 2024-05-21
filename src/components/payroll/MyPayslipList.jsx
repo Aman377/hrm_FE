@@ -12,6 +12,7 @@ import getPermissions from "../../utils/getPermissions";
 const MyPayslipList = () => {
     const [pageConfig, setPageConfig] = useState({ page: 1, count: 10 });
     const userId = localStorage.getItem("id")
+    const [permission, setPermission] = useState([]);
     const [selectedMonth, setSelectedMonth] = useState()
     const [updatedData, setUpdatedData] = useState("");
     const { data: payroll, isLoading } =
@@ -19,19 +20,18 @@ const MyPayslipList = () => {
 
     const onMonthChange = (date, dateString) => {
         setSelectedMonth(dateString)
-
     };
-
-    const onYearChange = (date, dateString) => {
-        setPageConfig((prev) => {
-            return { ...prev, value: "monthWise", salaryYear: dateString };
-        });
-    };
+    console.log('updatedData', updatedData);
+    // const onYearChange = (date, dateString) => {
+    //     setPageConfig((prev) => {
+    //         return { ...prev, value: "monthWise", salaryYear: dateString };
+    //     });
+    // };
 
     const calculateSerialNumber = (currentPage, itemsPerPage, index) => {
         return (currentPage - 1) * itemsPerPage + index + 1;
     };
-
+    console.log('payroll', payroll);
     const updatedDataFunc = () => {
         const updatedDt = payroll?.map((item, index) => ({
             ...item,
@@ -42,21 +42,43 @@ const MyPayslipList = () => {
                 index
             ),
         }));
+        console.log('updatedDt', updatedDt);
         setUpdatedData(updatedDt)
     }
 
     const filterDataFunc = () => {
-        const updatedDt = payroll?.map((item, index) => ({
-            ...item,
-            id: item.userId,
-            serialNumber: calculateSerialNumber(
-                pageConfig.page,
-                pageConfig.count,
-                index
-            ),
-        })).filter((item) => item.salaryMonth == selectedMonth);
-        setUpdatedData(updatedDt)
+        if (selectedMonth) {
+            const updatedDt = payroll?.map((item, index) => ({
+                ...item,
+                id: item.userId,
+                serialNumber: calculateSerialNumber(
+                    pageConfig.page,
+                    pageConfig.count,
+                    index
+                ),
+            })).filter((item) => item.salaryMonth == selectedMonth);
+            setUpdatedData(updatedDt)
+        } else {
+            const updatedDt = payroll?.map((item, index) => ({
+                ...item,
+                id: item.userId,
+                serialNumber: calculateSerialNumber(
+                    pageConfig.page,
+                    pageConfig.count,
+                    index
+                ),
+            }));
+            setUpdatedData(updatedDt)
+        }
     }
+
+    const fetchData = async () => {
+        const response = await getPermissions();
+        setPermission(response);
+    };
+    useEffect(() => {
+        fetchData();
+    }, []);
 
     useEffect(() => {
         updatedDataFunc()
@@ -66,16 +88,6 @@ const MyPayslipList = () => {
         filterDataFunc()
     }, [selectedMonth])
 
-    const [permission, setPermission] = useState([]);
-
-    const fetchData = async () => {
-        const response = await getPermissions();
-        setPermission(response);
-    };
-
-    useEffect(() => {
-        fetchData();
-    }, []);
 
     const initialColumns = [
         {
@@ -90,7 +102,6 @@ const MyPayslipList = () => {
             dataIndex: "user",
             render: (user) => `${user?.firstName} ${user?.lastName}`,
         },
-
         {
             title: "Salary",
             dataIndex: "salary",
@@ -111,37 +122,31 @@ const MyPayslipList = () => {
             key: "year",
             render: ({ salaryYear }) => `${salaryYear}`,
         },
-
         {
             title: "bonus",
             dataIndex: "bonus",
             key: "bonus",
         },
-
         {
             title: "bonusComment",
             dataIndex: "bonusComment",
             key: "bonusComment",
         },
-
         {
             title: "deduction",
             dataIndex: "deduction",
             key: "deduction",
         },
-
         {
             title: "deductionComment",
             dataIndex: "deductionComment",
             key: "deductionComment",
         },
-
         {
             title: "Total",
             dataIndex: "totalPayable",
             key: "totalPayable",
         },
-
         {
             title: "W Hours",
             dataIndex: "workingHour",
