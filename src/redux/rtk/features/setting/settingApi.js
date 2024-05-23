@@ -17,6 +17,13 @@ export const settingApi = apiSlice.injectEndpoints({
       providesTags: ["setting"],
     }),
 
+    getCurrencys: builder.query({
+      query: () => ({
+        url: `setting/all/currency`,
+      }),
+      providesTags: ["setting"],
+    }),
+
     updateSetting: builder.mutation({
       query: (values) => ({
         method: "POST",
@@ -37,4 +44,5 @@ export const settingApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetSettingQuery, useUpdateSettingMutation, useGetlastUserQuery } = settingApi;
+export const { useGetSettingQuery, useUpdateSettingMutation, useGetlastUserQuery, useGetCurrencysQuery }
+  = settingApi;

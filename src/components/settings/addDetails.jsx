@@ -1,9 +1,10 @@
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Card, Col, Form, Input, Row, Typography, Upload } from "antd";
+import { Button, Card, Col, Form, Input, Row, Typography, Upload, Select } from "antd";
 import { useEffect, useState } from "react";
 import {
   useGetSettingQuery,
   useUpdateSettingMutation,
+  useGetCurrencysQuery
 } from "../../redux/rtk/features/setting/settingApi";
 import fileConfig from "../../utils/fileConfig";
 import { toastHandler } from "../../utils/functions";
@@ -12,11 +13,20 @@ import Loader from "../loader/loader";
 const AddDetails = () => {
   const { Title } = Typography;
   const [form] = Form.useForm();
-  const { data } = useGetSettingQuery();
+  const { data: setting } = useGetSettingQuery();
+  const { data: currency } = useGetCurrencysQuery();
   const [updateSetting, { isLoading }] = useUpdateSettingMutation();
-
   const [initValues, setInitValues] = useState(null);
+  const [currencyData, setCurrencyData] = useState(null);
   const [fileList, setFileList] = useState([]);
+
+  const filterOption = (input, option) =>
+    (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
+
+  const currencyOptions = currencyData?.data?.map(currency => ({
+    value: currency.id,
+    label: currency.name,
+  }));
 
   const onFinish = async (values) => {
     try {
@@ -30,6 +40,7 @@ const AddDetails = () => {
       formData.append("emp_id", values.empId);
       formData.append("emp_code", values.empCode);
       formData.append("footer", values.footer);
+      formData.append("currency", values.currency);
       formData.append("_method", "PUT");
       if (fileList.length) {
         if (fileConfig() === "laravel") {
@@ -39,7 +50,7 @@ const AddDetails = () => {
       console.log(values)
 
       const resp = await updateSetting(formData);
-      if (resp.data && !resp.error) {
+      if (resp.setting && !resp.error) {
         // toastHandler("Invoice Setting Updated Successfully", "success");
         // window.location.reload();
       }
@@ -49,10 +60,11 @@ const AddDetails = () => {
   const onFinishFailed = () => { };
 
   useEffect(() => {
-    if (data) {
-      setInitValues(data);
+    if (setting) {
+      setCurrencyData(currency)
+      setInitValues(setting);
     }
-  }, [data]);
+  }, [setting, currency]);
   const handelImageChange = ({ fileList }) => {
     setFileList(fileList);
   };
@@ -246,6 +258,19 @@ const AddDetails = () => {
                         </div>
                       </div>
                     </Upload>
+                  </Form.Item>
+
+                  <Form.Item
+                    label='Currency'
+                    name='currency'
+                  >
+                    <Select
+                      showSearch
+                      placeholder="Select a currency"
+                      optionFilterProp="children"
+                      filterOption={filterOption}
+                      options={currencyOptions}
+                    />
                   </Form.Item>
 
                   <Form.Item

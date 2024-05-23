@@ -62,9 +62,10 @@ const PayslipList = () => {
   const updatedData = payroll?.getAllPayslip.map((item, index) => ({
     ...item,
     id: item.userId,
+    actuallId: item.id,
     serialNumber: calculateSerialNumber(
       pageConfig.page,
-      pageConfig.count,
+      pageConfig.count, 
       index
     ),
   }));
@@ -165,14 +166,14 @@ const PayslipList = () => {
     {
       title: "Action",
       key: "action",
-      render: ({ id, paymentStatus }) => {
+      render: ({ id, paymentStatus, actuallId }) => {
         const onPayment = async () => {
           addPayslipPayment(id);
         };
 
         return (
           <div className="flex flex-col gap-1">
-            <Link to={`/admin/payroll/${id}`}>
+            <Link to={`/admin/payroll/${actuallId}`}>
               <Tooltip title="View">
                 <Button
                   icon={<EyeFilled />}

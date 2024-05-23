@@ -17,12 +17,12 @@ export const userApi = apiSlice.injectEndpoints({
 
     getUser: builder.query({
       query: (id) => ({
-        
+
         url: `user/${id}`,
       }),
       providesTags: ["User"],
     }),
-    
+
     addUser: builder.mutation({
       query: (values) => ({
         method: "POST",
@@ -160,7 +160,12 @@ export const userApi = apiSlice.injectEndpoints({
           toastHandler("User logged in successfully", "success");
           window.location.href = "/admin/dashboard";
         } catch (err) {
-          toastHandler("Something went wrong, Please try again", "warning");
+          const errMsg = err?.error?.data?.message
+          if (errMsg) {
+            toastHandler(errMsg, "warning");
+          } else {
+            toastHandler("Something went wrong, Please try again", "warning");
+          }
         }
       },
       invalidatesTags: ["Users"],

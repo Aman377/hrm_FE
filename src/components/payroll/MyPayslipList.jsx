@@ -17,11 +17,9 @@ const MyPayslipList = () => {
     const [updatedData, setUpdatedData] = useState("");
     const { data: payroll, isLoading } =
         useGetAllPayrollByIdQuery(userId);
-
     const onMonthChange = (date, dateString) => {
         setSelectedMonth(dateString)
     };
-    console.log('updatedData', updatedData);
     // const onYearChange = (date, dateString) => {
     //     setPageConfig((prev) => {
     //         return { ...prev, value: "monthWise", salaryYear: dateString };
@@ -31,18 +29,17 @@ const MyPayslipList = () => {
     const calculateSerialNumber = (currentPage, itemsPerPage, index) => {
         return (currentPage - 1) * itemsPerPage + index + 1;
     };
-    console.log('payroll', payroll);
     const updatedDataFunc = () => {
         const updatedDt = payroll?.map((item, index) => ({
             ...item,
             id: item.userId,
+            actuallId: item.id,
             serialNumber: calculateSerialNumber(
                 pageConfig.page,
                 pageConfig.count,
                 index
             ),
         }));
-        console.log('updatedDt', updatedDt);
         setUpdatedData(updatedDt)
     }
 
@@ -51,6 +48,7 @@ const MyPayslipList = () => {
             const updatedDt = payroll?.map((item, index) => ({
                 ...item,
                 id: item.userId,
+                actuallId: item.id,
                 serialNumber: calculateSerialNumber(
                     pageConfig.page,
                     pageConfig.count,
@@ -62,6 +60,7 @@ const MyPayslipList = () => {
             const updatedDt = payroll?.map((item, index) => ({
                 ...item,
                 id: item.userId,
+                actuallId: item.id,
                 serialNumber: calculateSerialNumber(
                     pageConfig.page,
                     pageConfig.count,
@@ -166,14 +165,11 @@ const MyPayslipList = () => {
         {
             title: "Action",
             key: "action",
-            render: ({ id, paymentStatus }) => {
-                const onPayment = async () => {
-                    addPayslipPayment(id);
-                };
+            render: (data) => {
 
                 return (
                     <div className="flex flex-col gap-1">
-                        <Link to={`/admin/payroll/${id}`}>
+                        <Link to={`/admin/payroll/${data?.actuallId}`}>
                             <Tooltip title="View">
                                 <Button
                                     icon={<EyeFilled />}

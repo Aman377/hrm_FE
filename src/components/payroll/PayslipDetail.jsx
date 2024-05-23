@@ -17,7 +17,7 @@ import UserPrivateComponent from "../PrivateRoutes/UserPrivateComponent";
 import Loader from "../loader/loader";
 
 // eslint-disable-next-line react/display-name
-const PrintToPdf = forwardRef(({ data, invoiceData }, ref) => {
+const PrintToPdf = forwardRef(({ data, invoiceData, currency }, ref) => {
   const { Title } = Typography;
   return (
     <Fragment>
@@ -35,7 +35,7 @@ const PrintToPdf = forwardRef(({ data, invoiceData }, ref) => {
             {/* show Avatar with url */}
             <Col span={9}>
 
-            <div className="flex flex-col">
+              <div className="flex flex-col">
                 <span className="text-sm font-semibold text-slate-700">
                   {invoiceData?.companyName.toUpperCase()}
                 </span>
@@ -47,21 +47,21 @@ const PrintToPdf = forwardRef(({ data, invoiceData }, ref) => {
                   {invoiceData?.phone}
                 </div>
                 <div className="mt-4">
-                <span className="text-sm font-semibold text-slate-700">
-                  {(
-                    data?.user?.firstName +
-                    " " +
-                    data?.user?.lastName
-                  ).toUpperCase()}
-                </span>
-                <div className="text-sm text-slate-700">
-                  {data?.user?.email || "demo@demo.com"}
+                  <span className="text-sm font-semibold text-slate-700">
+                    {(
+                      data?.user?.firstName +
+                      " " +
+                      data?.user?.lastName
+                    ).toUpperCase()}
+                  </span>
+                  <div className="text-sm text-slate-700">
+                    {data?.user?.email || "demo@demo.com"}
+                  </div>
+                  <div className="text-sm text-slate-700">
+                    {data?.user?.phone || "+800777877787"}
+                  </div>
                 </div>
-                <div className="text-sm text-slate-700">
-                  {data?.user?.phone || "+800777877787"}
-                </div>
-                </div>
-            </div>
+              </div>
             </Col>
 
             <Col span={6}>
@@ -69,7 +69,7 @@ const PrintToPdf = forwardRef(({ data, invoiceData }, ref) => {
                 <span className="text-sm font-semibold text-slate-700">
                   Salary:
                 </span>{" "}
-                $ {data.salary}
+                {currency} {data.salary}
               </p>
               <span className="text-sm font-semibold text-slate-700">
                 Work Day:{" "}
@@ -122,7 +122,7 @@ const PrintToPdf = forwardRef(({ data, invoiceData }, ref) => {
                   span={12}
                   style={{ display: "flex", justifyContent: "flex-end" }}
                 >
-                  <Title level={5}>$ {data.salaryPayable}</Title>
+                  <Title level={5}>{currency} {data.salaryPayable}</Title>
                 </Col>
               </Row>
               <Row>
@@ -133,7 +133,7 @@ const PrintToPdf = forwardRef(({ data, invoiceData }, ref) => {
                   span={12}
                   style={{ display: "flex", justifyContent: "flex-end" }}
                 >
-                  <Title level={5}>$ {data.bonus}</Title>
+                  <Title level={5}>{currency} {data.bonus}</Title>
                 </Col>
               </Row>
 
@@ -146,7 +146,7 @@ const PrintToPdf = forwardRef(({ data, invoiceData }, ref) => {
                   span={12}
                   style={{ display: "flex", justifyContent: "flex-end" }}
                 >
-                  <Title level={5}>$ {data.salaryPayable + data.bonus}</Title>
+                  <Title level={5}>{currency} {data.salaryPayable + data.bonus}</Title>
                 </Col>
               </Row>
             </Col>
@@ -164,7 +164,7 @@ const PrintToPdf = forwardRef(({ data, invoiceData }, ref) => {
                   span={12}
                   style={{ display: "flex", justifyContent: "flex-end" }}
                 >
-                  <Title level={5}>$ {data.deduction}</Title>
+                  <Title level={5}>{currency} {data.deduction}</Title>
                 </Col>
               </Row>
 
@@ -177,7 +177,7 @@ const PrintToPdf = forwardRef(({ data, invoiceData }, ref) => {
                   span={12}
                   style={{ display: "flex", justifyContent: "flex-end" }}
                 >
-                  <Title level={5}>$ {data.deduction}</Title>
+                  <Title level={5}>{currency} {data.deduction}</Title>
                 </Col>
               </Row>
             </Col>
@@ -186,11 +186,11 @@ const PrintToPdf = forwardRef(({ data, invoiceData }, ref) => {
           <div style={{ marginTop: "5%" }} className="flex justify-end text-right">
             <div>
               <Title level={4}>
-                Total Earnings : $ {data.salaryPayable + data.bonus}{" "}
+                Total Earnings : {currency} {data.salaryPayable + data.bonus}{" "}
               </Title>
-              <Title level={4}>Total Deduction : $ {data.deduction} </Title>
+              <Title level={4}>Total Deduction : {currency} {data.deduction} </Title>
               <Title level={3}>
-                Total Payable Salary : $ {data.totalPayable}{" "}
+                Total Payable Salary : {currency} {data.totalPayable}{" "}
               </Title>
             </div>
           </div>
@@ -207,10 +207,12 @@ const DetailPayslip = () => {
   });
   const { data: setting } = useGetSettingQuery();
   const [invoiceData, setInvoiceData] = useState(null);
+  const [currencySign, setCurrency] = useState(null);
 
   useEffect(() => {
     if (setting) {
       setInvoiceData(setting);
+      setCurrency(setting?.currencyData?.symbol)
     }
   }, [setting]);
 
@@ -233,6 +235,7 @@ const DetailPayslip = () => {
               ref={componentRef}
               data={data}
               invoiceData={invoiceData}
+              currency={currencySign}
             />
           ) : (
             <Loader />
