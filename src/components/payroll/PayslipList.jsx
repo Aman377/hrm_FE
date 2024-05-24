@@ -65,7 +65,7 @@ const PayslipList = () => {
     actuallId: item.id,
     serialNumber: calculateSerialNumber(
       pageConfig.page,
-      pageConfig.count, 
+      pageConfig.count,
       index
     ),
   }));
@@ -109,7 +109,10 @@ const PayslipList = () => {
     {
       title: "Month ",
       key: "month",
-      render: ({ salaryMonth }) => `${salaryMonth}`,
+      render: ({ salaryMonth }) => {
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        return `${monthNames[salaryMonth - 1]}`
+      },
     },
     {
       title: "Year",

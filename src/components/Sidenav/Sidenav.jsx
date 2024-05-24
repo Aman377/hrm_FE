@@ -457,7 +457,7 @@ const Sidenav = ({ color, sideNavOpenKeys }) => {
           key: "emailConfig",
           icon: <SettingOutlined />,
         },
-        hasPermission("readAll-setting") && {
+        hasPermission("update-setting") && {
           label: (
             <NavLink to="/admin/company-setting">
               <span>Company Settings</span>

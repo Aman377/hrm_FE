@@ -4,7 +4,6 @@ import {
   DatePicker,
   Form,
   Input,
-  InputNumber,
   Row,
   Select,
   Upload,
@@ -24,9 +23,8 @@ import { useGetLeavePoliciesQuery } from "../../redux/rtk/features/leavePolicy/l
 import { useGetRolesQuery } from "../../redux/rtk/features/role/roleApi";
 import { useGetShiftsQuery } from "../../redux/rtk/features/shift/shiftApi";
 import { useAddUserMutation } from "../../redux/rtk/features/user/userApi";
-import { useAddEducationMutation } from "../../redux/rtk/features/user/userApi";
 import { useGetWeeklyHolidaysQuery } from "../../redux/rtk/features/weeklyHoliday/weeklyHolidayApi";
-import { useGetlastUserQuery } from "../../redux/rtk/features/setting/settingApi";
+import { useGetlastUserQuery, useGetSettingQuery } from "../../redux/rtk/features/setting/settingApi";
 import UserPrivateComponent from "../PrivateRoutes/UserPrivateComponent";
 import EmployeeEducationForm from "./EmployeeEducationForm";
 import { toastHandler } from "../../utils/functions";
@@ -41,19 +39,17 @@ const AddUser = () => {
     isLoading: isFetchingLastUser,
     isError,
   } = useGetlastUserQuery();
-  const [addEducation] = useAddEducationMutation();
   const [selectedCountry, setSelectedCountry] = useState(null);
   const [selectedState, setSelectedState] = useState(null);
-  // const [fileList, setFileList] = useState();
-  const [inSetting, setInSetting] = useState();
   const [documentList, setDocumentList] = useState([]);
   const [cvList, setCvList] = useState([]);
   const [addressProofList, setAddressProofList] = useState([]);
   const [addharCardList, setAddharCardList] = useState([]);
   const [panCardList, setPanCardList] = useState([]);
   const [experienceLetterList, setExperienceLetterList] = useState([]);
+  const [companySetting, setCompanySetting] = useState([]);
 
-  // const { data: setting } = useGetlastUserQuery();
+  const { data: companyData } = useGetSettingQuery();
   const { data: cities } = useGetCityQuery(selectedState);
   const { data: states } = useGetStatesQuery(selectedCountry);
   const { data: countries } = useGetCountriesQuery();
@@ -74,6 +70,21 @@ const AddUser = () => {
       });
     }
   }, [isFetchingLastUser, setting, form]);
+
+  // Call setting api
+  useEffect(() => {
+    setCompanySetting(companyData);
+  }, [companyData])
+
+  const validateDomain = (_, value) => {
+    const emailDomain = value.split("@")[1];
+
+    if (emailDomain !== companyData?.domain) {
+      return Promise.reject(new Error(`Email domain must be ${companyData?.domain}`));
+    }
+
+    return Promise.resolve();
+  }
 
   // Image
   const uploadRef = useRef();
@@ -150,7 +161,7 @@ const AddUser = () => {
       } else {
         // show userr add error
       }
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const uploadDocuments = async (newlyAddedStaff) => {
@@ -294,19 +305,7 @@ const AddUser = () => {
                 >
                   <Input placeholder="Doe" />
                 </Form.Item>
-                {/* <Form.Item
-                  style={{ marginBottom: "10px" }}
-                  label='User Name'
-                  name='username'
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input User Name!",
-                    },
-                  ]}
-                > */}
-                {/* <Input placeholder='john_doe' />
-                </Form.Item> */}
+
                 <Form.Item
                   style={{ marginBottom: "10px" }}
                   label="UserName/Email"
@@ -320,9 +319,12 @@ const AddUser = () => {
                       type: "email",
                       message: "Please enter a valid Email",
                     },
+                    {
+                      validator: validateDomain
+                    }
                   ]}
                 >
-                  <Input placeholder="johndoe2@example.com" />
+                  <Input placeholder="johndoe2@excitesys.com" />
                 </Form.Item>
                 <Form.Item
                   style={{ marginBottom: "10px" }}

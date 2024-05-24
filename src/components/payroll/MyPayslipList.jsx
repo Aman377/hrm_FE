@@ -114,7 +114,10 @@ const MyPayslipList = () => {
         {
             title: "Month ",
             key: "month",
-            render: ({ salaryMonth }) => `${salaryMonth}`,
+            render: ({ salaryMonth }) => {
+                const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+                return `${monthNames[salaryMonth - 1]}`
+            },
         },
         {
             title: "Year",

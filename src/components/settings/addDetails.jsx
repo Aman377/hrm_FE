@@ -41,6 +41,9 @@ const AddDetails = () => {
       formData.append("emp_code", values.empCode);
       formData.append("footer", values.footer);
       formData.append("currency", values.currency);
+      formData.append("domain", values.domain);
+      formData.append("deduction", values.deduction);
+      formData.append("other_field", values.otherField);
       formData.append("_method", "PUT");
       if (fileList.length) {
         if (fileConfig() === "laravel") {
@@ -271,6 +274,39 @@ const AddDetails = () => {
                       filterOption={filterOption}
                       options={currencyOptions}
                     />
+                  </Form.Item>
+
+                  {/* Company Domain */}
+                  <Form.Item
+                    style={{ marginBottom: "10px" }}
+                    label='Domain'
+                    name='domain'
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please input Domain!",
+                      },
+                    ]}
+                  >
+                    <Input />
+                  </Form.Item>
+
+                  {/* Deduction */}
+                   <Form.Item
+                    style={{ marginBottom: "10px" }}
+                    label='Deduction'
+                    name='deduction'
+                  >
+                    <Input />
+                  </Form.Item>
+
+                  {/* Other field */}
+                   <Form.Item
+                    style={{ marginBottom: "10px" }}
+                    label='Other field'
+                    name='otherField'
+                  >
+                    <Input />
                   </Form.Item>
 
                   <Form.Item
