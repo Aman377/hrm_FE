@@ -78,9 +78,12 @@ const AddUser = () => {
 
   const validateDomain = (_, value) => {
     const emailDomain = value.split("@")[1];
-
-    if (emailDomain !== companyData?.domain) {
-      return Promise.reject(new Error(`Email domain must be ${companyData?.domain}`));
+    if (companyData) {
+      if (emailDomain !== companyData?.domain) {
+        return Promise.reject(new Error(`Email domain must be ${companyData?.domain}`));
+      }
+    } else {
+      return Promise.reject(new Error(`Email domain must be gmail.com`));
     }
 
     return Promise.resolve();
