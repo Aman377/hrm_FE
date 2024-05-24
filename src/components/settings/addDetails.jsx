@@ -46,9 +46,9 @@ const AddDetails = () => {
       formData.append("other_field", values.otherField);
       formData.append("_method", "PUT");
       if (fileList.length) {
-        if (fileConfig() === "laravel") {
-          formData.append("files[]", fileList[0].originFileObj);
-        }
+        // if (fileConfig() === "laravel") {
+          formData.append("file_paths", fileList[0].originFileObj);
+        // }
       }
       console.log(values)
 
@@ -242,7 +242,7 @@ const AddDetails = () => {
                   </Form.Item>
 
                   <Form.Item label='Upload Logo' valuePropName='fileList'>
-                    <Upload
+                    <Upload 
                       listType='picture-card'
                       beforeUpload={() => false}
                       name='image'

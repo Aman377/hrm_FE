@@ -935,7 +935,6 @@ const AddUser = () => {
                   listType="picture-card"
                   beforeUpload={() => false}
                   name="image"
-                  // fileList={fileList}
                   maxCount={1}
                   onChange={(info) => handleImageChange(info.fileList, "cv")}
                 >
