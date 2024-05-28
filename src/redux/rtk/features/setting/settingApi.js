@@ -41,8 +41,26 @@ export const settingApi = apiSlice.injectEndpoints({
       },
       invalidatesTags: ["setting"],
     }),
+
+    updateCompanyPayslip: builder.mutation({
+      query: (values) => ({
+        method: "POST",
+        url: `setting/companyPayslip`,
+        body: values,
+      }),
+
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        try {
+          await queryFulfilled;
+          toastHandler("Setting updated successfully", "success");
+        } catch (err) {
+          toastHandler("Something went wrong, Please try again", "warning");
+        }
+      },
+      invalidatesTags: ["setting"],
+    }),
   }),
 });
 
-export const { useGetSettingQuery, useUpdateSettingMutation, useGetlastUserQuery, useGetCurrencysQuery }
+export const { useGetSettingQuery, useUpdateSettingMutation, useGetlastUserQuery, useGetCurrencysQuery, useUpdateCompanyPayslipMutation }
   = settingApi;

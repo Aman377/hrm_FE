@@ -1,21 +1,22 @@
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Card, Col, Form, Input, Row, Typography, Upload, Select } from "antd";
+import { Button, Card, Col, Form, Input, Row, Typography, Upload, Select, Tabs } from "antd";
 import { useEffect, useState } from "react";
 import {
   useGetSettingQuery,
   useUpdateSettingMutation,
-  useGetCurrencysQuery
+  useGetCurrencysQuery,
+  useUpdateCompanyPayslipMutation
 } from "../../redux/rtk/features/setting/settingApi";
-import fileConfig from "../../utils/fileConfig";
-import { toastHandler } from "../../utils/functions";
 import UserPrivateComponent from "../PrivateRoutes/UserPrivateComponent";
 import Loader from "../loader/loader";
+
 const AddDetails = () => {
   const { Title } = Typography;
   const [form] = Form.useForm();
   const { data: setting } = useGetSettingQuery();
   const { data: currency } = useGetCurrencysQuery();
   const [updateSetting, { isLoading }] = useUpdateSettingMutation();
+  const [updateCompanyPayslip] = useUpdateCompanyPayslipMutation();
   const [initValues, setInitValues] = useState(null);
   const [currencyData, setCurrencyData] = useState(null);
   const [fileList, setFileList] = useState([]);
@@ -28,7 +29,7 @@ const AddDetails = () => {
     label: currency.name,
   }));
 
-  const onFinish = async (values) => {
+  const onFinishFirstTab = async (values) => {
     try {
       const formData = new FormData();
       formData.append("companyName", values.companyName);
@@ -42,17 +43,31 @@ const AddDetails = () => {
       formData.append("footer", values.footer);
       formData.append("currency", values.currency);
       formData.append("domain", values.domain);
-      formData.append("deduction", values.deduction);
-      formData.append("other_field", values.otherField);
       formData.append("_method", "PUT");
       if (fileList.length) {
-        // if (fileConfig() === "laravel") {
-          formData.append("file_paths", fileList[0].originFileObj);
-        // }
+        formData.append("file_paths", fileList[0].originFileObj);
       }
       console.log(values)
 
       const resp = await updateSetting(formData);
+      if (resp.setting && !resp.error) {
+        // toastHandler("Invoice Setting Updated Successfully", "success");
+        // window.location.reload();
+      }
+    } catch (error) { }
+  };
+
+  const onFinishSecondTab = async (values) => {
+    try {
+      const companyFormData = new FormData();
+      companyFormData.append("deduction", values.deduction);
+      companyFormData.append("otherDeduction", values.otherDeduction);
+      companyFormData.append("basicWage", values.basicWage);
+      companyFormData.append("hra", values.hra);
+      companyFormData.append("otherEarning", values.otherEarning);
+      console.log(values)
+
+      const resp = await updateCompanyPayslip(companyFormData);
       if (resp.setting && !resp.error) {
         // toastHandler("Invoice Setting Updated Successfully", "success");
         // window.location.reload();
@@ -89,241 +104,312 @@ const AddDetails = () => {
                 Company Setting
               </Title>
               {initValues ? (
-                <Form
-                  initialValues={{
-                    ...initValues,
-                  }}
-                  form={form}
-                  name='basic'
-                  labelCol={{
-                    span: 7,
-                  }}
-                  labelWrap
-                  wrapperCol={{
-                    span: 16,
-                  }}
-                  onFinish={onFinish}
-                  onFinishFailed={onFinishFailed}
-                  autoComplete='off'
-                >
-                  <Form.Item
-                    style={{ marginBottom: "10px" }}
-                    fields={[{ name: "Company Name" }]}
-                    label='Company Name'
-                    name='companyName'
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input Company name!",
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-
-                  {/* Id code */}
-                  <Form.Item
-                    style={{ marginBottom: "10px" }}
-                    label='Employee Code'
-                    name='empCode'
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input Employee code!",
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-
-                  {/* Id Number */}
-                  <Form.Item
-                    style={{ marginBottom: "10px" }}
-                    label='Employee Id'
-                    name='empId'
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input Employee id!",
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item
-                    style={{ marginBottom: "10px" }}
-                    fields={[{ name: "Tagline" }]}
-                    label='Tagline'
-                    name='tagLine'
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input Tagline!",
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item
-                    style={{ marginBottom: "10px" }}
-                    label='Address'
-                    name='address'
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input Address!",
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item
-                    style={{ marginBottom: "10px" }}
-                    label='Phone Number'
-                    name='phone'
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input Phone Number!",
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item
-                    style={{ marginBottom: "10px" }}
-                    label='Email Address'
-                    name='email'
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input Email Address!",
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item
-                    style={{ marginBottom: "10px" }}
-                    label='Website'
-                    name='website'
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input Website!",
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item
-                    style={{ marginBottom: "10px" }}
-                    label='Footer'
-                    name='footer'
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input Footer!",
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
-                  <Form.Item label='Warnning'>
-                    <p className='font-semibold text-rose-500'>
-                      Required image size 180x70 px & transparent png format
-                    </p>
-                  </Form.Item>
-
-                  <Form.Item label='Upload Logo' valuePropName='fileList'>
-                    <Upload 
-                      listType='picture-card'
-                      beforeUpload={() => false}
-                      name='image'
-                      fileList={fileList}
-                      maxCount={1}
-                      onChange={handelImageChange}
+                <Tabs defaultActiveKey="1">
+                  <Tabs.TabPane tab="General Settings" key="1">
+                    <Form
+                      initialValues={{
+                        ...initValues,
+                      }}
+                      form={form}
+                      name='basic'
+                      labelCol={{
+                        span: 7,
+                      }}
+                      labelWrap
+                      wrapperCol={{
+                        span: 16,
+                      }}
+                      onFinish={onFinishFirstTab}
+                      onFinishFailed={onFinishFailed}
+                      autoComplete='off'
                     >
-                      <div>
-                        <UploadOutlined />
-                        <div
-                          style={{
-                            marginTop: 8,
-                          }}
+                      <Form.Item
+                        style={{ marginBottom: "10px" }}
+                        fields={[{ name: "Company Name" }]}
+                        label='Company Name'
+                        name='companyName'
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input Company name!",
+                          },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+
+                      {/* Id code */}
+                      <Form.Item
+                        style={{ marginBottom: "10px" }}
+                        label='Employee Code'
+                        name='empCode'
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input Employee code!",
+                          },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+
+                      {/* Id Number */}
+                      <Form.Item
+                        style={{ marginBottom: "10px" }}
+                        label='Employee Id'
+                        name='empId'
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input Employee id!",
+                          },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+
+                      <Form.Item
+                        style={{ marginBottom: "10px" }}
+                        fields={[{ name: "Tagline" }]}
+                        label='Tagline'
+                        name='tagLine'
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input Tagline!",
+                          },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+
+                      <Form.Item
+                        style={{ marginBottom: "10px" }}
+                        label='Address'
+                        name='address'
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input Address!",
+                          },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+
+                      <Form.Item
+                        style={{ marginBottom: "10px" }}
+                        label='Phone Number'
+                        name='phone'
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input Phone Number!",
+                          },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+
+                      <Form.Item
+                        style={{ marginBottom: "10px" }}
+                        label='Email Address'
+                        name='email'
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input Email Address!",
+                          },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+
+                      <Form.Item
+                        style={{ marginBottom: "10px" }}
+                        label='Website'
+                        name='website'
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input Website!",
+                          },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+
+                      <Form.Item
+                        style={{ marginBottom: "10px" }}
+                        label='Footer'
+                        name='footer'
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input Footer!",
+                          },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
+                      <Form.Item label='Warnning'>
+                        <p className='font-semibold text-rose-500'>
+                          Required image size 180x70 px & transparent png format
+                        </p>
+                      </Form.Item>
+
+                      <Form.Item label='Upload Logo' valuePropName='fileList'>
+                        <Upload
+                          listType='picture-card'
+                          beforeUpload={() => false}
+                          name='image'
+                          fileList={fileList}
+                          maxCount={1}
+                          onChange={handelImageChange}
                         >
-                          Upload
-                        </div>
-                      </div>
-                    </Upload>
-                  </Form.Item>
+                          <div>
+                            <UploadOutlined />
+                            <div
+                              style={{
+                                marginTop: 8,
+                              }}
+                            >
+                              Upload
+                            </div>
+                          </div>
+                        </Upload>
+                      </Form.Item>
 
-                  <Form.Item
-                    label='Currency'
-                    name='currency'
-                  >
-                    <Select
-                      showSearch
-                      placeholder="Select a currency"
-                      optionFilterProp="children"
-                      filterOption={filterOption}
-                      options={currencyOptions}
-                    />
-                  </Form.Item>
+                      <Form.Item
+                        label='Currency'
+                        name='currency'
+                      >
+                        <Select
+                          showSearch
+                          placeholder="Select a currency"
+                          optionFilterProp="children"
+                          filterOption={filterOption}
+                          options={currencyOptions}
+                        />
+                      </Form.Item>
 
-                  {/* Company Domain */}
-                  <Form.Item
-                    style={{ marginBottom: "10px" }}
-                    label='Domain'
-                    name='domain'
-                    rules={[
-                      {
-                        required: true,
-                        message: "Please input Domain!",
-                      },
-                    ]}
-                  >
-                    <Input />
-                  </Form.Item>
+                      {/* Company Domain */}
+                      <Form.Item
+                        style={{ marginBottom: "10px" }}
+                        label='Email Domain'
+                        name='domain'
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input Domain!",
+                          },
+                        ]}
+                      >
+                        <Input />
+                      </Form.Item>
 
-                  {/* Deduction */}
-                   <Form.Item
-                    style={{ marginBottom: "10px" }}
-                    label='Deduction'
-                    name='deduction'
-                  >
-                    <Input />
-                  </Form.Item>
+                      <Form.Item
+                        style={{ marginBottom: "10px" }}
+                        className='flex justify-center mt-[24px]'
+                      >
+                        <Button
+                          type='primary'
+                          htmlType='submit'
+                          shape='round'
+                          size='large'
+                          loading={isLoading}
+                        >
+                          Update Details
+                        </Button>
+                      </Form.Item>
+                    </Form>
+                  </Tabs.TabPane>
 
-                  {/* Other field */}
-                   <Form.Item
-                    style={{ marginBottom: "10px" }}
-                    label='Other field'
-                    name='otherField'
-                  >
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item
-                    style={{ marginBottom: "10px" }}
-                    className='flex justify-center mt-[24px]'
-                  >
-                    <Button
-                      type='primary'
-                      htmlType='submit'
-                      shape='round'
-                      size='large'
-                      loading={isLoading}
+                  <Tabs.TabPane tab="Payslip Settings" key="2">
+                    <Form
+                      initialValues={{
+                        ...initValues,
+                      }}
+                      form={form}
+                      name='basic'
+                      labelCol={{
+                        span: 7,
+                      }}
+                      labelWrap
+                      wrapperCol={{
+                        span: 16,
+                      }}
+                      onFinish={onFinishSecondTab}
+                      onFinishFailed={onFinishFailed}
+                      autoComplete='off'
                     >
-                      Update Details
-                    </Button>
-                  </Form.Item>
-                </Form>
+                      {/* Earnings */}
+                      <h1 className="flex justify-center m-4 font-bold text-2xl underline">Earnings</h1>
+
+                      {/* Basic Wage */}
+                      <Form.Item
+                        style={{ marginBottom: "10px" }}
+                        label='Basic Wage'
+                        name='basicWage'
+                      >
+                        <Input placeholder="45" />
+                      </Form.Item>
+
+                      {/* HRA */}
+                      <Form.Item
+                        style={{ marginBottom: "10px" }}
+                        label='HRA'
+                        name='hra'
+                      >
+                        <Input placeholder="40" />
+                      </Form.Item>
+
+                      {/* other earning */}
+                      <Form.Item
+                        style={{ marginBottom: "10px" }}
+                        label='Other Earning'
+                        name='otherEarning'
+                      >
+                        <Input placeholder="20" />
+                      </Form.Item>
+
+                      {/* Earnings */}
+                      <h1 className="flex justify-center m-4 font-bold text-2xl underline">Deductions</h1>
+
+                      {/* Deduction */}
+                      <Form.Item
+                        style={{ marginBottom: "10px" }}
+                        label='Deduction'
+                        name='deduction'
+                      >
+                        <Input placeholder="200" />
+                      </Form.Item>
+
+                      {/* Other field */}
+                      <Form.Item
+                        style={{ marginBottom: "10px" }}
+                        label='Other Deduction'
+                        name='otherDeduction'
+                      >
+                        <Input placeholder="500" />
+                      </Form.Item>
+                      <Form.Item
+                        style={{ marginBottom: "10px" }}
+                        className='flex justify-center mt-[24px]'
+                      >
+                        <Button
+                          type='primary'
+                          htmlType='submit'
+                          shape='round'
+                          size='large'
+                          loading={isLoading}
+                        >
+                          Update Details
+                        </Button>
+                      </Form.Item>
+                    </Form>
+                  </Tabs.TabPane>
+                </Tabs>
               ) : (
                 <Loader />
               )}

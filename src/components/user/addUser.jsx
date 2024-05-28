@@ -368,6 +368,37 @@ const AddUser = () => {
                 >
                   <Input placeholder="015000000000" />
                 </Form.Item>
+
+                {/* Adhaar card */}
+                <Form.Item
+                  style={{ marginBottom: "10px" }}
+                  label="Addhar Card"
+                  name="addhar_card"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please Enter Addhar Card Number!",
+                    },
+                  ]}
+                >
+                  <Input placeholder="934729" />
+                </Form.Item>
+
+                {/* Pan card */}
+                <Form.Item
+                  style={{ marginBottom: "10px" }}
+                  label="Pan Card"
+                  name="pan_card"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please Enter Pan Card Number!",
+                    },
+                  ]}
+                >
+                  <Input placeholder="73287" />
+                </Form.Item>
+
               </Col>
               <Col span={12} className="gutter-row">
                 <h2 className="text-center text-xl mt-3 mb-3 txt-color">
