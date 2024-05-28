@@ -353,7 +353,9 @@ const AddDetails = () => {
                         label='Basic Wage'
                         name='basicWage'
                       >
-                        <InputNumber min={1} max={100} placeholder="45%" addonAfter="%" />
+                        <InputNumber min={1} max={100} placeholder="45%" addonAfter="%"
+                          size="small"
+                        />
                       </Form.Item>
 
                       {/* HRA */}
@@ -362,13 +364,14 @@ const AddDetails = () => {
                         label='HRA'
                         name='hra'
                       >
-                        <InputNumber min={1} max={100} placeholder="40%" addonAfter="%" />
+                        <InputNumber min={1} max={100} placeholder="40%" addonAfter="%"
+                          size="small" />
                       </Form.Item>
 
                       {/* other earning */}
                       <Form.Item
                         style={{ marginBottom: "10px" }}
-                        label='Other Earning'
+                        label='Other Allowances'
                         name='otherEarning'
                       >
                         <Input placeholder="20" value={initValues.otherEarning} />
