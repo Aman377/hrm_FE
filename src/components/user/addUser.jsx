@@ -7,6 +7,7 @@ import {
   Row,
   Select,
   Upload,
+  InputNumber
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import { useState, useEffect, useRef } from "react";
@@ -379,9 +380,13 @@ const AddUser = () => {
                       required: true,
                       message: "Please Enter Addhar Card Number!",
                     },
+                    {
+                      pattern: /^\d{12}$/,
+                      message: "Aadhar Card Number must be exactly 12 digits number!",
+                    },
                   ]}
                 >
-                  <Input placeholder="934729" />
+                  <Input placeholder="934729384683" />
                 </Form.Item>
 
                 {/* Pan card */}
@@ -394,9 +399,13 @@ const AddUser = () => {
                       required: true,
                       message: "Please Enter Pan Card Number!",
                     },
+                    {
+                      pattern: /^[A-Za-z0-9]{10}$/,
+                      message: "PAN Card Number must be exactly 10 alphanumeric characters!",
+                    },
                   ]}
                 >
-                  <Input placeholder="73287" />
+                  <Input placeholder="A78NF6K5H2" />
                 </Form.Item>
 
               </Col>

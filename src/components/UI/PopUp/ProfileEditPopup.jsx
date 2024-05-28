@@ -28,9 +28,10 @@ const ProfileEditPopup = ({ data }) => {
   const { data: shift } = useGetShiftsQuery({ query: "all" });
   // const { data: user } = useGetUserQuery(!id ? data.id : id);
   // Fetch user data based on the presence of 'id'
+  console.log("data", data);
   const { data: userData } = useGetUserQuery(1);
 
-  console.log("ID !",userData);
+  console.log("ID !", userData);
 
   const [user, setUser] = useState([]);
 
@@ -95,6 +96,8 @@ const ProfileEditPopup = ({ data }) => {
       shiftId: user?.shiftId ? user.shiftId : "",
       leavePolicyId: user?.leavePolicyId ? user.leavePolicyId : "",
       weeklyHolidayId: user?.weeklyHolidayId ? user.weeklyHolidayId : "",
+      addhar_card: user?.addharCard ? user.addharCard : "",
+      pan_card: user?.panCard ? user.panCard : ""
     });
   }, [user]);
 
@@ -204,32 +207,7 @@ const ProfileEditPopup = ({ data }) => {
           >
             <Input placeholder="Doe" />
           </Form.Item>
-          {/* <Form.Item
-            style={{ marginBottom: "10px" }}
-            label='User Name'
-            name='username'
-            rules={[
-              {
-                required: true,
-                message: "Please input User Name!",
-              },
-            ]}
-          >
-            <Input placeholder='john_doe' />
-          </Form.Item> */}
-          {/* <Form.Item
-            style={{ marginBottom: "10px" }}
-            label='Password'
-            name='password'
-            rules={[
-              {
-                required: true,
-                message: "Please input your password !",
-              },
-            ]}
-          >
-            <Input placeholder='Strong Password' />
-          </Form.Item> */}
+
           <Form.Item
             style={{ marginBottom: "10px" }}
             label="User Name"
@@ -256,6 +234,44 @@ const ProfileEditPopup = ({ data }) => {
             ]}
           >
             <Input placeholder="1234584515" />
+          </Form.Item>
+
+          {/* Adhaar card */}
+          <Form.Item
+            style={{ marginBottom: "10px" }}
+            label="Addhar Card"
+            name="addhar_card"
+            rules={[
+              {
+                required: true,
+                message: "Please Enter Addhar Card Number!",
+              },
+              {
+                pattern: /^\d{12}$/,
+                message: "Aadhar Card Number must be exactly 12 digits number!",
+              },
+            ]}
+          >
+            <Input placeholder="934729384683" />
+          </Form.Item>
+
+          {/* Pan card */}
+          <Form.Item
+            style={{ marginBottom: "10px" }}
+            label="Pan Card"
+            name="pan_card"
+            rules={[
+              {
+                required: true,
+                message: "Please Enter Pan Card Number!",
+              },
+              {
+                pattern: /^[A-Za-z0-9]{10}$/,
+                message: "PAN Card Number must be exactly 10 alphanumeric characters!",
+              },
+            ]}
+          >
+            <Input placeholder="A78NF6K5H2" />
           </Form.Item>
 
           <h2 className="text-center text-xl mt-3 mb-3 txt-color">

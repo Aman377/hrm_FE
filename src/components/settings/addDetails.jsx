@@ -1,5 +1,5 @@
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Card, Col, Form, Input, Row, Typography, Upload, Select, Tabs } from "antd";
+import { Button, Card, Col, Form, Input, Row, Typography, Upload, Select, Tabs, InputNumber } from "antd";
 import { useEffect, useState } from "react";
 import {
   useGetSettingQuery,
@@ -329,6 +329,7 @@ const AddDetails = () => {
                     <Form
                       initialValues={{
                         ...initValues,
+                        // otherEarning: initValues.otherEarning === null ? '' : initValues.otherEarning,
                       }}
                       form={form}
                       name='basic'
@@ -352,7 +353,7 @@ const AddDetails = () => {
                         label='Basic Wage'
                         name='basicWage'
                       >
-                        <Input placeholder="45" />
+                        <InputNumber min={1} max={100} placeholder="45%" addonAfter="%" />
                       </Form.Item>
 
                       {/* HRA */}
@@ -361,7 +362,7 @@ const AddDetails = () => {
                         label='HRA'
                         name='hra'
                       >
-                        <Input placeholder="40" />
+                        <InputNumber min={1} max={100} placeholder="40%" addonAfter="%" />
                       </Form.Item>
 
                       {/* other earning */}
@@ -370,7 +371,7 @@ const AddDetails = () => {
                         label='Other Earning'
                         name='otherEarning'
                       >
-                        <Input placeholder="20" />
+                        <Input placeholder="20" value={initValues.otherEarning} />
                       </Form.Item>
 
                       {/* Earnings */}
