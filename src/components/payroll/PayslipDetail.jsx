@@ -17,8 +17,7 @@ import Loader from "../loader/loader";
 
 // eslint-disable-next-line react/display-name
 const PrintToPdf = forwardRef(({ data, invoiceData, currency }, ref) => {
-  // console.log("month", data?.salaryYear+"-"+data?.salaryMonth+"-1");
-  // console.log("days", dayjs(data?.salaryYear+"-"+data?.salaryMonth+"-1").daysInMonth());
+  console.log("data", data);
   const [basicWg, setBasicWg] = useState([]);
   const [hraData, sethraData] = useState([]);
   const [otherAllowance, setOtherAllowance] = useState([]);
@@ -47,7 +46,7 @@ const PrintToPdf = forwardRef(({ data, invoiceData, currency }, ref) => {
   // Calculate Basic Wage
   const BasicWage = (data) => {
     const basicPerc = invoiceData?.basicWage / 100
-    const basicWageData = ((data?.salary) / dayjs(data?.salaryYear+"-"+data?.salaryMonth+"-1").daysInMonth()) * data?.workDay * (basicPerc ? basicPerc : 0.45)
+    const basicWageData = ((data?.salary) / dayjs(data?.salaryYear + "-" + data?.salaryMonth + "-1").daysInMonth()) * data?.workDay * (basicPerc ? basicPerc : 0.45)
     return parseFloat(basicWageData.toFixed(2))
   }
 
@@ -68,8 +67,9 @@ const PrintToPdf = forwardRef(({ data, invoiceData, currency }, ref) => {
     const otherAllowanceValue = parseFloat(otherAllowance) || 0;
     const allowance1 = parseFloat(Allowances(1600, data)) || 0;
     const allowance2 = parseFloat(Allowances(1250, data)) || 0;
+    const bonus = parseFloat(data?.bonus) || 0
 
-    const Data = basicWgValue + hraDataValue + allowance1 + allowance2 + otherAllowanceValue;
+    const Data = basicWgValue + hraDataValue + allowance1 + allowance2 + otherAllowanceValue + bonus;
 
     return parseFloat(Data.toFixed(2));
   };
@@ -81,13 +81,13 @@ const PrintToPdf = forwardRef(({ data, invoiceData, currency }, ref) => {
   }
 
   const Allowances = (number, data) => {
-    const Data = number / dayjs(data?.salaryYear+"-"+data?.salaryMonth+"-1").daysInMonth() * data.workDay
+    const Data = number / dayjs(data?.salaryYear + "-" + data?.salaryMonth + "-1").daysInMonth() * data.workDay
     return parseFloat(Data.toFixed(2))
     // return number
   }
 
   const otherAllowances = (data) => {
-    const data1 = parseFloat((data?.salary) / dayjs(data?.salaryYear+"-"+data?.salaryMonth+"-1").daysInMonth() * data?.workDay)
+    const data1 = parseFloat((data?.salary) / dayjs(data?.salaryYear + "-" + data?.salaryMonth + "-1").daysInMonth() * data?.workDay)
     const data2 = (BasicWage(data) + HRA(data) + Allowances(1600, data) + Allowances(1250, data))
     const Data = data1 - data2
     return parseFloat(Data.toFixed(2))
@@ -148,7 +148,7 @@ const PrintToPdf = forwardRef(({ data, invoiceData, currency }, ref) => {
           <Row justify="center">
             <Col span={4} className="text-md font-semibold py-1">Total Working Days: </Col>
             <Col span={8} className="text-md font-semibold py-1">
-              {dayjs(data?.salaryYear+"-"+data?.salaryMonth+"-1").daysInMonth()}
+              {dayjs(data?.salaryYear + "-" + data?.salaryMonth + "-1").daysInMonth()}
             </Col>
             <Col span={4} className="text-md font-semibold py-1">Paid Days: </Col>
             <Col span={8} className="text-md font-semibold py-1">{data.workDay}</Col>
@@ -206,6 +206,14 @@ const PrintToPdf = forwardRef(({ data, invoiceData, currency }, ref) => {
           <Row justify="center">
             <Col span={6} className="border border-black font-semibold py-1 pl-2 ">Other Allowances</Col>
             <Col span={6} className="border border-black font-semibold py-1 pl-2 ">{currency} {otherAllowance}</Col>
+            <Col span={6} className="border border-black font-semibold py-1 pl-2 ">&nbsp;</Col>
+            <Col span={6} className="border border-black font-semibold py-1 pl-2 ">&nbsp;</Col>
+          </Row>
+
+          {/* Bonus */}
+          <Row justify="center">
+            <Col span={6} className="border border-black font-semibold py-1 pl-2 ">Bonus</Col>
+            <Col span={6} className="border border-black font-semibold py-1 pl-2 ">{currency} {data?.bonus}</Col>
             <Col span={6} className="border border-black font-semibold py-1 pl-2 ">&nbsp;</Col>
             <Col span={6} className="border border-black font-semibold py-1 pl-2 ">&nbsp;</Col>
           </Row>
