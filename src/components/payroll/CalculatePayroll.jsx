@@ -307,8 +307,6 @@ const CalculatePayroll = () => {
     setPayslips(list);
   }, [list]);
 
-  console.log("pageConfig", pageConfig);
-
   const navigate = useNavigate();
 
   const OnSubmit = async () => {

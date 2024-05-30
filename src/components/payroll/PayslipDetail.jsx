@@ -17,25 +17,80 @@ import Loader from "../loader/loader";
 
 // eslint-disable-next-line react/display-name
 const PrintToPdf = forwardRef(({ data, invoiceData, currency }, ref) => {
-  console.log("data", data);
+  // console.log("month", data?.salaryYear+"-"+data?.salaryMonth+"-1");
+  // console.log("days", dayjs(data?.salaryYear+"-"+data?.salaryMonth+"-1").daysInMonth());
+  const [basicWg, setBasicWg] = useState([]);
+  const [hraData, sethraData] = useState([]);
+  const [otherAllowance, setOtherAllowance] = useState([]);
+  const [totalSal, setTotalSal] = useState([]);
+
+  // call basicWage and hra
+  useEffect(() => {
+    if (data && invoiceData) {
+      const newBasicWage = BasicWage(data);
+      setBasicWg(newBasicWage);
+
+      const hra = HRA(data)
+      sethraData(hra)
+
+      const otherAllowanceData = otherAllowances(data)
+      setOtherAllowance(otherAllowanceData)
+
+    }
+  }, [data, invoiceData]);
+
+  useEffect(() => {
+    const totalSalaryData = totalSalary(data)
+    setTotalSal(totalSalaryData)
+  }, [data, hraData, basicWg]);
+
+  // Calculate Basic Wage
   const BasicWage = (data) => {
     const basicPerc = invoiceData?.basicWage / 100
-    const basicWageData = Math.floor(((data?.salary * 12) / dayjs(data?.salaryMonth).daysInMonth()) * data?.workDay * (basicPerc ? basicPerc : 0.45))
-    return basicWageData
+    const basicWageData = ((data?.salary) / dayjs(data?.salaryYear+"-"+data?.salaryMonth+"-1").daysInMonth()) * data?.workDay * (basicPerc ? basicPerc : 0.45)
+    return parseFloat(basicWageData.toFixed(2))
   }
+
+  // Calaculate HRA
   const HRA = (data) => {
     const hraPerc = invoiceData?.hra / 100
-    const hra = Math.floor(BasicWage(data) * (hraPerc ? hraPerc : 0.40))
-    return hra
+    const hra = BasicWage(data) * (hraPerc ? hraPerc : 0.40)
+    return parseFloat(hra.toFixed(2))
   }
 
   const TotalDeduction = (invoiceData, data) => {
-    return parseInt(invoiceData?.deduction) + parseInt(data?.deduction)
+    return parseFloat(invoiceData?.deduction) + parseFloat(data?.deduction)
   }
 
-  const TotalMonthSalary = (data, invoiceData) => {
-    const total = data?.salary - invoiceData
-    return total
+  const totalSalary = (data) => {
+    const basicWgValue = parseFloat(basicWg) || 0;
+    const hraDataValue = parseFloat(hraData) || 0;
+    const otherAllowanceValue = parseFloat(otherAllowance) || 0;
+    const allowance1 = parseFloat(Allowances(1600, data)) || 0;
+    const allowance2 = parseFloat(Allowances(1250, data)) || 0;
+
+    const Data = basicWgValue + hraDataValue + allowance1 + allowance2 + otherAllowanceValue;
+
+    return parseFloat(Data.toFixed(2));
+  };
+
+
+  const TotalMonthSalary = (invoiceData) => {
+    const total = totalSal - invoiceData
+    return parseFloat(total.toFixed(2))
+  }
+
+  const Allowances = (number, data) => {
+    const Data = number / dayjs(data?.salaryYear+"-"+data?.salaryMonth+"-1").daysInMonth() * data.workDay
+    return parseFloat(Data.toFixed(2))
+    // return number
+  }
+
+  const otherAllowances = (data) => {
+    const data1 = parseFloat((data?.salary) / dayjs(data?.salaryYear+"-"+data?.salaryMonth+"-1").daysInMonth() * data?.workDay)
+    const data2 = (BasicWage(data) + HRA(data) + Allowances(1600, data) + Allowances(1250, data))
+    const Data = data1 - data2
+    return parseFloat(Data.toFixed(2))
   }
 
   const { Title } = Typography;
@@ -52,7 +107,7 @@ const PrintToPdf = forwardRef(({ data, invoiceData, currency }, ref) => {
               {invoiceData?.address}
             </h1>
           </Row>
-          <Row justify="center">
+          <Row justify="center" className="mt-4">
             <span className="text-xl font-medium my-2">
               PAY SLIP FOR {"  "}
               {dayjs()
@@ -93,33 +148,20 @@ const PrintToPdf = forwardRef(({ data, invoiceData, currency }, ref) => {
           <Row justify="center">
             <Col span={4} className="text-md font-semibold py-1">Total Working Days: </Col>
             <Col span={8} className="text-md font-semibold py-1">
-              {dayjs(data?.salaryMonth).daysInMonth()}
+              {dayjs(data?.salaryYear+"-"+data?.salaryMonth+"-1").daysInMonth()}
             </Col>
             <Col span={4} className="text-md font-semibold py-1">Paid Days: </Col>
             <Col span={8} className="text-md font-semibold py-1">{data.workDay}</Col>
           </Row>
-          {/* LOP and leave taken */}
-          <Row justify="center">
-            <Col span={4} className="text-md font-semibold py-1">LOP days: </Col>
-            <Col span={8} className="text-md font-semibold py-1">&nbsp;</Col>
-            <Col span={4} className="text-md font-semibold py-1">Leaves Taken: </Col>
-            <Col span={8} className="text-md font-semibold py-1">&nbsp;</Col>
-          </Row>
+
           {/* package */}
           <Row justify="center">
             <Col span={4} className="text-md font-semibold py-1">Gross Wage:   </Col>
-            <Col span={8} className="text-md font-semibold py-1">{data?.salary * 12}</Col>
+            <Col span={8} className="text-md font-semibold py-1">{data?.salary}</Col>
             <Col span={4} className="text-md font-semibold py-1">&nbsp;</Col>
             <Col span={8} className="text-md font-semibold py-1">&nbsp;</Col>
           </Row>
 
-          {/* Blank */}
-          {/* <Row justify="center">
-            <Col span={6} className="border border-black">&nbsp;</Col>
-            <Col span={6} className="border border-black">&nbsp;</Col>
-            <Col span={6} className="border border-black">&nbsp;</Col>
-            <Col span={6} className="border border-black">&nbsp;</Col>
-          </Row> */}
           {/* Earnings and deduction */}
           <Row justify="center" className="mt-2">
             <Col span={6} className="border border-black text-md py-1 font-semibold flex justify-center">Earnings</Col>
@@ -131,217 +173,65 @@ const PrintToPdf = forwardRef(({ data, invoiceData, currency }, ref) => {
           {/* basic wage */}
           <Row justify="center">
             <Col span={6} className="border border-black py-1 font-semibold pl-2">Basic Wage</Col>
-            <Col span={6} className="border border-black py-1 font-semibold pl-2">{currency} {BasicWage(data)}</Col>
-            <Col span={6} className="border border-black py-1">&nbsp;</Col>
-            <Col span={6} className="border border-black py-1">&nbsp;</Col>
+            <Col span={6} className="border border-black py-1 font-semibold pl-2">{currency} {basicWg}</Col>
+            <Col span={6} className="border border-black font-semibold py-1 pl-2">Professional Tax</Col>
+            <Col span={6} className="border border-black font-semibold py-1 pl-2">{currency} {invoiceData?.deduction}</Col>
           </Row>
 
           {/* HRA */}
           <Row justify="center">
             <Col span={6} className="border border-black font-semibold py-1 pl-2">HRA</Col>
-            <Col span={6} className="border border-black font-semibold py-1 pl-2">{currency} {HRA(data)}</Col>
-            <Col span={6} className="border border-black font-semibold py-1 pl-2">Professional Tax</Col>
-            <Col span={6} className="border border-black font-semibold py-1 pl-2">{currency} {invoiceData?.deduction}</Col>
-          </Row>
-          {/* Other */}
-          <Row justify="center">
-            <Col span={6} className="border border-black font-semibold py-1 pl-2 ">Other Allowances</Col>
-            <Col span={6} className="border border-black font-semibold py-1 pl-2 ">{currency} {invoiceData?.otherEarning}</Col>
-            <Col span={6} className="border border-black font-semibold py-1 pl-2 ">Other Deduction</Col>
+            <Col span={6} className="border border-black font-semibold py-1 pl-2">{currency} {hraData}</Col>
+            <Col span={6} className="border border-black font-semibold py-1 pl-2">Other Deduction</Col>
             <Col span={6} className="border border-black font-semibold py-1 pl-2 ">{currency} {data?.deduction}</Col>
           </Row>
 
+          {/* Conveyance Allowances */}
+          <Row justify="center">
+            <Col span={6} className="border border-black font-semibold py-1 pl-2 ">Conveyance Allowances</Col>
+            <Col span={6} className="border border-black font-semibold py-1 pl-2 ">{currency} {Allowances(1600, data)}</Col>
+            <Col span={6} className="border border-black font-semibold py-1 pl-2 ">&nbsp;</Col>
+            <Col span={6} className="border border-black font-semibold py-1 pl-2 ">&nbsp;</Col>
+          </Row>
+
+          {/* Medical Allowances */}
+          <Row justify="center">
+            <Col span={6} className="border border-black font-semibold py-1 pl-2 ">Medical Allowances</Col>
+            <Col span={6} className="border border-black font-semibold py-1 pl-2 ">{currency} {Allowances(1250, data)}</Col>
+            <Col span={6} className="border border-black font-semibold py-1 pl-2 ">&nbsp;</Col>
+            <Col span={6} className="border border-black font-semibold py-1 pl-2 ">&nbsp;</Col>
+          </Row>
+
+          {/* Other allowances */}
+          <Row justify="center">
+            <Col span={6} className="border border-black font-semibold py-1 pl-2 ">Other Allowances</Col>
+            <Col span={6} className="border border-black font-semibold py-1 pl-2 ">{currency} {otherAllowance}</Col>
+            <Col span={6} className="border border-black font-semibold py-1 pl-2 ">&nbsp;</Col>
+            <Col span={6} className="border border-black font-semibold py-1 pl-2 ">&nbsp;</Col>
+          </Row>
+
+          {/* Empty */}
+          <Row justify="center">
+            <Col span={6} className="border border-black font-semibold py-1 pl-2 ">&nbsp;</Col>
+            <Col span={6} className="border border-black font-semibold py-1 pl-2 ">&nbsp;</Col>
+            <Col span={6} className="border border-black font-semibold py-1 pl-2 ">&nbsp;</Col>
+            <Col span={6} className="border border-black font-semibold py-1 pl-2 ">&nbsp;</Col>
+          </Row>
           {/* Total */}
           <Row justify="center">
-            <Col span={6} className="border border-black py-1 font-semibold pl-2">Total Earnings</Col>
-            <Col span={6} className="border border-black py-1 font-semibold pl-2">{currency} {data?.salary}</Col>
-            <Col span={6} className="border border-black py-1 font-semibold pl-2">Total Deductions</Col>
-            <Col span={6} className="border border-black py-1 font-semibold pl-2">{currency} {TotalDeduction(invoiceData, data)}</Col>
+            <Col span={6} className="border border-black py-1 font-bold pl-2">Total Earnings</Col>
+            <Col span={6} className="border border-black py-1 font-bold pl-2">{currency} {totalSal}</Col>
+            <Col span={6} className="border border-black py-1 font-bold pl-2">Total Deductions</Col>
+            <Col span={6} className="border border-black py-1 font-bold pl-2">{currency} {TotalDeduction(invoiceData, data)}</Col>
           </Row>
 
           {/* Net Salary */}
           <Row justify="center">
             <Col span={18} className="border border-black text-md font-bold pl-2 flex justify-center py-2">Net Salary</Col>
-            <Col span={6} className="border border-black text-md font-bold pl-2 py-2">{currency} {TotalMonthSalary(data, TotalDeduction(invoiceData, data))}</Col>
+            <Col span={6} className="border border-black text-md font-bold pl-2 py-2">{currency} {TotalMonthSalary(TotalDeduction(invoiceData, data))}</Col>
           </Row>
           <p className=" flex m-4 justify-center">Note: This is an autogenerated payslip & does not require signature.</p>
-          {/* <Row>
-            {/* show Avatar with url */}
-          {/* <Col span={9}>
-              <div className="flex flex-col">
-                <span className="text-sm font-semibold text-slate-700">
-                  {invoiceData?.companyName.toUpperCase()}
-                </span>
-                <div className="text-sm text-slate-700">
-                  {invoiceData?.email || "demo@demo.com"}
-                </div>
 
-                <div className="text-sm  text-slate-700">
-                  {invoiceData?.phone}
-                </div>
-                {/* <div className="mt-4">
-                  <span className="text-sm font-semibold text-slate-700">
-                    Employee Name:
-                  </span>{" "}
-                  <span className="text-sm font-semibold text-slate-700">
-                    {(
-                      data?.user?.firstName +
-                      " " +
-                      data?.user?.lastName
-                    ).toUpperCase()}
-                  </span>
-                  <div className="text-sm text-slate-700">
-                    <span className="text-sm font-semibold text-slate-700">
-                      Employee ID:
-                    </span>{" "}
-                    {data?.user?.employeeId || "demo@demo.com"}
-                  </div>
-                  <div className="text-sm text-slate-700">
-                    <span className="text-sm font-semibold text-slate-700">
-                      Designation:
-                    </span>{" "}
-                    {data?.designationHistory?.designation?.name || "EMPLOYEE"}
-                  </div>
-                  <div className="text-sm text-slate-700">
-                    <span className="text-sm font-semibold text-slate-700">
-                      DOJ:
-                    </span>{" "}
-                    {formatDate(data?.user?.joinDate) || "EMPLOYEE"}
-                  </div>
-                </div> */}
-          {/* </div>
-            </Col> 
-
-            {/* <Col span={6}>
-              <p>
-                <span className="text-sm font-semibold text-slate-700">
-                  Salary:
-                </span>{" "}
-                {currency} {data.salary}
-              </p>
-              <span className="text-sm font-semibold text-slate-700">
-                Work Day:{" "}
-              </span>{" "}
-              {data.workDay}
-              <p>
-                <span className="text-sm font-semibold text-slate-700">
-                  Working Hour:{" "}
-                </span>{" "}
-                {data.workingHour} Hours
-              </p>
-            </Col>
-            <Col span={6}>
-              <p>
-                <span className="text-sm font-semibold text-slate-700">
-                  Payslip for:
-                </span>{" "}
-                {dayjs()
-                  .month(data.salaryMonth - 1)
-                  .format("MMMM")}
-                , {data.salaryYear}
-              </p>
-              <p>
-                <span className="text-sm font-semibold text-slate-700">
-                  Created at:
-                </span>{" "}
-                {dayjs(data.createdAt).format("DD/MM/YYYY")}
-              </p>
-              <p>
-                <span className="text-sm font-semibold text-slate-700">
-                  Status:
-                </span>{" "}
-                {data.paymentStatus}
-              </p>
-            </Col> */}
-          {/* </Row> */}
-
-          {/* <Row style={{ marginTop: "5%" }} gutter={[100, 0]}>
-
-            {/* Earnings */}
-          {/* <Col span={12}>
-              <h2 className="text-xl font-semibold text-slate-600 mb-4">
-                Earnings
-              </h2>
-              <Row>
-                <Col span={12}>
-                  <Title level={5}>Salary Payable</Title>
-                </Col>
-                <Col
-                  span={12}
-                  style={{ display: "flex", justifyContent: "flex-end" }}
-                >
-                  <Title level={5}>{currency} {data.salaryPayable}</Title>
-                </Col>
-              </Row>
-              <Row>
-                <Col span={12}>
-                  <Title level={5}>Bonus : {data.bonusComment}</Title>
-                </Col>
-                <Col
-                  span={12}
-                  style={{ display: "flex", justifyContent: "flex-end" }}
-                >
-                  <Title level={5}>{currency} {data.bonus}</Title>
-                </Col>
-              </Row>
-
-              <Divider></Divider>
-              <Row>
-                <Col span={12}>
-                  <Title level={4}>Total Earnings</Title>
-                </Col>
-                <Col
-                  span={12}
-                  style={{ display: "flex", justifyContent: "flex-end" }}
-                >
-                  <Title level={5}>{currency} {data.salaryPayable + data.bonus}</Title>
-                </Col>
-              </Row>
-            </Col>
-
-            <Col span={12}>
-              <h2 className="text-xl font-semibold text-slate-600 mb-4">
-                Deductions
-              </h2>
-
-              <Row>
-                <Col span={12}>
-                  <Title level={5}>Deduction : {data.deductionComment}</Title>
-                </Col>
-                <Col
-                  span={12}
-                  style={{ display: "flex", justifyContent: "flex-end" }}
-                >
-                  <Title level={5}>{currency} {data.deduction}</Title>
-                </Col>
-              </Row>
-
-              <Divider style={{ marginTop: "40px" }}></Divider>
-              <Row>
-                <Col span={12}>
-                  <Title level={4}>Total Deduction</Title>
-                </Col>
-                <Col
-                  span={12}
-                  style={{ display: "flex", justifyContent: "flex-end" }}
-                >
-                  <Title level={5}>{currency} {data.deduction}</Title>
-                </Col>
-              </Row>
-            </Col> */}
-          {/* </Row> */}
-
-          {/* <div style={{ marginTop: "5%" }} className="flex justify-end text-right">
-            <div>
-              <Title level={4}>
-                Total Earnings : {currency} {data.salaryPayable + data.bonus}{" "}
-              </Title>
-              <Title level={4}>Total Deduction : {currency} {data.deduction} </Title>
-              <Title level={3}>
-                Total Payable Salary : {currency} {data.totalPayable}{" "}
-              </Title>
-            </div>
-          </div> */}
         </Col>
       </div>
     </Fragment>
