@@ -12,7 +12,8 @@ import Loader from "../loader/loader";
 
 const AddDetails = () => {
   const { Title } = Typography;
-  const [form] = Form.useForm();
+  const [form1] = Form.useForm();
+  const [form2] = Form.useForm();
   const { data: setting } = useGetSettingQuery();
   const { data: currency } = useGetCurrencysQuery();
   const [updateSetting, { isLoading }] = useUpdateSettingMutation();
@@ -20,6 +21,7 @@ const AddDetails = () => {
   const [initValues, setInitValues] = useState(null);
   const [currencyData, setCurrencyData] = useState(null);
   const [fileList, setFileList] = useState([]);
+  const [activeTab, setActiveTab] = useState('1');
 
   const filterOption = (input, option) =>
     (option?.label ?? '').toLowerCase().includes(input.toLowerCase());
@@ -28,6 +30,12 @@ const AddDetails = () => {
     value: currency.id,
     label: currency.name,
   }));
+
+  // Tab Change
+  const handleTabChange = (key) => {
+    console.log("key", key);
+    setActiveTab(key);
+  };
 
   const onFinishFirstTab = async (values) => {
     try {
@@ -43,6 +51,7 @@ const AddDetails = () => {
       formData.append("footer", values.footer);
       formData.append("currency", values.currency);
       formData.append("domain", values.domain);
+      formData.append("total_leave", values.totalLeave);
       formData.append("_method", "PUT");
       if (fileList.length) {
         formData.append("file_paths", fileList[0].originFileObj);
@@ -104,14 +113,14 @@ const AddDetails = () => {
                 Company Setting
               </Title>
               {initValues ? (
-                <Tabs defaultActiveKey="1">
-                  <Tabs.TabPane tab="General Settings" key="1">
+                <Tabs activeKey={activeTab} onChange={handleTabChange}>
+                  <Tabs.TabPane tab="General Settings" key="1" >
                     <Form
                       initialValues={{
                         ...initValues,
                       }}
-                      form={form}
-                      name='basic'
+                      form={form1}
+                      name='generalSetting'
                       labelCol={{
                         span: 7,
                       }}
@@ -308,6 +317,15 @@ const AddDetails = () => {
                         <Input />
                       </Form.Item>
 
+                      {/* Company Total Leave */}
+                      <Form.Item
+                        style={{ marginBottom: "10px" }}
+                        label='Total Leave'
+                        name='totalLeave'
+                      >
+                        <Input />
+                      </Form.Item>
+
                       <Form.Item
                         style={{ marginBottom: "10px" }}
                         className='flex justify-center mt-[24px]'
@@ -317,7 +335,7 @@ const AddDetails = () => {
                           htmlType='submit'
                           shape='round'
                           size='large'
-                          loading={isLoading}
+                          loading={isLoading && activeTab === '1'}
                         >
                           Update Details
                         </Button>
@@ -325,13 +343,12 @@ const AddDetails = () => {
                     </Form>
                   </Tabs.TabPane>
 
-                  <Tabs.TabPane tab="Payslip Settings" key="2">
+                  <Tabs.TabPane tab="Payslip Settings" key="2" >
                     <Form
                       initialValues={{
                         ...initValues,
-                        // otherEarning: initValues.otherEarning === null ? '' : initValues.otherEarning,
                       }}
-                      form={form}
+                      form={form2}
                       name='basic'
                       labelCol={{
                         span: 7,
@@ -406,7 +423,7 @@ const AddDetails = () => {
                           htmlType='submit'
                           shape='round'
                           size='large'
-                          loading={isLoading}
+                          loading={isLoading && activeTab === '2'}
                         >
                           Update Details
                         </Button>
