@@ -63,6 +63,26 @@ const AddLeave = ({ drawer }) => {
               autoComplete='off'
             >
               <div>
+                {/* <Form.Item
+                  style={{ marginBottom: "10px" }}
+                  label='Leave Type'
+                  name='leaveType'
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your shift!",
+                    },
+                  ]}
+                >
+                  <Select
+                    mode='single'
+                    placeholder='Select leave type'
+                    optionFilterProp='children'
+                  >
+                    <Select.Option value='PAID'>PAID</Select.Option>
+                    <Select.Option value='UNPAID'>UNPAID</Select.Option>
+                  </Select>
+                </Form.Item> */}
 
                 <Form.Item
                   style={{ marginBottom: "10px" }}
