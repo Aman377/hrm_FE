@@ -27,6 +27,13 @@ export const leaveApi = apiSlice.injectEndpoints({
       providesTags: ["Leave"],
     }),
 
+    getLeaveById: builder.query({
+      query: (id) => ({
+        url: `leave-application/getSingleLeave/${id}`,
+      }),
+      providesTags: ["Leave"],
+    }),
+
     getLeaveHistory: builder.query({
       query: ({id, page, count}) => ({
         url: `leave-application/${id}/leaveHistory?page=${page}&count=${count}`,
@@ -113,4 +120,5 @@ export const {
   useUpdateLeaveMutation,
   useGetLeavesByStatusQuery,
   useReviewLeaveAppMutation,
+  useGetLeaveByIdQuery
 } = leaveApi;
