@@ -12,7 +12,7 @@ const AddLeave = ({ drawer }) => {
   const userId = getLocalStorageData('id')
   const id = getUserFromToken();
   const [addLeaveApplication, { isLoading }] = useAddLeaveMutation();
-  const { data: availableLeaveData } = useGetLeaveByIdQuery(id);
+  const { data: availableLeaveData } = useGetLeaveByIdQuery(userId);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const { Title } = Typography;
   const [form] = Form.useForm();
