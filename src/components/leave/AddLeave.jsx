@@ -18,6 +18,12 @@ const AddLeave = ({ drawer }) => {
   const [form] = Form.useForm();
   const [leaveData, setLeaveData] = useState(null);
 
+  // Paid Leave
+  const paidLeave = () => {
+    const paidLeaveData = availableLeaveData?.data?.total_available_leave < 0 ? 0 : availableLeaveData?.data?.total_available_leave
+    return paidLeaveData
+  }
+
   // Date validation
   const currentDate = dayjs();
   const maxDate = currentDate.add(2, 'month');
@@ -169,7 +175,7 @@ const AddLeave = ({ drawer }) => {
           onOk={handleConfirm}
           onCancel={handleCancel}
         >
-          <p>You have only {availableLeaveData?.data?.total_available_leave} available leave days. Do you want to proceed?</p>
+          <p>You have {paidLeave()} paid leave available. Do you want to proceed?</p>
         </Modal>
       </UserPrivateComponent>
     </>
