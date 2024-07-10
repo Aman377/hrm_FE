@@ -65,17 +65,17 @@ const Login = () => {
               </Form.Item>
 
               <Form.Item className="flex justify-center">
-                <Button type='primary' htmlType='submit' loading={isLoading}>
+                <Button className=" bg-orange-500 border-none text-white" htmlType='submit' loading={isLoading}>
                   Submit
                 </Button>
               </Form.Item>
-              <Form.Item className="mt-[30px] flex justify-center">
+              {/* <Form.Item className="mt-[30px] flex justify-center">
                 <Row>
                   <Col span={24}>
                     <LoginTable />
                   </Col>
                 </Row>
-              </Form.Item>
+              </Form.Item> */}
             </Form>
           </Card>
         </Col>

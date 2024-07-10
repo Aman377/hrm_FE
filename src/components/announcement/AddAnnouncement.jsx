@@ -78,6 +78,7 @@ const AddAnnouncement = ({ id, title, description }) => {
           }}
         >
           {title ? <Button
+            className="w-60"
             type='primary'
             size='large'
             block
@@ -87,6 +88,7 @@ const AddAnnouncement = ({ id, title, description }) => {
             Update Announcement
           </Button> :
             <Button
+              className="w-60"
               type='primary'
               size='large'
               block
