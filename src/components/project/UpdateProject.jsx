@@ -32,7 +32,6 @@ const UpdateProject = ({ drawer }) => {
 
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log("project >>",project);
     if (project) {
       setInitialState({
         ...project,
@@ -55,17 +54,13 @@ const UpdateProject = ({ drawer }) => {
       endDate: dayjs(values.endDate).format(),
       name: values.name
     };
-    // console.log('Form resetting...');
     try {
-      // console.log('Starting async operation...');
       const resp = await (
         updateSingleProject({ id: projectId, values: projectData })
       );
 
       if (resp) {
-        // console.log('Form resetting...');
         form.resetFields();
-        // console.log('Form reset.');
         navigate(-1);
       }
     } catch (error) {
@@ -77,7 +72,6 @@ const UpdateProject = ({ drawer }) => {
   const onFinishFailed = (errorInfo) => {
     toastHandler("Failed at adding Project", "warning");
   };
-  // console.log("userList>>",userList)
   return (
     <>
       {/* <UserPrivateComponent permission={"create-leaveApplication"}> */}

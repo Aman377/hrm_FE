@@ -34,7 +34,6 @@ const Sidenav = ({ color, sideNavOpenKeys }) => {
   const hasPermission = (item) => {
     return permissions?.includes(item ? item : "");
   };
-  // console.log("haspermission", hasPermission("create-user"));
   const menu = [
     {
       label: (

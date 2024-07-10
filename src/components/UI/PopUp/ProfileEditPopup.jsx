@@ -26,12 +26,9 @@ const ProfileEditPopup = ({ data }) => {
   const { data: leavePolicy } = useGetLeavePoliciesQuery({ query: "all" });
   const { data: weeklyHoliday } = useGetWeeklyHolidaysQuery({ query: "all" });
   const { data: shift } = useGetShiftsQuery({ query: "all" });
-  // const { data: user } = useGetUserQuery(!id ? data.id : id);
   // Fetch user data based on the presence of 'id'
-  console.log("data", data);
   const { data: userData } = useGetUserQuery(1);
 
-  console.log("ID !", userData);
 
   const [user, setUser] = useState([]);
 
@@ -70,9 +67,6 @@ const ProfileEditPopup = ({ data }) => {
   const { data: states } = useGetStatesQuery(currentState);
   const { data: cities } = useGetCityQuery(currentCity);
   const [updateUser, { isSuccess, isLoading }] = useUpdateUserMutation();
-  // console.log('state', state);
-  // console.log('city', city);
-  // console.log('currentState', currentState);
 
   useEffect(() => {
     setInitialValues({
@@ -150,7 +144,6 @@ const ProfileEditPopup = ({ data }) => {
     setState(value);
     setCurrentState(value);
   };
-  // console.log('initialValues', initialValues);
   return (
     <>
       <button onClick={showModal}>

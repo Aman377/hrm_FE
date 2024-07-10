@@ -1,7 +1,5 @@
 import { apiSlice } from "../api/apiSlice";
 
-// const tenantKey = localStorage.getItem("x-tenant-key");
-// console.log("tenantKey", tenantKey);
 
 export const dashboardApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

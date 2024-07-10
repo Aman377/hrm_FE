@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import "./Dashboard/style.css";
 
 const DashboardCard = ({ information, count, isCustomer, title }) => {
-  console.log(isCustomer);
   return (
     <Fragment>
       <section className='grid md:grid-cols-2 xl:grid-cols-4 gap-6 mt-5 mb-5'>

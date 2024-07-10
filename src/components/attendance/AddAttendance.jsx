@@ -29,7 +29,6 @@ const AddAttendance = ({ drawer }) => {
     setLoading(false);
   }, []);
 
-  // console.log("loggedInUser", loggedInUser);
 
   const [addManualAttendance, { isLoading }] = useAddManualAttendanceMutation();
 
@@ -64,7 +63,6 @@ const AddAttendance = ({ drawer }) => {
           ? dayjs(outTimeDateNew).format("YYYY-MM-DD HH:mm:ss")
           : null,
     };
-    console.log("VAUES", FormData);
 
     const resp = await addManualAttendance(FormData);
     if (resp.data && !resp.error) {

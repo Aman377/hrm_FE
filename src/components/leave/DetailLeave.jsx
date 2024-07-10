@@ -11,8 +11,6 @@ const DetailLeave = () => {
 	const { id } = useParams("id");
 	const { data: leave } = useGetLeaveQuery(id);
 
-  console.log("id", id);
-  console.log("LEAVE", leave);
   const getUserRole = localStorage.getItem("role");
 	return (
     <div>

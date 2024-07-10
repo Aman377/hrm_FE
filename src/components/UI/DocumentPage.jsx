@@ -42,9 +42,6 @@ const DocumentPage = ({ list, ids }) => {
   const handleOk = () => {
     const formData = new FormData();
     formData.append("file", fileList[0].originFileObj);
-    console.log("fileType: ", fileType);
-    console.log("id: ", id);
-    console.log("formData: ", formData);
     // updateDocument({ id, fileType, values: formData });
     const token = localStorage.getItem("access-token");
     const headers = {

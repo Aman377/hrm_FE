@@ -1,4 +1,4 @@
-import { Button, Col, Divider, Row, Typography, Image, Table } from "antd";
+import { Button, Col, Row, Image } from "antd";
 import dayjs from "dayjs";
 import React, {
   Fragment,
@@ -16,7 +16,6 @@ import Loader from "../loader/loader";
 
 // eslint-disable-next-line react/display-name
 const PrintToPdf = forwardRef(({ data, invoiceData, currency }, ref) => {
-  console.log("data", data);
   const [basicWg, setBasicWg] = useState([]);
   const [hraData, sethraData] = useState([]);
   const [otherAllowance, setOtherAllowance] = useState([]);
@@ -150,14 +149,6 @@ const PrintToPdf = forwardRef(({ data, invoiceData, currency }, ref) => {
               {dayjs(data?.salaryYear + "-" + data?.salaryMonth + "-1").daysInMonth()}
             </Col>
           </Row>
-
-          {/* <Col span={8} className="text-md font-semibold py-1">{data.workDay}</Col> */}
-          {/* <Col span={4} className="text-md font-semibold py-1">Paid Days: </Col> */}
-          {/* package */}
-          {/* <Row justify="center">
-            <Col span={4} className="text-md font-semibold py-1">&nbsp;</Col>
-            <Col span={8} className="text-md font-semibold py-1">&nbsp;</Col>
-          </Row> */}
 
           {/* Earnings and deduction */}
           <Row justify="center" className="mt-4">

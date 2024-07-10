@@ -29,7 +29,6 @@ const EducaitonAddSinglePopup = ({ data, setLoading }) => {
       body: JSON.stringify(infoData),
     });
 
-    console.log(resp);
     if (!resp.error) {
       toastHandler("Education added successfully", "success");
       window.location.reload();

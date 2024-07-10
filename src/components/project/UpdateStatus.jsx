@@ -16,10 +16,7 @@ const UpdateStatus = () => {
   const [updateProject, { isLoading }] = useUpdateProjectMutation();
 
   useEffect(() => {
-    // console.log("project ",project);
-    // if (project) {
-      setInitialValues(project);
-    // }
+    setInitialValues(project);
   });
 
   const { Title } = Typography;

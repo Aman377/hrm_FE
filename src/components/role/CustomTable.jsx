@@ -71,7 +71,6 @@ const CustomTable = ({ role }) => {
     }),
   );
 
-  // console.log(filteredData);
 
   const [deleteRolePermission, { isLoading }] = useDeletePermissionsMutation();
 

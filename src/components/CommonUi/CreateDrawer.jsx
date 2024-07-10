@@ -15,7 +15,6 @@ export default function CreateDrawer({
   const [open, setOpen] = useState(false);
 
   const onClose = () => {
-    // console.log("close");
     setOpen(false);
   };
 

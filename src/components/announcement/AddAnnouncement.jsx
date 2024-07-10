@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 import { useAddAnnouncementMutation, useUpdateAnnouncementMutation } from "../../redux/rtk/features/announcement/announcementApi";
 
 const AddAnnouncement = ({ id, title, description }) => {
-  console.log("title: ", id);
   const [addAnnouncement, { isLoading }] = useAddAnnouncementMutation();
   const [updateAnnouncement] = useUpdateAnnouncementMutation();
 

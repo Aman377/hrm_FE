@@ -33,7 +33,6 @@ const AddDetails = () => {
 
   // Tab Change
   const handleTabChange = (key) => {
-    console.log("key", key);
     setActiveTab(key);
   };
 
@@ -56,12 +55,9 @@ const AddDetails = () => {
       if (fileList.length) {
         formData.append("file_paths", fileList[0].originFileObj);
       }
-      console.log(values)
 
       const resp = await updateSetting(formData);
       if (resp.setting && !resp.error) {
-        // toastHandler("Invoice Setting Updated Successfully", "success");
-        // window.location.reload();
       }
     } catch (error) { }
   };
@@ -74,7 +70,6 @@ const AddDetails = () => {
       companyFormData.append("basicWage", values.basicWage);
       companyFormData.append("hra", values.hra);
       companyFormData.append("otherEarning", values.otherEarning);
-      console.log(values)
 
       const resp = await updateCompanyPayslip(companyFormData);
       if (resp.setting && !resp.error) {

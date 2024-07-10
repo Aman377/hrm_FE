@@ -28,7 +28,6 @@ const ShiftEditPopup = ({ data }) => {
     navigate(-1);
   };
   // eslint-disable-next-line no-unused-vars
-  // console.log("Name: ",data?.name);
   const [initialValues, setInitialValues] = useState({
     name: data?.name || "" ,
     startTime: dayjs(data?.startTime),

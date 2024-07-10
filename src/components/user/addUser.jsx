@@ -130,12 +130,6 @@ const AddUser = () => {
   };
 
   const onFinish = async (values) => {
-    // try {
-    //   await form.validateFields();
-    // } catch (errorInfo) {
-    //   console.log('Validation failed:', errorInfo);
-    //   toastHandler("Please fill all required details", "warning");
-    // }
     const formDataObject = {
       ...values,
     };
@@ -143,11 +137,6 @@ const AddUser = () => {
     try {
       // Add api call
       const res = await addStaff(formDataObject);
-      // console.log(res);
-      // if(res.data.status == 200){
-      //   toastHandler(res.data.message, "warning");
-      //   return;
-      // }
       if (res.data.status === 422) {
         toastHandler(res.data.message, "warning");
         return;

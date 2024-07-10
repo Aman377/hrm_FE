@@ -34,7 +34,6 @@ export const shiftApi = apiSlice.injectEndpoints({
       async onQueryStarted(arg, { queryFulfilled, dispatch }) {
         try {
           const response = await queryFulfilled;
-          // console.log(response.data);
           if (response.data.status === 422) {
             toastHandler(response.data.message, "warning");
             return;

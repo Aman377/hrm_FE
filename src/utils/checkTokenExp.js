@@ -1,7 +1,6 @@
 import jwtDecode from "jwt-decode";
 
 const checkTokenExp = (token, customer) => {
-	//   console.log(token);
 	try {
 		if (jwtDecode(token).exp * 1000 < Date.now()) {
 			if (customer) {
